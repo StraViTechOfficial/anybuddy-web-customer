@@ -50,7 +50,7 @@ function LoginForm(props) {
       if (props.page === "forgot") {
         forgotPasswordApi({ email: values.email }).then((res) => {
           if (res?.status === 1) {
-            toast.success(res.message);
+            // No toast: the reply is the same whether or not the account exists; the code screen explains.
             Cookies.set(TOKEN_NAME_REG, res?.data?.token);
 
             Cookies.set("email", values.email);

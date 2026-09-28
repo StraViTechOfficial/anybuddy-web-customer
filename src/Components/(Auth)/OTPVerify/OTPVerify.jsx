@@ -11,6 +11,7 @@ import { useCookie } from "@/Until/useCookie";
 function OTPVerify(props) {
   const purpose = useCookie(OTP_FOR);
   const sentTo = useCookie("otpSentTo");
+  const email = useCookie("email");
   const byPhone = purpose === "login";
   return (
     <>
@@ -23,7 +24,10 @@ function OTPVerify(props) {
           {byPhone ? (
             <>We sent a 6-digit code to {sentTo ? <strong>{sentTo}</strong> : "your phone"}.</>
           ) : (
-            <>We sent a 6-digit code to the email or phone number on your account.</>
+            <>
+              If an account exists for {email ? <strong>{email}</strong> : "that email"}, we&apos;ve sent a 6-digit code
+              to its email or phone number. It can take a minute to arrive.
+            </>
           )}
         </p>
       </div>
