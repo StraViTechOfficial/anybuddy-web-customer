@@ -1,0 +1,51 @@
+/* Shared pager (react-js-pagination markup). Neutral pills, navy only for the current page. */
+.ab-pager {
+  display: flex;
+  justify-content: center;
+}
+.ab-pager .pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ab-pager .page-link {
+  display: grid;
+  place-items: center;
+  min-width: 44px;
+  height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--ab-line-2) !important;
+  border-radius: var(--ab-r-full) !important;
+  background: #fff;
+  color: var(--ab-ink) !important;
+  font: 600 0.9375rem/1 var(--ab-font);
+  font-variant-numeric: tabular-nums;
+  box-shadow: none !important;
+  transition:
+    border-color var(--ab-t-fast) var(--ab-ease),
+    background-color var(--ab-t-fast) var(--ab-ease),
+    transform var(--ab-t-fast) var(--ab-ease);
+}
+.ab-pager .page-link:hover {
+  border-color: var(--ab-ink-3) !important;
+  background: var(--ab-soft);
+}
+.ab-pager .page-link:active {
+  transform: scale(0.96);
+}
+.ab-pager .page-item.active .page-link {
+  background: var(--ab-navy);
+  border-color: var(--ab-navy) !important;
+  color: #fff !important;
+}
+.ab-pager .ab-pager__step .page-link {
+  font-size: 1.25rem;
+}
+.ab-pager .page-item.disabled .page-link {
+  opacity: 0.4;
+  pointer-events: none;
+}

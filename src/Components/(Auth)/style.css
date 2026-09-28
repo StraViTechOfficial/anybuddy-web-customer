@@ -1,0 +1,786 @@
+/* ============ Auth: split layout. Dark mesh story panel + white form card ============ */
+.ab-auth {
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  background: #fff;
+}
+.ab-auth__panel {
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 32px;
+  padding: clamp(28px, 4vw, 56px);
+  background: var(--ab-cream);
+  border-right: 1px solid var(--ab-line);
+  color: var(--ab-ink);
+  overflow: hidden;
+  isolation: isolate;
+}
+.ab-auth__panelGlow {
+  display: none;
+  position: absolute;
+  z-index: -1;
+  width: 520px;
+  height: 520px;
+  right: -180px;
+  top: 30%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(111, 131, 230, 0.55), transparent 65%);
+  filter: blur(40px);
+  animation: ab-drift 20s ease-in-out infinite alternate;
+}
+.ab-auth__panel::after {
+  display: none;
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+  -webkit-mask-image: linear-gradient(180deg, #000, transparent 75%);
+  mask-image: linear-gradient(180deg, #000, transparent 75%);
+}
+.ab-auth__brand {
+  color: var(--ab-navy) !important;
+}
+.ab-auth__pitch h2 {
+  font-size: clamp(1.9rem, 1.3rem + 1.8vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin: 0 0 16px;
+  max-width: 15ch;
+  color: var(--ab-ink);
+}
+.ab-auth__pitch p {
+  margin: 0;
+  max-width: 40ch;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--ab-ink-3);
+}
+.ab-auth__trust {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+  max-width: 440px;
+}
+.ab-auth__trust li {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 14px 16px;
+  border-radius: var(--ab-r-md);
+  background: #fff;
+  border: 1px solid var(--ab-line);
+  animation: ab-rise 700ms var(--ab-ease) both;
+}
+.ab-auth__trust b {
+  display: block;
+  font-size: var(--ab-fs-body);
+}
+.ab-auth__trust small {
+  display: block;
+  color: var(--ab-ink-3);
+  font-size: var(--ab-fs-sm);
+  line-height: 1.4;
+}
+.ab-auth__trustIcon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: var(--ab-soft);
+  color: var(--ab-navy);
+}
+@keyframes ab-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+@keyframes ab-drift {
+  to {
+    transform: translate3d(-60px, 40px, 0) scale(1.08);
+  }
+}
+
+.ab-auth__main {
+  display: grid;
+  place-items: center;
+  padding: clamp(20px, 4vw, 56px) clamp(16px, 4vw, 56px);
+}
+.ab-auth__card {
+  width: 100%;
+  max-width: 480px;
+  padding: clamp(24px, 3.5vw, 40px);
+  border-radius: var(--ab-r-xl);
+  background: #fff;
+  border: 1px solid var(--ab-line);
+  box-shadow: var(--ab-sh-3);
+  animation: ab-rise 600ms var(--ab-ease) both;
+}
+.ab-auth--wide .ab-auth__card {
+  max-width: 720px;
+}
+.ab-auth__top {
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.ab-auth__logo {
+  justify-self: center;
+  border: 0;
+  background: none;
+  padding: 0;
+  border-radius: var(--ab-r-md);
+}
+.ab-auth__logo img {
+  width: 56px;
+  height: auto;
+}
+.ab-auth__head {
+  text-align: center;
+  margin-bottom: 24px;
+}
+.ab-auth__head h1,
+.ab-auth__body h3 {
+  font-size: var(--ab-fs-h1);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 6px;
+  color: var(--ab-ink);
+}
+.ab-auth__head p,
+.ab-auth__body h3 + p {
+  margin: 0;
+  color: var(--ab-ink-3);
+}
+.ab-auth__social {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+.ab-social {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 10px 14px;
+  border-radius: var(--ab-r-sm);
+  font: 600 var(--ab-fs-body)/1 var(--ab-font);
+  cursor: pointer;
+  transition: transform var(--ab-t-fast) var(--ab-ease), box-shadow var(--ab-t) var(--ab-ease), background-color var(--ab-t) var(--ab-ease);
+}
+.ab-social:active {
+  transform: scale(0.98);
+}
+.ab-social--google {
+  background: #fff;
+  color: var(--ab-ink);
+  border: 1px solid var(--ab-line-2);
+}
+.ab-social--google:hover {
+  box-shadow: var(--ab-sh-1);
+  background: var(--ab-soft);
+}
+.ab-social--apple {
+  background: #000;
+  color: #fff;
+  border: 1px solid #000;
+}
+.ab-social--apple:hover {
+  background: #1f1f1f;
+}
+.ab-auth__or {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 22px 0;
+  color: var(--ab-ink-3);
+  font-size: var(--ab-fs-sm);
+}
+.ab-auth__or::before,
+.ab-auth__or::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--ab-line);
+}
+
+/* segmented control (phone / email) */
+.ab-seg {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 4px;
+  margin-bottom: 22px;
+  border-radius: var(--ab-r-full);
+  background: var(--ab-soft);
+  border: 1px solid var(--ab-line);
+}
+.ab-seg__btn {
+  min-height: 44px;
+  border: 0;
+  border-radius: var(--ab-r-full);
+  background: transparent;
+  color: var(--ab-ink-2);
+  font: 600 var(--ab-fs-body)/1 var(--ab-font);
+  transition: background-color var(--ab-t) var(--ab-ease), color var(--ab-t) var(--ab-ease), box-shadow var(--ab-t) var(--ab-ease);
+}
+.ab-seg__btn[aria-selected="true"] {
+  background: #fff;
+  color: var(--ab-navy);
+  box-shadow: var(--ab-sh-1);
+}
+.ab-auth__switch {
+  margin: 18px 0 0;
+  text-align: center;
+  color: var(--ab-ink-3);
+}
+
+/* ---- form controls inside auth (legacy form markup restyled) ---- */
+.ab-auth .inputStyle .form-control,
+.ab-auth .inputStyle .form-control:focus {
+  min-height: 52px;
+  border-radius: var(--ab-r-md) !important;
+  border: 1px solid var(--ab-field) !important;
+  background: #fff !important;
+  padding: 12px 16px;
+  font: 500 1rem/1.4 var(--ab-font);
+}
+.ab-auth .inputStyle .form-control:focus {
+  border-color: var(--ab-ink) !important;
+  box-shadow: 0 0 0 1px var(--ab-ink) !important;
+}
+.ab-auth .inputStyle .field-icon {
+  right: 16px;
+}
+.ab-auth .react-tel-input .form-control {
+  padding-left: 52px !important;
+  height: 52px !important;
+}
+.ab-auth .react-tel-input .flag-dropdown {
+  left: 12px;
+}
+.ab-auth .getOtp {
+  top: 7px;
+  right: 7px;
+  padding: 10px 14px;
+  border-radius: var(--ab-r-full);
+  background: var(--ab-navy);
+  font-weight: 600;
+  font-size: var(--ab-fs-sm);
+  line-height: 1;
+}
+.ab-auth .otpInputs {
+  width: 52px !important;
+  height: 56px !important;
+  border-radius: var(--ab-r-md);
+  border: 1px solid var(--ab-field);
+  color: var(--ab-ink);
+  font-weight: 700;
+}
+.ab-auth .otpInputs:focus {
+  border: 1px solid var(--ab-ink);
+  background: #fff;
+  color: var(--ab-ink);
+  box-shadow: 0 0 0 1px var(--ab-ink);
+}
+.ab-auth .text-danger {
+  color: var(--ab-danger) !important;
+  font-size: var(--ab-fs-sm);
+  margin-top: 6px;
+}
+.ab-auth .btn.btnStyle {
+  min-height: 52px;
+  border-radius: var(--ab-r-sm);
+  background: var(--ab-navy);
+  font-size: 1rem;
+  font-weight: 600;
+  width: 100% !important;
+}
+.ab-auth h6 {
+  font-size: var(--ab-fs-sm);
+  font-weight: 600;
+  color: var(--ab-ink-2);
+}
+
+/* legacy class kept for other screens */
+.maxWithAuto {
+  max-width: 78%;
+  margin: auto;
+  display: block;
+}
+
+@media (max-width: 991.9px) {
+  .ab-auth {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr; /* spare height goes to the form, not the logo bar */
+  }
+  .ab-auth__panel {
+    position: relative;
+    height: auto;
+    padding: 14px 16px;
+    gap: 12px;
+    border-right: 0;
+    border-bottom: 1px solid var(--ab-line);
+  }
+  .ab-auth__trust {
+    display: none;
+  }
+  /* Phone: the panel is just the logo bar; the form's own title is the one title (no stacked headings). */
+  .ab-auth__pitch {
+    display: none;
+  }
+  .ab-auth__main {
+    padding: 20px 16px 32px;
+    align-items: start;
+  }
+  .ab-auth__card {
+    padding: 4px 0 0;
+    border: 0;
+    box-shadow: none;
+  }
+  .ab-auth__logo {
+    display: none;
+  }
+}
+@media (max-width: 420px) {
+  .ab-auth .otpInputs {
+    width: 44px !important;
+    height: 50px !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ab-auth__panelGlow,
+  .ab-auth__trust li,
+  .ab-auth__card {
+    animation: none;
+  }
+}
+
+/* ============ Auth steps (signup, set-profile, forgot, OTP, reset): appended by the auth-steps workstream ============ */
+.ab-auth .ab-auth__top .ab-icon-btn {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--ab-line);
+  background: #fff;
+  color: var(--ab-ink);
+  transition: background-color var(--ab-t-fast) var(--ab-ease), transform var(--ab-t-fast) var(--ab-ease);
+}
+.ab-auth .ab-auth__top .ab-icon-btn:hover {
+  background: var(--ab-soft);
+}
+.ab-auth .ab-auth__top .ab-icon-btn:active {
+  transform: scale(0.95);
+}
+.ab-auth .ab-auth__top .ab-icon-btn:focus-visible {
+  outline: 2px solid var(--ab-navy);
+  outline-offset: 2px;
+}
+
+/* ===================== Auth frame v2 (27 Sep, owner: "revamp") =====================
+   Photo half + form half, whole screen, no page scroll on a laptop. Compact field rhythm so the longest
+   step (sign-up / complete profile) still fits a 1366×768 screen. Phones: form only, logo bar on top. */
+.ab-auth--split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  min-height: 100dvh;
+  background: #fff;
+}
+.ab-auth--split .ab-auth__photo { position: sticky; top: 0; height: 100dvh; overflow: hidden; background: var(--ab-soft); }
+.ab-auth--split .ab-auth__photo img { object-fit: cover; object-position: 50% 60%; }
+.ab-auth__shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15, 23, 42, 0) 55%, rgba(15, 23, 42, 0.55) 100%); }
+.ab-auth__tagline {
+  position: absolute; left: 40px; right: 40px; bottom: 36px; margin: 0;
+  color: #fff; font-size: clamp(1.25rem, 1rem + 0.8vw, 1.75rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.2;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.3);
+}
+.ab-auth--split .ab-auth__main {
+  display: flex; flex-direction: column; min-height: 100dvh; padding: 24px clamp(20px, 4vw, 56px);
+}
+.ab-auth__bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; }
+.ab-auth--split .ab-auth__brand { display: inline-flex; align-items: center; gap: 10px; }
+.ab-auth__back {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 14px;
+  border: 1px solid var(--ab-line); border-radius: 999px; background: #fff; color: var(--ab-ink); font: 600 var(--ab-fs-sm)/1 var(--ab-font); cursor: pointer;
+}
+.ab-auth__back:hover { background: var(--ab-soft); }
+/* The form: centred in the remaining height, one column (400px) or two (sign-up / profile). */
+.ab-auth--split .ab-auth__card {
+  width: 100%; max-width: 400px; margin: auto; padding: 24px 0; border: 0; box-shadow: none; background: transparent; animation: none;
+}
+.ab-auth--split .ab-auth__card--wide { max-width: 560px; }
+.ab-auth--split .ab-auth__head { text-align: left; margin-bottom: 20px; }
+.ab-auth--split .ab-auth__head h1 { font-size: var(--ab-fs-h1); margin-bottom: 4px; }
+.ab-auth--split .ab-seg { margin-bottom: 18px; }
+.ab-auth--split .ab-field { margin-bottom: 12px; gap: 6px; }
+.ab-auth--split .ab-auth__or { margin: 18px 0 14px; }
+.ab-auth--split .ab-auth__social { grid-template-columns: 1fr 1fr; }
+.ab-auth--split .ab-auth__switch { margin-top: 16px; text-align: left; }
+.ab-auth--split .ab-sp__grid { gap: 0 14px; }
+/* Short laptop screens: tighten a little more rather than scroll. */
+@media (max-height: 820px) and (min-width: 992px) {
+  .ab-auth--split .ab-field .form-control, .ab-auth--split .ab-input, .ab-auth--split .inputStyle .form-control { min-height: 46px; padding-block: 10px; }
+  .ab-auth--split .ab-auth__head { margin-bottom: 14px; }
+  .ab-auth--split .ab-field { margin-bottom: 10px; }
+}
+@media (max-width: 991.9px) {
+  .ab-auth--split { grid-template-columns: 1fr; }
+  .ab-auth--split .ab-auth__photo { display: none; }
+  .ab-auth--split .ab-auth__main { padding: 16px 16px 28px; }
+  .ab-auth--split .ab-auth__card { margin: 12px auto 0; padding: 12px 0; }
+}
+@media (max-width: 575.9px) {
+}
+.ab-auth--split .ab-auth__bar .ab-auth__brand { margin: 0; position: static; transform: none; }
+.ab-auth--split .ab-sp__head, .ab-auth--split .ab-sp__terms, .ab-auth--split .ab-auth__terms { text-align: left; }
+.ab-auth--split .ab-form-note { text-align: left; }
+.ab-auth--split .ab-auth__bar { align-self: stretch; width: 100%; } /* the old main centred its children */
+/* Complete-profile step: a small photo row so the whole form fits one laptop screen. */
+.ab-auth--split .ab-sp__photo { margin-bottom: 12px; gap: 14px; }
+.ab-auth--split .ab-sp__avatar,
+.ab-auth--split .ab-sp__avatar .upload-btn-wrapper,
+.ab-auth--split .ab-sp__avatar .upload-btn-wrapper .btn,
+.ab-auth--split .ab-sp__avatar .upload-btn-wrapper .btn img { width: 60px !important; height: 60px !important; }
+.ab-auth--split .ab-sp__cam { width: 24px; height: 24px; }
+.ab-auth--split .ab-sp__section { margin: 4px 0 10px; }
+.ab-auth--split .ab-sp__section:not(:first-child) { margin-top: 8px; }
+/* Left panel = the app: two real App Store screens, fanned, on the brand navy, with the tagline and app line. */
+.ab-auth--split .ab-auth__app {
+  display: flex; flex-direction: column; justify-content: center; gap: clamp(28px, 4vh, 48px);
+  padding: clamp(32px, 5vh, 56px) clamp(32px, 4vw, 64px);
+  background: radial-gradient(120% 80% at 70% 20%, #2f4478 0%, var(--ab-navy) 60%);
+}
+.ab-auth__shots { position: relative; height: min(56vh, 520px); }
+.ab-auth__shot {
+  position: absolute; top: 0; height: 100%; width: auto; border-radius: 28px;
+  box-shadow: 0 30px 60px rgba(4, 10, 30, 0.45);
+}
+.ab-auth__shot--back { left: 50%; transform: translateX(-88%) rotate(-6deg) scale(0.9); opacity: 0.9; }
+.ab-auth__shot--front { left: 50%; transform: translateX(-18%) rotate(3deg); }
+.ab-auth--split .ab-auth__appcopy { display: grid; gap: 10px; max-width: 460px; }
+.ab-auth--split .ab-auth__app .ab-auth__tagline { position: static; margin: 0; text-shadow: none; }
+.ab-auth__appline { margin: 0; color: rgba(255, 255, 255, 0.74); line-height: 1.6; }
+@media (max-height: 760px) { .ab-auth__shots { height: 48vh; } }
+/* Email / Phone: same cell, cross-fade (200 ms); the taller form sets the height, so nothing below jumps. */
+.ab-auth__panes { display: grid; }
+.ab-auth__pane { grid-area: 1 / 1; transition: opacity 200ms var(--ab-ease), transform 200ms var(--ab-ease); }
+.ab-auth__pane:not(.is-on) { opacity: 0; transform: translateY(4px); visibility: hidden; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { .ab-auth__pane { transition: none; } }
+.ab-auth--split .ab-seg__btn { cursor: pointer; transition: background-color 200ms var(--ab-ease), color 200ms var(--ab-ease), box-shadow 200ms var(--ab-ease); }
+.ab-auth__pane { transition: opacity 200ms var(--ab-ease), transform 200ms var(--ab-ease), visibility 0s; }
+.ab-auth__pane:not(.is-on) { transition: opacity 200ms var(--ab-ease), transform 200ms var(--ab-ease), visibility 0s 200ms; }
+/* One control scale on every auth step (site standard): fields 52px / 8px corners, large buttons 54px / 8px,
+   social buttons the same size and type as the main button. */
+.ab-auth--split .form-control,
+.ab-auth--split .ab-input,
+.ab-auth--split .inputStyle .form-control,
+.ab-auth--split .react-tel-input .form-control,
+.ab-auth--split .react-tel-input .flag-dropdown { border-radius: var(--ab-r-sm) !important; }
+.ab-auth--split .ab-social { min-height: 48px; border-radius: var(--ab-r-sm); font-size: var(--ab-fs-body); }
+.ab-auth--split .ab-btn--lg { font-size: var(--ab-fs-body); }
+.ab-auth--split .ab-seg__btn { font-size: var(--ab-fs-body); }
+@media (max-width: 991.9px) { .ab-auth--split .ab-auth__app { display: none; } } /* phones: the form only */
+@media (max-width: 991.9px) { .ab-auth--split .ab-auth__card { margin-top: 4px; } .ab-auth--split .ab-auth__head { margin-bottom: 14px; } }
+
+/* ===================== Auth frame v3 (27 Sep): centred card (owner's pick) ===================== */
+.ab-auth--center { display: block; min-height: 100dvh; background: var(--ab-cream); }
+.ab-auth--center .ab-auth__main { display: grid; place-items: center; min-height: 100dvh; padding: 24px 16px; }
+.ab-auth--center .ab-auth__card {
+  margin: 0; width: 100%; max-width: 460px; padding: 28px 36px 30px;
+  background: #fff; border: 1px solid var(--ab-line); border-radius: 24px; box-shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
+}
+.ab-auth--center .ab-auth__card--wide { max-width: 620px; }
+.ab-auth--center .ab-auth__brand { display: inline-flex; align-items: center; gap: 10px; margin: 0 0 18px; }
+.ab-auth__back--corner { position: absolute; top: 20px; left: 20px; z-index: 2; }
+.ab-auth__step { display: block; margin-bottom: 6px; color: var(--ab-amber-700); font-size: var(--ab-fs-xs); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+/* Sign-up tick box (18+ and Terms). */
+.ab-check { margin: 4px 0 14px; }
+.ab-check label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: var(--ab-fs-body); line-height: 1.45; color: var(--ab-ink-2); }
+.ab-check input { flex-shrink: 0; width: 20px; height: 20px; margin-top: 1px; accent-color: var(--ab-navy); cursor: pointer; }
+.ab-check a { color: var(--ab-navy); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+.ab-check .ab-error { margin: 6px 0 0 30px; }
+@media (max-width: 575.9px) {
+  .ab-auth--center { background: #fff; }
+  .ab-auth--center .ab-auth__main { place-items: start center; padding: 56px 16px 20px; }
+  .ab-auth--center .ab-auth__card { padding: 0; border: 0; box-shadow: none; border-radius: 0; }
+  .ab-auth__back--corner { top: 12px; left: 12px; }
+}
+@media (max-width: 575.9px) { .ab-auth--center .ab-auth__main { padding-top: 48px; } .ab-auth--center .ab-field { margin-bottom: 10px; } .ab-auth--center .ab-auth__brand { margin-bottom: 12px; } }
+@media (max-width: 575.9px) { .ab-auth--center .ab-auth__main { padding-top: 44px; } }
+
+/* ===== Auth background v4 (owner: "grey looks like dead space"; reference: Stripe sign-in) =====
+   White page; an angled band in the brand colours across the top, slowly drifting; white logo on it;
+   the card overlaps the band; small legal links at the bottom. */
+.ab-auth--center { position: relative; overflow: hidden; background: #fff; }
+.ab-auth__band {
+  position: absolute; left: 0; right: 0; top: -38vh; height: 78vh;
+  transform: skewY(-9deg); transform-origin: 0 0;
+  background: linear-gradient(115deg, #1b2850 0%, var(--ab-navy) 30%, #3a57a8 58%, #5d7fd6 78%, var(--ab-amber-400) 100%);
+  background-size: 180% 180%;
+  animation: ab-band 22s ease-in-out infinite alternate;
+}
+/* two thin light stripes along the band's lower edge, as on Stripe */
+.ab-auth__band::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 26px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 0.18) 60%, rgba(232, 163, 61, 0.55) 100%);
+}
+@keyframes ab-band { from { background-position: 0% 50%; } to { background-position: 100% 50%; } }
+@media (prefers-reduced-motion: reduce) { .ab-auth__band { animation: none; } }
+.ab-auth__logo-light { display: inline-flex; align-items: center; gap: 10px; color: #fff; font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em; text-decoration: none; }
+.ab-auth__logo-light:hover { color: #fff; }
+.ab-auth--center .ab-auth__main { position: relative; z-index: 1; padding: 88px 16px 56px; }
+.ab-auth--center .ab-auth__card { box-shadow: 0 30px 60px -12px rgba(15, 23, 42, 0.22), 0 18px 36px -18px rgba(15, 23, 42, 0.25); border-color: transparent; }
+.ab-auth__legal { position: absolute; left: 0; right: 0; bottom: 18px; z-index: 1; display: flex; justify-content: center; gap: 20px; font-size: var(--ab-fs-sm); color: var(--ab-ink-3); }
+.ab-auth__legal a { color: var(--ab-ink-3); text-decoration: none; }
+.ab-auth__legal a:hover { color: var(--ab-ink); }
+@media (max-width: 575.9px) {
+  .ab-auth__band { top: -14vh; height: 30vh; }
+    .ab-auth--center .ab-auth__main { padding: 96px 16px 48px; }
+  .ab-auth--center .ab-auth__card { padding: 22px 18px; border-radius: 20px; box-shadow: 0 16px 40px -12px rgba(15, 23, 42, 0.25); border: 0; background: #fff; }
+  .ab-auth__legal { position: static; padding: 0 0 18px; }
+}
+/* Phones: slim band behind the logo bar, form straight on white (no card chrome), legal links hidden (Terms and
+   Privacy are linked in the sign-up tick box) - so every step still fits one phone screen. */
+@media (max-width: 575.9px) {
+  .ab-auth__band { top: -40px; height: 112px; transform: skewY(-4deg); }
+  .ab-auth--center .ab-auth__main { padding: 84px 16px 16px; place-items: start center; }
+  .ab-auth--center .ab-auth__card { padding: 0; border-radius: 0; box-shadow: none; }
+  .ab-auth__legal { display: none; }
+  .ab-auth--center .ab-field { margin-bottom: 8px; }
+  .ab-auth--split .ab-auth__head { margin-bottom: 12px; }
+}
+/* Password label with "Forgot password" on the same row. */
+.ab-label-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.ab-link--sm { font-size: var(--ab-fs-sm); }
+/* Laptop screens under ~880px tall (a 13" MacBook's browser window is ~830px): tighter rhythm and less air around
+   the card, so there is no page scroll. */
+@media (max-height: 880px) and (min-width: 576px) {
+  .ab-auth--center .ab-auth__main { padding: 72px 16px 44px; }
+  .ab-auth--center .ab-auth__card { padding: 22px 32px 24px; }
+  .ab-auth--split .ab-auth__head { margin-bottom: 12px; }
+  .ab-auth--split .ab-auth__head h1 { font-size: var(--ab-fs-h1); }
+  .ab-auth--split .ab-seg { margin-bottom: 12px; }
+  .ab-auth--split .ab-auth__or { margin: 12px 0 10px; }
+  .ab-auth--split .ab-auth__switch { margin-top: 12px; }
+  .ab-auth__legal { bottom: 12px; }
+}
+/* Very short laptop windows (e.g. 1366x768 / 1280x720 minus browser bars): logo bar and legal links step aside,
+   controls go to 44px (still the minimum touch size). */
+@media (max-height: 700px) and (min-width: 576px) {
+  .ab-auth--center .ab-auth__main { padding: 56px 16px 16px; }
+    .ab-auth__legal { display: none; }
+  .ab-auth--center .ab-auth__card { padding: 18px 30px 20px; }
+  .ab-auth--split .ab-field .form-control, .ab-auth--split .inputStyle .form-control, .ab-auth--split .react-tel-input .form-control { min-height: 44px !important; height: 44px; padding-block: 8px; }
+  .ab-auth--split .ab-btn--lg, .ab-auth--split .ab-social { min-height: 46px; }
+  .ab-auth--split .ab-seg__btn { min-height: 38px; }
+  .ab-auth--split .ab-field { margin-bottom: 8px; gap: 4px; }
+  .ab-auth--split .ab-auth__head p { font-size: var(--ab-fs-body); }
+}
+/* A second, lighter stripe drifting at another speed: depth and slow motion, as on Stripe's sign-in. */
+.ab-auth__band::before {
+  content: ""; position: absolute; left: -10%; right: -10%; bottom: 26px; height: 90px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(125, 155, 235, 0.35) 45%, rgba(255, 255, 255, 0.12) 70%, rgba(255, 255, 255, 0) 100%);
+  animation: ab-stripe 14s ease-in-out infinite alternate;
+}
+@keyframes ab-stripe { from { transform: translateX(-8%); } to { transform: translateX(8%); } }
+@media (prefers-reduced-motion: reduce) { .ab-auth__band::before { animation: none; } }
+@media (max-width: 575.9px) { .ab-auth__band::before { display: none; } }
+
+/* ===== Band v2 (owner: second stripe looked unfinished; logo small and lost on the blue) =====
+   One clean angled gradient + a fine dot texture + one crisp amber edge line. No loose stripes. */
+.ab-auth__band::before { content: none; animation: none; }
+.ab-auth__band::after {
+  height: 5px; bottom: 0;
+  background: linear-gradient(90deg, rgba(232, 163, 61, 0) 0%, rgba(232, 163, 61, 0.9) 35%, var(--ab-amber-400) 100%);
+}
+.ab-auth__band {
+  background:
+    radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1.2px) 0 0 / 18px 18px,
+    linear-gradient(115deg, #17234a 0%, var(--ab-navy) 34%, #34509e 66%, #4d6fca 100%);
+  background-size: 18px 18px, 160% 160%;
+  animation: ab-band2 24s ease-in-out infinite alternate;
+}
+@keyframes ab-band2 { from { background-position: 0 0, 0% 50%; } to { background-position: 0 0, 100% 50%; } }
+@media (prefers-reduced-motion: reduce) { .ab-auth__band { animation: none; } }
+/* Logo badge */
+.ab-auth__logo-chip {
+  display: inline-flex; align-items: center; gap: 10px; padding: 6px 16px 6px 8px;
+  background: #fff; border-radius: 16px; box-shadow: 0 10px 30px -10px rgba(8, 15, 40, 0.45);
+  color: var(--ab-navy); font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em; text-decoration: none;
+}
+.ab-auth__logo-chip:hover { color: var(--ab-navy); }
+.ab-auth__logo-chip:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+@media (max-width: 575.9px) {
+  .ab-auth__logo-chip { padding: 4px 12px 4px 6px; font-size: 1.0625rem; border-radius: 12px; }
+  .ab-auth__logo-chip img { width: 40px; height: 36px; }
+}
+
+/* ===== Band v3 (owner: logo on the band / on a badge is bad UX) =====
+   The band moves to the lower part of the page; the top stays white, so the full-colour logo reads cleanly.
+   The card overlaps the band's top edge; the legal links sit on the band in white. */
+.ab-auth__band {
+  top: auto; bottom: -32vh; height: 78vh;
+  transform: skewY(-8deg); transform-origin: 100% 0;
+}
+.ab-auth__band::after { top: 0; bottom: auto; height: 5px;
+  background: linear-gradient(90deg, var(--ab-amber-400) 0%, rgba(232, 163, 61, 0.85) 60%, rgba(232, 163, 61, 0) 100%); }
+.ab-auth__logo { display: inline-flex; align-items: center; gap: 10px; color: var(--ab-navy); font-size: 1.375rem; font-weight: 700; letter-spacing: -0.02em; text-decoration: none; }
+.ab-auth__logo:hover { color: var(--ab-navy); }
+.ab-auth__logo img { width: 52px; height: auto; }
+.ab-auth__legal, .ab-auth__legal a { color: rgba(255, 255, 255, 0.78); }
+.ab-auth__legal a:hover { color: #fff; }
+@media (max-width: 575.9px) {
+  .ab-auth__band { bottom: -10vh; height: 22vh; transform: skewY(-6deg); }
+  .ab-auth__logo { font-size: 1.125rem; }
+  .ab-auth__logo img { width: 40px; }
+}
+/* Email / Phone box: glides to the open form's height; the hidden form never shows or takes clicks. */
+.ab-auth__panes { align-items: start; transition: height 250ms var(--ab-ease); }
+@media (prefers-reduced-motion: reduce) { .ab-auth__panes { transition: none; } }
+/* The segmented tabs: a focus ring only for keyboard users, not after a mouse click. */
+.ab-auth--split .ab-seg__btn:focus { outline: none; box-shadow: none; }
+.ab-auth--split .ab-seg__btn[aria-selected="true"]:focus { box-shadow: var(--ab-sh-1); }
+.ab-auth--split .ab-seg__btn:focus-visible { outline: 2px solid var(--ab-navy); outline-offset: 2px; }
+/* Text buttons that look like links (Change number, Resend code). */
+.ab-linkbtn { padding: 0; border: 0; background: none; cursor: pointer; font: inherit; }
+.ab-otp-step__timer { margin: 8px 0 0; color: var(--ab-ink-3); font-size: var(--ab-fs-sm); }
+/* Logo: larger (owner). */
+.ab-auth__logo img { width: 64px; }
+.ab-auth__logo { font-size: 1.5rem; gap: 12px; }
+@media (max-width: 575.9px) { .ab-auth__logo img { width: 48px; } .ab-auth__logo { font-size: 1.25rem; } }
+/* Phones (owner): the form sits in the vertical centre of the screen, between the logo bar and the band. Longer steps
+   (sign-up) still start under the logo bar and fill the screen. */
+@media (max-width: 575.9px) {
+  .ab-auth--center .ab-auth__main { min-height: 100dvh; place-items: center; padding: 76px 16px 48px; }
+}
+/* Phones: the form's white area spans the full width, so where a long step meets the band the edge is clean. */
+@media (max-width: 575.9px) {
+  .ab-auth--center .ab-auth__main { padding-inline: 0; }
+  .ab-auth--center .ab-auth__card { max-width: none; padding: 0 16px 8px; background: #fff; }
+}
+@media (max-width: 575.9px) { .ab-auth--center .ab-auth__card { padding-bottom: 0; } .ab-auth--center .ab-auth__main { padding-bottom: 40px; } }
+/* Phones: every text link and small control gets a 44px tap area without changing the layout. */
+@media (max-width: 575.9px) {
+  .ab-auth a.ab-link, .ab-auth .ab-linkbtn, .ab-auth .ab-check a { position: relative; }
+  .ab-auth a.ab-link::after, .ab-auth .ab-linkbtn::after, .ab-auth .ab-check a::after { content: ""; position: absolute; inset: -12px -6px; }
+  .ab-auth__back, .ab-auth__logo { min-height: 44px; }
+  .ab-check label { min-height: 44px; align-items: center; }
+  .ab-check input { width: 22px; height: 22px; }
+}
+
+/* Laptop and up: the card's TOP is pinned at the same height on every step (log in, sign-up, code, address, reset),
+   so moving between steps never makes the title jump; only the card's bottom edge moves. (Centring re-centred the
+   whole card whenever its height changed - the "bump" after entering the code.) Phones keep vertical centring. */
+@media (min-width: 576px) {
+  .ab-auth--center .ab-auth__main { place-items: start center; padding-top: clamp(104px, 15vh, 160px); } /* header ends at 88px: 16-72px of air; log-in fits a 720px-tall laptop screen */
+}
+@media (min-width: 576px) and (max-height: 700px) {
+  .ab-auth--center .ab-auth__main { padding-top: 104px; } /* short screens: still clear of the 88px header */
+}
+/* Code step: label, boxes and timer left-aligned like the title above them (one straight edge in the card). */
+.ab-auth--center .ab-otp { text-align: left; }
+.ab-auth--center .ab-otp .passcode-wrapper { justify-content: flex-start !important; }
+.ab-auth--center .ab-otp .ab-label, .ab-auth--center .ab-otp__meta { text-align: left; }
+.ab-auth--center .ab-otp__resend, .ab-auth--center .ab-otp .ab-error { justify-content: flex-start; }
+.ab-auth--center .ab-otp .passcode-wrapper { width: 100%; }
+
+/* Auth header = the site's pill header (header.css). Back sits at the right end where the account button is. */
+.ab-hd--auth .ab-hd__row { justify-content: space-between; }
+.ab-hd--auth .ab-auth__back { min-height: 44px; }
+@media (max-width: 767.9px) {
+  .ab-hd--auth .ab-hd__brand span { display: inline; } /* no search pill here, so the name fits on phones */
+}
+
+/* Log-in pop-up (LoginModal.jsx): the same card as /login, over a dimmed page. The dialog is the card's size, so a
+   click on the dimmed area outside it closes the pop-up. */
+.ab-login-modal {
+  width: min(460px, calc(100vw - 32px)); max-width: none; max-height: calc(100dvh - 32px); margin: auto;
+  padding: 0; border: 0; background: transparent; overflow: auto; overscroll-behavior: contain;
+  animation: ab-login-in 200ms var(--ab-ease);
+}
+.ab-login-modal::backdrop { background: rgba(15, 23, 42, 0.45); animation: ab-login-fade 200ms var(--ab-ease); }
+@keyframes ab-login-in { from { opacity: 0; transform: translateY(8px) scale(0.98); } }
+@keyframes ab-login-fade { from { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .ab-login-modal, .ab-login-modal::backdrop { animation: none; } }
+.ab-login-modal__frame { display: block; min-height: 0; overflow: visible; background: transparent; }
+.ab-login-modal__frame .ab-auth__card { position: relative; max-width: none; margin: 0; box-shadow: 0 30px 60px -12px rgba(15, 23, 42, 0.35); }
+.ab-login-modal__frame .ab-auth__card { overflow: hidden; padding-top: 88px; } /* band 72 + 16 */
+/* Brand band across the top of the card: navy gradient + dots, angled bottom edge with the amber line (footer motif). */
+.ab-login-modal__band {
+  position: absolute; top: 0; left: 0; right: 0; height: 72px; /* owner 28 Sep: slimmer (was 96) */
+  background:
+    radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1.2px) 0 0 / 18px 18px,
+    linear-gradient(115deg, #17234a 0%, var(--ab-navy) 40%, #34509e 75%, #4d6fca 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 72%, 0 100%);
+}
+.ab-login-modal__band::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 100%;
+  background: linear-gradient(90deg, var(--ab-amber-400), rgba(232, 163, 61, 0));
+  clip-path: polygon(0 calc(100% - 4px), 100% calc(72% - 4px), 100% 72%, 0 100%);
+}
+.ab-login-modal__x {
+  position: absolute; top: 8px; right: 12px; z-index: 2; width: 40px; height: 40px; /* stays inside the 72px band's slope */ display: grid; place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.35); border-radius: 50%; background: rgba(255, 255, 255, 0.14); color: #fff; cursor: pointer;
+  transition: background var(--ab-t-fast);
+}
+.ab-login-modal__x:hover { background: rgba(255, 255, 255, 0.28); }
+.ab-login-modal__x:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+/* Band v4 (owner 28 Sep): one fixed strip along the bottom of the page, like the site footer. The same height on
+   every step - it no longer follows the card. It shows at both ends: 48px on the left, rising to the right (skew
+   pivots on the bottom-left corner). The card and legal links sit above it; a long step (sign-up) scrolls, and
+   the band stays at the bottom of the page. Legal links sit on the band in white, like the footer. */
+@media (min-width: 576px) {
+  .ab-auth--center .ab-auth__band {
+    top: auto; bottom: -200px; height: 248px; /* 48px visible at the left edge */
+    transform: skewY(-3deg); transform-origin: 0 100%;
+  }
+  .ab-auth--center .ab-auth__main { padding-bottom: 48px; } /* just clears the legal links; the card may sit over the band's edge (owner) */
+  .ab-auth--center .ab-auth__legal { bottom: 16px; }
+  /* Sign-up is the longest step: the card starts 16px under the header so it fits a laptop screen. */
+  .ab-auth--center .ab-auth__main:has(.ab-auth__card--wide) { padding-top: 104px; }
+  .ab-auth--center .ab-auth__legal, .ab-auth--center .ab-auth__legal a { color: rgba(255, 255, 255, 0.82); }
+  .ab-auth--center .ab-auth__legal a:hover { color: #fff; }
+}
+
+/* Short laptop windows (1280x720, 1366x768): the sign-up card drops its one-line intro and tightens its rhythm so
+   it still fits without a page scroll. The step label and every field stay. */
+@media (max-height: 780px) and (min-width: 576px) {
+  .ab-auth__card--wide .ab-auth__head p { display: none; }
+  .ab-auth__card--wide .ab-auth__head h1 { margin-bottom: 0; }
+  .ab-auth--split .ab-auth__card--wide .ab-field { margin-bottom: 6px; }
+  .ab-auth--split .ab-auth__card--wide .ab-auth__or { margin: 8px 0 6px; }
+  .ab-auth--split .ab-auth__card--wide .ab-auth__switch { margin-top: 8px; }
+  .ab-auth--center .ab-auth__card--wide { padding-top: 14px; padding-bottom: 14px; }
+  .ab-auth--split .ab-auth__card--wide .ab-social { min-height: 44px; }
+}
+
+/* Log-in card (owner 28 Sep): 520px, so the phone code step's messages sit on fewer lines and the card stays one
+   screen tall. Sign-up keeps its own wide card. Same width in the pop-up. */
+.ab-auth--center .ab-auth__card:not(.ab-auth__card--wide) { max-width: 520px; }
+.ab-login-modal { width: min(520px, calc(100vw - 32px)); }
+.ab-otp-step .ab-label-row .ab-otp-step__timer { margin: 0; white-space: nowrap; }
+.ab-otp-step .ab-otp-notice { margin: 8px 0 0; }
+.ab-otp-step .ab-error { margin-top: 6px; }
+/* Very short windows (1280x720): the log-in greeting steps aside, like sign-up's intro, so the code step still fits. */
+@media (max-height: 740px) and (min-width: 576px) {
+  .ab-auth__card:has(.ab-auth__panes) .ab-auth__head p { display: none; }
+}

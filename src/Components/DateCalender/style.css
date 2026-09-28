@@ -1,0 +1,85 @@
+/*============ react-multi-date-picker (Any-Buddy calendar) ====================*/
+.dateCalender .rmdp-wrapper {
+  width: 100%;
+  background: #fff;
+  border: 1px solid var(--ab-line-2, #dddddd);
+  border-radius: var(--ab-r-lg, 16px);
+  padding: 8px;
+  font-family: var(--ab-font, inherit);
+}
+.dateCalender .rmdp-calendar {
+  width: 100%;
+  border: 0;
+  padding: 0;
+}
+.dateCalender .rmdp-shadow {
+  box-shadow: unset;
+}
+.dateCalender .rmdp-header {
+  margin: 4px 0 8px;
+}
+.dateCalender .rmdp-header-values {
+  font-weight: 700;
+  color: var(--ab-ink, #222);
+  font-size: var(--ab-fs-body);
+}
+.dateCalender .rmdp-arrow-container {
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+.dateCalender .rmdp-arrow {
+  border: solid var(--ab-ink, #222);
+  border-width: 0 2px 2px 0;
+  margin-top: 0;
+}
+.dateCalender .rmdp-arrow-container:hover {
+  background-color: var(--ab-soft, #f7f7f7);
+  box-shadow: none;
+}
+.dateCalender .rmdp-arrow-container:hover .rmdp-arrow {
+  border: solid var(--ab-ink, #222);
+  border-width: 0 2px 2px 0;
+}
+.dateCalender .rmdp-day-picker {
+  display: block !important;
+}
+.dateCalender .rmdp-week-day {
+  color: var(--ab-ink-3, #6a6a6a);
+  font-weight: 600;
+  font-size: var(--ab-fs-xs);
+  height: 24px;
+}
+.dateCalender .rmdp-day {
+  color: var(--ab-ink, #222);
+}
+.dateCalender .rmdp-day span {
+  font-size: var(--ab-fs-sm);
+  font-weight: 500;
+}
+.dateCalender .rmdp-day.rmdp-today span {
+  background-color: transparent;
+  color: var(--ab-ink, #222);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.dateCalender .rmdp-day.rmdp-disabled,
+.dateCalender .rmdp-day.rmdp-disabled span {
+  color: #b0b0b0;
+}
+.dateCalender .rmdp-day.rmdp-selected span:not(.highlight),
+.dateCalender .rmdp-day:not(.rmdp-disabled, .rmdp-day-hidden) span:hover {
+  background-color: var(--ab-navy, #24345f);
+  color: #fff;
+  border-radius: 50%;
+  box-shadow: unset;
+  text-decoration: none;
+}
+.dateCalender .rmdp-day:not(.rmdp-disabled, .rmdp-day-hidden, .rmdp-selected) span:hover {
+  background-color: var(--ab-soft, #f7f7f7);
+  color: var(--ab-ink, #222);
+  box-shadow: inset 0 0 0 1px var(--ab-ink, #222);
+}

@@ -1,0 +1,185 @@
+.inputStyle {
+  position: relative;
+}
+.inputStyle .form-control,
+.inputStyle .form-control:focus,
+.inputStyle .form-control:focus-visible {
+  /* .form-control:focus-visible,
+.form-control:focus { */
+  border-radius: 10px;
+  border: 1px solid #babac2 !important;
+  padding: 10px 10px 10px 10px;
+  /* box-shadow: 1px 2px 20px 3px #8ad4f242; */
+  background-color: #f6f7f9 !important;
+}
+.inputImg {
+  top: 12px !important;
+  left: 7px !important;
+  right: unset !important;
+  bottom: unset !important;
+  width: 24px !important;
+  height: 24px !important;
+  object-fit: contain;
+  /* margin: auto; */
+}
+.field-icon {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  right: 15px;
+  height: fit-content;
+}
+.pass-view:before {
+  background-image: url(/assets/images/view.png);
+}
+.pass-hide:before,
+.pass-view:before {
+  content: "";
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 24px;
+  height: 22px;
+  display: block;
+  cursor: pointer;
+}
+.pass-hide:before {
+  background-image: url(/assets/images/hide.png);
+}
+.getOtp {
+  background-color: #546696;
+  color: #fff;
+  border-radius: 10px;
+  padding: 6px 10px;
+  font-size: var(--ab-fs-sm);
+  position: absolute;
+  top: 10px;
+  right: 7px;
+}
+.otpInputs {
+  width: 60px !important;
+  height: 60px !important;
+  padding: 0;
+  margin-right: 5px;
+  text-align: center;
+  border-radius: 15px;
+  font-size: 20px;
+  border: 2px solid #babac2;
+  text-transform: capitalize;
+  /* box-shadow: -2px 0px 10px 3px #e6e6e685 !important; */
+  background-color: #fff;
+  color: #babac2;
+}
+.otpInputs:focus {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  border: 0;
+  border-radius: 10px;
+  outline: 0 !important;
+  background-color: #546696;
+  color: #fff;
+}
+.range-slider .range-slider__thumb[data-disabled] {
+  height: 5px;
+  background: #ea82b5 !important;
+  height: 8px;
+  border-radius: 4px;
+}
+.range-slider .range-slider__range {
+  background: #ea82b5 !important;
+  z-index: 0 !important;
+}
+.range-slider__thumb {
+  background: transparent !important;
+  background-image: url("/assets/images/SlideDot.png") !important;
+  background-repeat: no-repeat !important;
+  background-size: contain !important;
+}
+.range-slider {
+  background: #ffffff !important;
+  box-shadow: 1px 2px 20px 3px #8ad4f242;
+}
+.slider-wrapper {
+  position: relative;
+  width: 100%;
+}
+.slider-wrapper .range-slider .range-slider__thumb {
+  z-index: 0;
+}
+
+.thumb-value {
+  position: absolute;
+  top: -23px;
+  transform: translateX(-50%);
+  font-weight: bold;
+  color: #000;
+  /* background: #a02b77;
+  background: linear-gradient(
+    0deg,
+    rgba(160, 43, 119, 1) 0%,
+    rgba(32, 41, 103, 1) 100%
+  ); */
+  width: fit-content;
+  padding: 0px 6px;
+  border-radius: 20px;
+  font-size: var(--ab-fs-xs);
+  white-space: nowrap;
+}
+.AddtoList {
+  border: 1px dotted #ea82b5;
+  color: #ea82b5;
+  text-decoration: underline;
+  width: fit-content;
+  padding: 10px 15px;
+  border-radius: 10px;
+  display: inline-block;
+  /* margin-right: 7px;
+  margin-top: 10px; */
+}
+.addedBoxItms {
+  background-color: #e0f6ff;
+  width: fit-content;
+  padding: 10px 15px;
+  border-radius: 10px;
+  color: #000;
+  text-align: center;
+  display: inline-block;
+  margin-right: 7px;
+  margin-top: 10px;
+  text-transform: capitalize;
+}
+.removeItem {
+  position: absolute;
+  top: -4px;
+  right: -2px;
+  cursor: pointer;
+}
+.profileImage {
+  position: absolute;
+  left: 16px;
+  bottom: -60px;
+  background-color: #e3e3e3;
+  border-radius: 50%;
+}
+@media (max-width: 1024.9px) {
+  .passcode-wrapper input {
+    width: 50px !important;
+    height: 50px !important;
+  }
+}
+@media (max-width: 991.9px) {
+  .passcode-wrapper input {
+    width: 40px !important;
+    height: 40px !important;
+  }
+}
+@media (max-width: 375.9px) {
+  .passcode-wrapper input {
+    width: 35px !important;
+    height: 35px !important;
+  }
+}
+/* The show-password eye and "Get code" are real buttons now (keyboard + screen readers): reset button chrome. */
+button.field-icon, button.getOtp { border: 0; font: inherit; cursor: pointer; }
+button.field-icon { background-color: transparent; }
+/* Show-password: a 44x44 tap area (the eye stays 24px), centred on the field's right edge. */
+button.field-icon { display: grid; place-items: center; width: 44px; height: 44px; right: 4px; padding: 0; }

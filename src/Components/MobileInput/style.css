@@ -1,0 +1,71 @@
+.react-tel-input .form-control,
+.react-tel-input .form-control:focus {
+  width: 100% !important;
+  height: 52px !important;
+  padding-left: 52px !important;
+  border-radius: var(--ab-r-md, 14px) !important;
+  border: 1px solid var(--ab-field, #8a93a8) !important;
+  background: #fff !important;
+  font: 500 var(--ab-fs-body)/1.4 var(--ab-font, inherit);
+  color: var(--ab-ink, #1a2238);
+}
+.react-tel-input .form-control:focus {
+  border-color: var(--ab-navy, #24345f) !important;
+  box-shadow: 0 0 0 4px rgba(111, 131, 230, 0.22) !important;
+}
+.react-tel-input .form-control:disabled {
+  background: var(--ab-soft, #f6f7f9) !important;
+  color: var(--ab-ink-3, #5d6680);
+  cursor: not-allowed;
+}
+
+.react-tel-input .flag-dropdown {
+  position: absolute !important;
+  left: 12px;
+}
+.react-tel-input .country-list {
+  border-radius: var(--ab-r-md, 14px);
+  box-shadow: var(--ab-sh-2, 0 8px 24px rgba(0, 0, 0, 0.12));
+  max-width: calc(100vw - 48px);
+}
+
+.react-tel-input .selected-flag,
+.react-tel-input .selected-flag:hover,
+.react-tel-input .selected-flag:focus,
+.react-tel-input .flag-dropdown.open .selected-flag {
+  background-color: transparent !important;
+  border: 0 !important;
+  padding: 0 0 0 0px !important;
+}
+.react-tel-input .flag-dropdown,
+.react-tel-input .flag-dropdown:hover,
+.react-tel-input .flag-dropdown:focus {
+  padding: 0 0 0 0px !important;
+  border: 0px solid #cacaca !important;
+  border-radius: 10px;
+  background-color: transparent !important;
+}
+.septateBoxes.react-tel-input {
+  display: flex;
+  flex-direction: row;
+  flex-flow: row-reverse;
+  grid-gap: 10px;
+}
+
+.inputImg.mobileInput {
+  left: 64px !important;
+}
+.countryCodeFlag {
+  position: absolute;
+  left: 35px;
+  top: 7px;
+  font-size: var(--ab-fs-body);
+}
+.booking .react-tel-input .flag-dropdown,
+.booking .react-tel-input .flag-dropdown:hover,
+.booking .react-tel-input .flag-dropdown:focus {
+  border-top: 0 !important;
+  border-left: 0 !important;
+  border-right: 0 !important;
+  border-radius: 0 !important;
+}

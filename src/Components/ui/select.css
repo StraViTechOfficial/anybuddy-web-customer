@@ -1,0 +1,39 @@
+/* Our dropdown (Select.jsx): the trigger is a normal .form-control; the list matches the header search list. */
+.ab-select { position: relative; }
+.ab-select__btn {
+  display: flex !important; align-items: center; justify-content: space-between; gap: 10px;
+  text-align: left; cursor: pointer;
+}
+.ab-select__btn > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ab-select__ph { color: #6b7280; } /* same as input placeholders (4.8:1) */
+.ab-select__chev { flex-shrink: 0; color: var(--ab-ink-3); transition: transform var(--ab-t-fast) var(--ab-ease); }
+.ab-select.is-open .ab-select__chev { transform: rotate(180deg); }
+.ab-select.is-open .ab-select__btn { border-color: var(--ab-ink) !important; box-shadow: 0 0 0 1px var(--ab-ink) !important; }
+.ab-select__btn:disabled .ab-select__chev { opacity: 0.4; }
+
+.ab-select__pop {
+  position: absolute; left: 0; right: 0; top: calc(100% + 6px); z-index: 30;
+  min-width: 200px; padding: 6px;
+  background: #fff; border: 1px solid var(--ab-line); border-radius: 14px;
+  box-shadow: 0 18px 44px rgba(15, 23, 42, 0.18);
+  animation: ab-select-in 160ms var(--ab-ease);
+}
+.ab-select__pop.is-up { top: auto; bottom: calc(100% + 6px); }
+@keyframes ab-select-in { from { opacity: 0; transform: translateY(-4px); } }
+@media (prefers-reduced-motion: reduce) { .ab-select__pop { animation: none; } }
+
+.ab-select__filter {
+  width: 100%; height: 44px; margin-bottom: 6px; padding: 0 12px;
+  border: 1px solid var(--ab-field); border-radius: 10px; font: 500 0.9375rem var(--ab-font); color: var(--ab-ink);
+}
+.ab-select__filter:focus { outline: 0; border-color: var(--ab-ink); }
+.ab-select__list { max-height: 264px; overflow-y: auto; margin: 0; padding: 0; list-style: none; }
+.ab-select__opt {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  min-height: 44px; padding: 10px 12px; border-radius: 10px;
+  color: var(--ab-ink); font-size: var(--ab-fs-body); cursor: pointer;
+}
+.ab-select__opt.is-hi { background: var(--ab-soft); }
+.ab-select__opt[aria-selected="true"] { font-weight: 600; }
+.ab-select__opt svg { color: var(--ab-navy); flex-shrink: 0; }
+.ab-select__none { padding: 12px; color: var(--ab-ink-3); font-size: var(--ab-fs-sm); }

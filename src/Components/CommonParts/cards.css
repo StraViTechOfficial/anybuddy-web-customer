@@ -1,0 +1,174 @@
+/* ============ Shared cards (Airbnb listing pattern: photo first, meta beneath) ============ */
+
+/* Category card (ServicesBox) */
+.ab-catcard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  color: var(--ab-ink) !important;
+  border-radius: var(--ab-r-lg);
+}
+.ab-catcard__media {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: var(--ab-r-lg);
+  background: var(--ab-soft);
+}
+.ab-catcard__img {
+  object-fit: cover;
+  transition: transform 700ms var(--ab-ease);
+}
+@media (hover: hover) {
+  .ab-catcard:hover .ab-catcard__img {
+    transform: scale(1.04);
+  }
+}
+.ab-catcard:active .ab-catcard__media {
+  transform: scale(0.99);
+}
+.ab-catcard__body {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 2px;
+  padding: 14px 2px 0;
+}
+/* Same card as Home's Explore row: name with an inline arrow, services beneath (design standard). */
+.ab-catcard__name {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  font-size: var(--ab-fs-body);
+  text-transform: capitalize;
+}
+.ab-catcard__name svg { color: var(--ab-ink-3); transition: transform var(--ab-t) var(--ab-ease), color var(--ab-t); }
+.ab-catcard:hover .ab-catcard__name svg { color: var(--ab-ink); transform: translateX(4px); }
+.ab-catcard__desc {
+  font-size: var(--ab-fs-body);
+  color: var(--ab-ink-3);
+  line-height: 1.45;
+  /* Two lines at most, so every card in the grid is the same height. */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.ab-catcard.ab-spotlight::after {
+  display: none;
+}
+
+/* Sub-service card (CategoryBox): photo, name and action beneath */
+.ab-svccard {
+  position: relative;
+  display: grid;
+  gap: 10px;
+  cursor: pointer;
+  border-radius: var(--ab-r-lg);
+}
+.ab-svccard__media {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3; /* same photo shape as every other card */
+  overflow: hidden;
+  border-radius: var(--ab-r-lg);
+  background: var(--ab-soft);
+}
+.ab-svccard__img {
+  object-fit: cover;
+  transition: transform 800ms var(--ab-ease);
+}
+@media (hover: hover) {
+  .ab-svccard:hover .ab-svccard__img {
+    transform: scale(1.04);
+  }
+}
+.ab-svccard:active .ab-svccard__media {
+  transform: scale(0.99);
+}
+.ab-svccard__body {
+  display: grid;
+  gap: 2px;
+  padding: 0 2px;
+}
+.ab-svccard__name {
+  font-weight: 600;
+  font-size: var(--ab-fs-body);
+  line-height: 1.3;
+  text-transform: capitalize;
+  color: var(--ab-ink);
+}
+.ab-svccard__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--ab-fs-sm);
+  font-weight: 500;
+  color: var(--ab-ink-3);
+}
+.ab-svccard__cta svg {
+  transition: transform var(--ab-t) var(--ab-ease);
+}
+.ab-svccard:hover .ab-svccard__cta {
+  color: var(--ab-navy);
+}
+.ab-svccard:hover .ab-svccard__cta svg {
+  transform: translateX(3px);
+}
+/* Save-a-Buddy heart (C-16: favourites are pros). Outline until saved, then filled. 44px tap target. */
+.ab-heart {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  align-self: flex-start;
+  width: 44px;
+  height: 44px;
+  margin-left: auto;
+  border: 1px solid var(--ab-line);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--ab-ink-3);
+  transition: transform var(--ab-t-fast) var(--ab-ease), color var(--ab-t-fast) var(--ab-ease);
+}
+.ab-heart:hover {
+  transform: scale(1.06);
+  color: var(--ab-danger);
+}
+.ab-heart.is-on {
+  color: var(--ab-danger);
+}
+.ab-heart:focus-visible {
+  outline: 2px solid var(--ab-navy);
+  outline-offset: 2px;
+}
+.ab-svccard.ab-spotlight::after {
+  display: none;
+}
+
+/* grid used by home + /service */
+.ab-catgrid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 4), 1fr);
+  gap: 32px 24px;
+}
+@media (max-width: 991.9px) {
+  .ab-catgrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 767.9px) {
+  .ab-catgrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px 12px;
+  }
+
+  .ab-catcard__desc {
+    font-size: var(--ab-fs-sm);
+  }
+  .ab-catcard__name {
+    font-size: var(--ab-fs-body);
+  }
+}

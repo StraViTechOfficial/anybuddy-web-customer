@@ -1,0 +1,323 @@
+/* ============ Provider list ============ */
+.ab-pros {
+  padding-top: clamp(24px, 3vw, 40px);
+}
+.ab-pros__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.ab-pros__back {
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: 600 var(--ab-fs-body)/1 var(--ab-font);
+}
+.ab-pros__count {
+  margin: 0;
+  color: var(--ab-ink-2);
+}
+.ab-pros__count b {
+  color: var(--ab-ink);
+}
+.ab-pros__note {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 20px;
+  margin-bottom: 28px;
+  border-radius: var(--ab-r-lg);
+  background:
+    radial-gradient(120% 140% at 0% 0%, rgba(111, 131, 230, 0.14), transparent 60%),
+    var(--ab-navy-50);
+  border: 1px solid var(--ab-navy-100);
+}
+.ab-pros__note p {
+  margin: 0;
+  color: var(--ab-ink-2);
+  line-height: 1.55;
+}
+.ab-pros__note b {
+  color: var(--ab-navy);
+}
+.ab-pros__noteIcon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: var(--ab-gradient);
+  color: #fff;
+}
+.ab-pros__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.ab-pro {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 22px;
+  border-radius: var(--ab-r-lg);
+  background: #fff;
+  border: 1px solid var(--ab-line);
+  box-shadow: var(--ab-sh-1);
+  overflow: hidden;
+  transition: transform var(--ab-t) var(--ab-ease), box-shadow var(--ab-t) var(--ab-ease);
+}
+.ab-pro > * {
+  position: relative;
+  z-index: 1;
+}
+@media (hover: hover) {
+  .ab-pro:not(.ab-pro--skeleton):hover {
+    transform: translateY(-4px);
+    box-shadow: var(--ab-sh-3);
+  }
+}
+.ab-pro__head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.ab-pro__avatar {
+  width: 64px;
+  height: 64px;
+  font-size: 1.2rem;
+}
+.ab-pro__who {
+  min-width: 0;
+  display: grid;
+  gap: 6px;
+}
+.ab-pro__name {
+  margin: 0;
+  font-size: var(--ab-fs-h3);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  text-transform: capitalize;
+}
+.ab-pro__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  font-size: var(--ab-fs-sm);
+  color: var(--ab-ink-3);
+}
+.ab-pro__rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.ab-pro__rating b {
+  color: var(--ab-ink);
+}
+.ab-pro__star {
+  fill: var(--ab-amber-400);
+  stroke: var(--ab-amber-400);
+}
+.ab-pro__new {
+  padding: 3px 10px;
+  font-size: var(--ab-fs-xs);
+}
+.ab-pro__dist {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.ab-pro__desc {
+  margin: 0;
+  color: var(--ab-ink-2);
+  line-height: 1.55;
+  font-size: var(--ab-fs-body);
+}
+.ab-pro__foot {
+  margin-top: auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-top: 16px;
+  border-top: 1px solid var(--ab-line);
+}
+.ab-pro__price {
+  display: grid;
+  gap: 2px;
+}
+.ab-pro__priceLabel {
+  font-size: var(--ab-fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ab-ink-3);
+}
+.ab-pro__price b {
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.ab-pro__price small {
+  color: var(--ab-ink-3);
+  font-weight: 600;
+  margin-left: 2px;
+}
+.ab-pro__actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.ab-pro__actions .ab-btn {
+  min-height: 44px;
+}
+
+@media (max-width: 1199.9px) {
+  .ab-pros__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 767.9px) {
+  .ab-pros__grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 480px) {
+  .ab-pro__actions {
+    width: 100%;
+    flex-direction: column-reverse;
+  }
+  .ab-pro__actions .ab-btn {
+    width: 100%;
+  }
+}
+
+/* ---------- service details beside the list (ServicesDetail inline) ---------- */
+.ab-pros__main {
+  min-width: 0;
+}
+.ab-sd--inline {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: 0 16px;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.ab-sd--inline > :not(.ab-sd__media) {
+  grid-column: 1 / -1;
+}
+.ab-sd--inline .ab-sd__media {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  overflow: hidden;
+  border-radius: var(--ab-r-md);
+  background: var(--ab-soft);
+}
+.ab-sd--inline .ab-sd__media img {
+  object-fit: cover;
+}
+/* the photo sits beside the description on phones */
+.ab-sd--inline .ab-sd__media + .ab-sd__desc {
+  grid-column: 2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.ab-sd--inline .ab-sd__panel {
+  margin-top: 16px;
+  padding: 0;
+}
+/* no description: the pricing toggle sits beside the photo */
+.ab-sd--inline .ab-sd__media + .ab-sd__panel {
+  grid-column: 2;
+  margin-top: 0;
+}
+.ab-sd--inline summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 44px;
+  margin: 0;
+  padding: 0 16px;
+  cursor: pointer;
+}
+.ab-sd--inline summary::after {
+  content: "+";
+  font-size: var(--ab-fs-h3);
+}
+.ab-sd--inline details[open] summary::after {
+  content: "\2212";
+}
+.ab-sd--inline details > :not(summary) {
+  margin-left: 16px;
+  margin-right: 16px;
+}
+.ab-sd--inline .ab-sd__list {
+  grid-template-columns: 1fr;
+}
+.ab-sd--inline .ab-sd__browse {
+  display: inline-flex;
+  margin-bottom: 16px;
+}
+@media (min-width: 992px) {
+  .ab-pros__layout:has(.ab-sd--inline) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 32px;
+    align-items: start;
+  }
+  .ab-pros__layout > .ab-sd--inline {
+    grid-column: 2;
+    grid-row: 1;
+    display: block;
+    margin: 0;
+  }
+  .ab-sd--inline .ab-sd__media {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+  .ab-sd--inline .ab-sd__media + .ab-sd__desc {
+    margin-top: 16px;
+  }
+  .ab-pros__layout:has(.ab-sd--inline) .ab-pros__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .ab-sd--inline .ab-sd__media + .ab-sd__panel {
+    margin-top: 16px;
+  }
+}
+
+/* Service details: side column on laptops (992px+), under the first pro on smaller screens. One shows at a time. */
+.ab-pros__layout > .ab-sd--side { display: none; }
+@media (min-width: 992px) {
+  .ab-pros__layout > .ab-sd--side { display: block; }
+  .ab-pros__grid > .ab-sd--phone { display: none; }
+}
+.ab-pros__grid > .ab-sd--phone { grid-column: 1 / -1; margin: 0; } /* full row when the grid has 2 columns (tablets) */
+
+/* Compact service panel beside the pros: promises in view, pricing text behind "How pricing works". */
+.ab-sd--inline .ab-sd__panel { display: grid; gap: 12px; }
+.ab-sd--inline .ab-sd__panel > .ab-sd__kicker { margin: 0; }
+.ab-sd--inline .ab-sd__list { margin: 0; gap: 8px; font-size: var(--ab-fs-sm); }
+.ab-sd__more summary { cursor: pointer; font-size: var(--ab-fs-sm); font-weight: 600; color: var(--ab-navy); list-style: none; }
+.ab-sd__more summary::-webkit-details-marker { display: none; }
+.ab-sd__more summary::after { content: " +"; }
+.ab-sd__more[open] summary::after { content: " −"; }
+.ab-sd__more[open] summary { margin-bottom: 8px; }
+.ab-sd--inline .ab-sd__more .ab-sd__panelTitle { font-size: var(--ab-fs-body); margin: 0 0 4px; }
+.ab-sd--inline .ab-sd__more .ab-sd__panelText { font-size: var(--ab-fs-sm); margin: 0; }
+.ab-sd--inline .ab-sd__more summary { display: inline-flex; min-height: 44px; padding: 0; justify-content: flex-start; gap: 4px; }
+.ab-sd--inline .ab-sd__more summary::after { font-size: inherit; }
+.ab-sd--inline .ab-sd__more > :not(summary) { margin-left: 0; margin-right: 0; }
+.ab-sd--inline .ab-sd__panel { padding: 16px; }

@@ -1,0 +1,436 @@
+/* Home — ui-ux-pro-max: Marketplace pattern, Trust & Authority style.
+   Type: Schibsted Grotesk throughout; headings 700 with tight tracking.
+   Spacing: one 8px rhythm — sections 96px desktop / 64px phone, card padding 24px, gaps 16/24px.
+   Imagery: one hero photo card; categories use medium photos. Navy only for actions. */
+
+.ab-home {
+  /* Same rhythm as every page (ds.css .ab-section / .ab-section-head) */
+  --hm-section: clamp(48px, 6vw, 88px);
+  --hm-head-gap: clamp(24px, 3vw, 36px);
+  background: var(--ab-canvas);
+  color: var(--ab-ink);
+  overflow-x: clip;
+}
+.ab-home h1, .ab-home h2, .ab-home h3 {
+  margin: 0;
+  color: var(--ab-ink);
+  font-family: var(--ab-font-display);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+.ab-home p { margin: 0; }
+
+/* ── Shared ── */
+.hm-section { padding-block: var(--hm-section); }
+.hm-kicker {
+  display: block;
+  margin-bottom: 12px;
+  font-size: var(--ab-fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ab-amber-700);
+}
+.hm-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: var(--hm-head-gap); }
+.hm-head h2 { font-size: var(--ab-fs-h2); line-height: 1.12; max-width: 20ch; }
+.hm-head p { margin-top: 12px; max-width: 56ch; color: var(--ab-ink-2); font-size: var(--ab-fs-body); line-height: 1.6; }
+
+.hm-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--ab-navy);
+  text-decoration: none;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1.5px no-repeat;
+  padding-bottom: 2px;
+  white-space: nowrap;
+  transition: background-size var(--ab-t) var(--ab-ease);
+}
+.hm-link svg { transition: transform var(--ab-t) var(--ab-ease); }
+.hm-link:hover { color: var(--ab-navy); background-size: 100% 1.5px; }
+.hm-link:hover svg { transform: translateX(4px); }
+
+.hm-btn {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 24px;
+  border: 0;
+  border-radius: var(--ab-r-md);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform var(--ab-t-fast) var(--ab-ease), box-shadow var(--ab-t) var(--ab-ease), background var(--ab-t-fast);
+}
+.hm-btn--primary { background: var(--ab-navy); color: #fff; box-shadow: 0 4px 14px rgba(36, 52, 95, 0.2); }
+.hm-btn--primary:hover { color: #fff; background: var(--ab-navy-600); transform: translateY(-1px); box-shadow: 0 8px 22px rgba(36, 52, 95, 0.26); }
+.hm-btn--primary:active { transform: scale(0.98); }
+.hm-btn--primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.24) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 700ms var(--ab-ease);
+}
+.hm-btn--primary:hover::after { transform: translateX(120%); }
+.hm-btn svg { transition: transform var(--ab-t) var(--ab-ease); }
+.hm-btn:hover svg { transform: translateX(3px); }
+
+/* ── Hero: full-bleed, sits under the transparent header. Category photos crossfade (slow zoom);
+   a dark wash keeps white type at AA contrast on any photo. ── */
+.hm-hero__card {
+  --hm-hero-w: 800px; /* search bar and chip row share this width (Airbnb's bar: 850) */
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  min-height: clamp(620px, 100vh, 860px);
+  background: #0b1224;
+  color: #fff;
+}
+.hm-hero__bg { position: absolute; inset: 0; z-index: -1; overflow: hidden; } /* only the photos clip; suggestions may drop below the hero */
+/* True crossfade: the new photo fades in on top while the old one stays fully visible underneath, then drops.
+   (Both fading at once let the dark background show through halfway: a visible dip.) */
+.hm-hero__bg img { object-fit: cover; opacity: 0; z-index: 0; transition: opacity 0s linear 1.4s; }
+.hm-hero__bg img.is-on { opacity: 1; z-index: 1; transition: opacity 1.4s var(--ab-ease); }
+.hm-hero__bg::after {
+  content: "";
+  position: absolute; z-index: 2; /* above the crossfading photos (z-index 0/1) */
+  inset: 0;
+  background: linear-gradient(180deg, rgba(11, 18, 36, 0.72) 0%, rgba(11, 18, 36, 0.5) 40%, rgba(11, 18, 36, 0.8) 100%);
+}
+.hm-hero__inner { display: flex; flex-direction: column; align-items: center; padding-block: 152px 72px; text-align: center; } /* top clears the floating header */
+.hm-hero__eyebrow { font-size: var(--ab-fs-xs); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255, 255, 255, 0.78); }
+.ab-home .hm-hero__title {
+  margin: 18px 0 18px;
+  color: #fff;
+  max-width: 22ch;
+  min-height: 2.04em; /* two lines: the line changes, the layout does not */
+  text-wrap: balance;
+  font-size: var(--ab-fs-display);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+}
+/* Headlines stacked in one place: the old one fades out (350 ms) as the new one fades in with a slight rise (600 ms, after 250 ms). */
+.hm-hero__lines { display: grid; }
+.hm-hero__line { grid-area: 1 / 1; display: block; opacity: 0; transform: translateY(8px); transition: opacity 350ms ease-in, transform 350ms ease-in; }
+.hm-hero__line.is-on { opacity: 1; transform: none; transition: opacity 600ms var(--ab-ease) 250ms, transform 600ms var(--ab-ease) 250ms; }
+.hm-hero__lead { max-width: 46ch; font-size: var(--ab-fs-lead); line-height: 1.55; color: rgba(255, 255, 255, 0.86); }
+
+.hm-hero__search { display: contents; } /* only listens for focus; adds no box to the layout */
+.ab-sb--hero { position: relative; z-index: 5; width: min(var(--hm-hero-w), 100%); margin-top: 32px; }
+/* Same size as the site's search everywhere else (search.css: 64px, 12px labels, round 48px icon button) - measured
+   against Airbnb 850x66 / TaskRabbit 629x64 (27 Sep). Only the shadow is stronger, to lift it off the photo. */
+.ab-sb--hero .ab-sb { border: 0; box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28); }
+
+/* Trending under the search: label + up to 4 service links. Height reserved so nothing jumps when they load. */
+.hm-hero__trend { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 4px 16px; min-height: 36px; margin-top: 20px; max-width: 800px; }
+.hm-hero__trend-label { display: inline-flex; align-items: center; gap: 6px; color: rgba(255, 255, 255, 0.85); font-size: var(--ab-fs-xs); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+/* Trending links: plain underlined text on the photo (the underline says "link"); full white on hover/focus. */
+.hm-hero__trend-link {
+  display: inline-flex; align-items: center; min-height: 36px; color: #fff; font-size: var(--ab-fs-sm); font-weight: 500;
+  text-decoration-line: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.7); text-decoration-thickness: 1px; text-underline-offset: 4px;
+}
+.hm-hero__trend-link { cursor: pointer; transition: color var(--ab-t-fast) var(--ab-ease), text-decoration-color var(--ab-t-fast) var(--ab-ease); }
+/* Hover / focus must look different (state-clarity): brand amber text + a thicker amber underline. */
+.hm-hero__trend-link:hover, .hm-hero__trend-link:focus-visible { color: var(--ab-amber-400); text-decoration-color: var(--ab-amber-400); text-decoration-thickness: 2px; }
+.hm-hero__trend-link:focus-visible { outline: 2px solid #fff; outline-offset: 2px; border-radius: 4px; }
+@media (pointer: coarse) { .hm-hero__trend-link { min-height: 44px; } }
+/* Current category + position + pause, bottom-right of the photo (carousel pattern). */
+.hm-hero__now {
+  position: absolute; right: 24px; bottom: 24px; z-index: 2; display: flex; white-space: nowrap; align-items: center; gap: 12px; padding: 4px 4px 4px 16px; /* ~170px, fixed */
+  border: 1px solid rgba(255, 255, 255, 0.3); border-radius: var(--ab-r-full); background: rgba(11, 18, 36, 0.4); color: #fff;
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+}
+.hm-hero__now-icon { flex-shrink: 0; margin-right: -2px; color: #fff; }
+.hm-hero__now-info { display: grid; gap: 6px; width: 104px; }
+.hm-hero__now-names { display: grid; }
+.hm-hero__now-names > span { grid-area: 1 / 1; overflow: hidden; text-overflow: ellipsis; opacity: 0; transition: opacity 250ms ease-in; }
+.hm-hero__now-names > .is-on { opacity: 1; transition: opacity 400ms var(--ab-ease) 150ms; }
+.hm-hero__now-link { display: block; overflow: hidden; text-overflow: ellipsis; color: #fff; font-size: var(--ab-fs-sm); font-weight: 600; line-height: 1.2; text-decoration: none; }
+.hm-hero__now-link:hover { color: #fff; text-decoration: underline; text-underline-offset: 4px; }
+.hm-hero__pause {
+  width: 36px; height: 36px; display: grid; place-items: center; border: 0; border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16); color: #fff; cursor: pointer; transition: background var(--ab-t-fast);
+}
+.hm-hero__pause:hover { background: rgba(255, 255, 255, 0.28); }
+/* Segmented progress: one short line per photo; done = solid, upcoming = faint, current fills over HERO_STEP_MS. */
+.hm-hero__segs { display: flex; align-items: center; gap: 3px; }
+.hm-hero__seg { position: relative; flex: 1; height: 3px; overflow: hidden; border-radius: 2px; background: rgba(255, 255, 255, 0.3); }
+.hm-hero__seg.is-done { background: rgba(255, 255, 255, 0.9); }
+.hm-hero__seg i { position: absolute; inset: 0; background: #fff; transform-origin: left; transform: scaleX(0); animation: hm-seg linear forwards; }
+@keyframes hm-seg { to { transform: scaleX(1); } }
+@media (prefers-reduced-motion: reduce) { .hm-hero__seg i { animation: none; transform: scaleX(1); } }
+.hm-hero__now a:focus-visible, .hm-hero__pause:focus-visible { outline: 2px solid #fff; outline-offset: 2px; border-radius: 999px; }
+@media (pointer: coarse) {
+  .hm-hero__pause { width: 44px; height: 44px; }
+  .hm-hero__now-info { position: relative; }
+  .hm-hero__now-link::after { content: ""; position: absolute; inset: -12px -8px; } /* 44px tap area over name + lines */
+}
+
+/* ── Section type: one title/sub scale for every section below the hero ── */
+.ab-home .hm-title { font-size: var(--ab-fs-h2); line-height: 1.1; max-width: 18ch; }
+.hm-sub { margin-top: 14px; max-width: 58ch; text-wrap: pretty; color: var(--ab-ink-2); font-size: var(--ab-fs-lead); line-height: 1.6; }
+.hm-kicker--light { color: var(--ab-amber-400); }
+.hm-sub--light { color: rgba(255, 255, 255, 0.78); }
+.hm-link--light, .hm-link--light:hover { color: #fff; }
+
+/* ── Explore services: category directory (owner 27 Sep). Spacing on the 8-pt scale (ui-ux-pro-max spacing-scale):
+   card padding 20, grid gap 24 (16 on tablets), 12 between name/count/list; service rows 40px with a mouse and 44px on
+   touch screens (touch-target-size). Every card is the same height: 3 services + a "+N more" row are always reserved. ── */
+.hm-dir { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; } /* 4 laptop · 3 tablet · list on phones */
+.hm-dir__card {
+  position: relative; display: flex; flex-direction: column; overflow: hidden;
+  border: 1px solid var(--ab-line); border-radius: 20px; background: #fff;
+  transition: box-shadow var(--ab-t) var(--ab-ease), transform var(--ab-t) var(--ab-ease);
+}
+.hm-dir__card:hover { box-shadow: 0 16px 36px -16px rgba(15, 23, 42, 0.24); transform: translateY(-2px); }
+.hm-dir__card--skeleton { min-height: 420px; border: 0; }
+.hm-dir__photo { position: relative; display: block; aspect-ratio: 16 / 9; background: var(--ab-soft); } /* close to the hero's own shape: the same photo, not a zoomed strip */
+.hm-dir__photo img { object-fit: cover; }
+.hm-dir__body { --row: 36px; position: relative; display: flex; flex-direction: column; flex: 1; padding: 20px; }
+@media (pointer: coarse) { .hm-dir__body { --row: 44px; } } /* touch: every link at least 44px */
+.ab-home .hm-dir__name { margin: 0 0 16px; /* heading-to-list gap > gap between services (proximity); .ab-home h3 zeroes margins, so same specificity */ font-size: var(--ab-fs-h3); font-weight: 700; line-height: 1.3; color: var(--ab-ink); }
+.hm-dir__count { display: none; } /* phones only (below) */
+.hm-dir__list { list-style: none; margin: 0 0 12px; padding: 0; min-height: calc(3 * var(--row)); }
+.hm-dir__list a {
+  display: block; line-height: var(--row); color: var(--ab-ink-2); font-size: var(--ab-fs-body);
+  text-decoration: none; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; /* one line each; full name on hover */
+}
+.hm-dir__list a:hover { color: var(--ab-navy); text-decoration: underline; text-underline-offset: 3px; }
+.hm-dir__all {
+  margin-top: auto; display: inline-flex; align-items: center; gap: 8px; min-height: var(--row); align-self: flex-start;
+  color: var(--ab-navy); font-weight: 600; text-decoration: none;
+}
+.hm-dir__all svg { transition: transform var(--ab-t-fast) var(--ab-ease); }
+.hm-dir__all:hover { color: var(--ab-navy); }
+.hm-dir__all:hover svg { transform: translateX(3px); }
+.hm-dir__chev { display: none; }
+.hm-dir__end {
+  display: flex; flex-direction: column; justify-content: flex-end; gap: 4px; min-height: 260px; padding: 24px;
+  border: 0; border-radius: 20px; background: var(--ab-navy); color: #fff; text-decoration: none; text-align: left;
+  font: inherit; cursor: pointer; transition: transform var(--ab-t) var(--ab-ease);
+}
+.hm-dir__end:hover { color: #fff; transform: translateY(-2px); }
+.hm-dir__end-icon { width: 48px; height: 48px; margin-bottom: auto; display: grid; place-items: center; border-radius: 50%; background: rgba(255, 255, 255, 0.14); }
+.hm-dir__end-title { font-size: var(--ab-fs-h3); font-weight: 700; }
+.hm-dir__end-sub { font-size: var(--ab-fs-sm); color: rgba(255, 255, 255, 0.8); }
+.hm-dir a:focus-visible, .hm-dir button:focus-visible { outline: 2px solid var(--ab-navy); outline-offset: 2px; border-radius: 6px; }
+.hm-dir__end:focus-visible { outline-offset: 3px; border-radius: 20px; }
+@media (max-width: 1199.9px) { .hm-dir { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 991.9px) { .hm-dir { gap: 16px; } }
+/* Phones: one compact row per category (photo, name, count, arrow); the whole row opens the category. */
+@media (max-width: 767.9px) {
+  .hm-dir { grid-template-columns: 1fr; gap: 12px; }
+  .hm-dir__card { flex-direction: row; align-items: center; gap: 16px; padding: 12px; border-radius: 16px; }
+  .hm-dir__card:hover { transform: none; }
+  .hm-dir__card--skeleton { min-height: 88px; }
+  .hm-dir__photo { flex: 0 0 88px; height: 64px; aspect-ratio: auto; border-radius: 12px; overflow: hidden; }
+  .hm-dir__list { display: none; }
+  /* The row is one tap target: "View all" stays (screen readers read its label) and stretches over the whole row. */
+  .hm-dir__all { position: static; min-height: 0; margin: 0; font-size: 0; }
+  .hm-dir__all svg { display: none; }
+  .hm-dir__all::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+  .hm-dir__count { display: block; margin: 2px 0 0; color: var(--ab-ink-3); font-size: var(--ab-fs-sm); }
+  .hm-dir__body { padding: 0; }
+  .ab-home .hm-dir__name { margin: 0; font-size: var(--ab-fs-body); }
+  .hm-dir__chev { display: grid; place-items: center; width: 40px; height: 40px; margin-left: auto; flex-shrink: 0; border-radius: 50%; background: var(--ab-soft); color: var(--ab-navy); }
+  .hm-dir__end { flex-direction: row; align-items: center; justify-content: flex-start; gap: 16px; min-height: 0; padding: 16px; border-radius: 16px; }
+  .hm-dir__end-icon { width: 40px; height: 40px; margin: 0; }
+  .hm-dir__end-sub { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .hm-dir__card, .hm-dir__end, .hm-dir__all svg { transition: none; } }
+
+/* ── How it works: a journey (one photo per step, auto-advancing, click to jump) ── */
+.hm-how { background: var(--ab-cream); }
+.hm-how__grid { display: grid; grid-template-columns: 5fr 6fr; gap: clamp(40px, 5vw, 72px); align-items: center; }
+.hm-how__media { position: relative; aspect-ratio: 4 / 3; overflow: hidden; border-radius: 24px; background: var(--ab-soft); }
+/* Same true crossfade as the hero: the new step's photo fades in on top; the old one stays until it has. */
+.hm-how__media img { object-fit: cover; opacity: 0; z-index: 0; transform: scale(1.03); transition: opacity 0s linear 900ms, transform 0s linear 900ms; }
+.hm-how__media img.is-on { opacity: 1; z-index: 1; transform: none; transition: opacity 900ms var(--ab-ease), transform 1400ms var(--ab-ease); }
+.hm-how__badge {
+  position: absolute; z-index: 2; /* above the crossfading photos (z-index 0/1) */ left: 16px; bottom: 16px;
+  padding: 8px 14px; border-radius: var(--ab-r-full);
+  background: rgba(255, 255, 255, 0.92); color: var(--ab-ink);
+  font-size: var(--ab-fs-sm); font-weight: 600; font-variant-numeric: tabular-nums;
+}
+/* Step card over the photo: what this step looks like in the product */
+.hm-scene {
+  position: absolute; z-index: 2; /* above the crossfading photos (z-index 0/1) */ right: 20px; bottom: 20px; width: min(280px, calc(100% - 40px));
+  padding: 16px 18px; border-radius: 16px; background: #fff;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.18);
+  animation: hm-scene 600ms var(--ab-ease) both;
+}
+@keyframes hm-scene { from { opacity: 0; transform: translateY(14px); } }
+.hm-scene p { margin: 0; }
+.hm-scene__title { display: flex; align-items: center; gap: 8px; margin-bottom: 10px !important; font-weight: 700; color: var(--ab-ink); }
+.hm-scene__title svg { color: var(--ab-success, #177245); }
+.hm-scene__row { display: flex; align-items: center; gap: 8px; padding: 6px 0; font-size: var(--ab-fs-sm); color: var(--ab-ink-2); }
+.hm-scene__row + .hm-scene__row { border-top: 1px solid var(--ab-line); }
+.hm-scene__row svg { color: var(--ab-ink-3); flex-shrink: 0; }
+.hm-scene__muted { color: var(--ab-ink-3); }
+.hm-scene__ok { display: inline-flex; align-items: center; gap: 6px; margin: 8px 0 !important; padding: 4px 10px; border-radius: var(--ab-r-full); background: var(--ab-success-50, #ecf7f0); color: var(--ab-success, #177245); font-size: var(--ab-fs-sm); font-weight: 600; }
+.hm-scene__avatar { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; background: var(--ab-navy-50); color: var(--ab-navy) !important; }
+.hm-scene__code { margin-left: auto; letter-spacing: 0.2em; font-variant-numeric: tabular-nums; color: var(--ab-ink); }
+.hm-scene__btn { display: block; margin-top: 12px; padding: 9px; border-radius: 10px; background: var(--ab-navy); color: #fff; text-align: center; font-size: var(--ab-fs-sm); font-weight: 600; }
+
+.hm-how__steps { position: relative; list-style: none; margin: 24px 0 28px; padding: 0; display: grid; grid-auto-rows: 1fr; gap: 0; } /* equal steps: 1→2 = 2→3 */
+/* Segment from this step's circle centre (32px down) to the next one's: one row down, since rows are equal. */
+.hm-how__seg { position: absolute; left: 35px; top: 32px; height: 100%; width: 2px; background: var(--ab-line-2); }
+.hm-how__seg-fill { position: absolute; inset: 0; background: var(--ab-navy); transform-origin: top; transform: scaleY(0); }
+.hm-how__seg-fill.is-full { transform: scaleY(1); }
+.hm-how__seg-fill.is-running { animation: hm-how-seg 5s linear forwards; } /* = HOW_STEP_MS */
+@keyframes hm-how-seg { to { transform: scaleY(1); } }
+.hm-how__step { position: relative; }
+.hm-how__btn {
+  width: 100%;
+  display: grid; grid-template-columns: 40px 1fr; gap: 18px; align-items: start;
+  padding: 12px 16px; border: 0; border-radius: 16px; background: transparent;
+  color: inherit; font: inherit; text-align: left; cursor: pointer;
+  transition: background var(--ab-t) var(--ab-ease), box-shadow var(--ab-t) var(--ab-ease);
+}
+.hm-how__btn:hover .hm-how__name { color: var(--ab-ink); }
+.hm-how__num {
+  position: relative; z-index: 1;
+  width: 40px; height: 40px; display: grid; place-items: center;
+  border: 2px solid var(--ab-line-2); border-radius: 50%; background: var(--ab-cream); color: var(--ab-ink-3);
+  font-weight: 700; font-variant-numeric: tabular-nums;
+  transition: background var(--ab-t), border-color var(--ab-t), color var(--ab-t);
+}
+.hm-how__step.is-done .hm-how__num { border-color: var(--ab-navy); color: var(--ab-navy); }
+.hm-how__step.is-on .hm-how__num { border-color: var(--ab-navy); background: var(--ab-navy); color: #fff; }
+.hm-how__name { display: block; font-size: var(--ab-fs-h3); font-weight: 600; line-height: 1.3; letter-spacing: -0.01em; color: var(--ab-ink-3); transition: color var(--ab-t); }
+.hm-how__text { display: block; margin-top: 4px; color: var(--ab-ink-3); line-height: 1.55; font-size: var(--ab-fs-body); text-wrap: pretty; }
+.hm-how__step.is-on .hm-how__name { color: var(--ab-ink); }
+.hm-how__step.is-on .hm-how__text { color: var(--ab-ink-2); }
+
+/* ── Why Any-Buddy (option B): centred heading, five promises in one row with thin dividers ── */
+.hm-why__head { text-align: center; }
+.ab-home .hm-why .hm-title { max-width: none; text-wrap: balance; }
+.hm-why__head .hm-sub { margin-inline: auto; }
+.hm-why__row { list-style: none; margin: var(--hm-head-gap) 0 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); }
+.hm-why__item { padding: 4px 24px; border-left: 1px solid var(--ab-line); }
+.hm-why__item:first-child { padding-left: 0; border-left: 0; }
+.hm-why__item:last-child { padding-right: 0; }
+.hm-why__icon {
+  width: 44px; height: 44px; display: grid; place-items: center; margin-bottom: 18px;
+  border-radius: 12px; background: var(--ab-amber-100); color: var(--ab-amber-700);
+  transition: transform var(--ab-t) var(--ab-ease);
+}
+.hm-why__item:hover .hm-why__icon { transform: translateY(-3px); }
+.hm-why__item h3 { font-size: var(--ab-fs-h3); font-weight: 600; letter-spacing: -0.01em; }
+.hm-why__item p { margin-top: 8px; color: var(--ab-ink-2); font-size: var(--ab-fs-body); line-height: 1.6; text-wrap: pretty; }
+.hm-why__more { margin-top: 36px; text-align: center; }
+
+/* ── Reviews: cream band (alternates with the white Why above and white CTAs below) ── */
+.hm-reviews-band { background: var(--ab-cream); }
+/* Call-to-action cards (App, then For local pros): back to back they share one gap, not two. */
+.hm-cta + .hm-cta { padding-top: 0; }
+.hm-reviews { list-style: none; margin: var(--hm-head-gap) 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+.hm-review { padding: 28px; border: 1px solid var(--ab-line); border-radius: 20px; background: #fff; }
+.hm-review__stars { display: inline-flex; gap: 2px; color: var(--ab-line-2); }
+.hm-review__stars .is-on { color: var(--ab-amber-400); fill: currentColor; }
+.hm-review blockquote { margin: 16px 0 20px; font-size: var(--ab-fs-body); line-height: 1.6; color: var(--ab-ink); }
+.hm-review cite { font-style: normal; font-weight: 600; color: var(--ab-ink-2); }
+
+/* ── Become a Buddy: copy + photo in one card ── */
+.hm-pro {
+  display: grid; grid-template-columns: 1.05fr 0.95fr; overflow: hidden;
+  border: 1px solid var(--ab-line); border-radius: 28px; background: #fff;
+}
+.hm-pro__copy { padding: clamp(32px, 5vw, 64px); }
+.hm-pro__list { list-style: none; margin: 24px 0 32px; padding: 0; display: grid; gap: 12px; }
+.hm-pro__list li { display: flex; align-items: center; gap: 12px; color: var(--ab-ink-2); }
+.hm-pro__list svg { flex-shrink: 0; color: var(--ab-success, #177245); }
+.hm-pro__media { position: relative; min-height: 360px; background: var(--ab-soft); }
+.hm-pro__media img { object-fit: cover; transition: transform 900ms var(--ab-ease); }
+.hm-pro:hover .hm-pro__media img { transform: scale(1.03); }
+
+/* ── The app: navy card, copy + a phone drawn in CSS ── */
+.hm-app {
+  display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 48px; align-items: center; overflow: hidden;
+  padding: clamp(32px, 5vw, 64px) clamp(32px, 5vw, 64px) 0; border-radius: 28px;
+  background: radial-gradient(120% 90% at 100% 0%, #31437a 0%, var(--ab-navy) 55%); color: #fff;
+}
+.ab-home .hm-app h2 { color: #fff; }
+.hm-app__copy { padding-bottom: clamp(32px, 5vw, 64px); }
+.hm-app__points { list-style: none; margin: 24px 0 0; padding: 0; display: grid; gap: 10px; }
+.hm-app__points li { display: flex; align-items: center; gap: 12px; color: rgba(255, 255, 255, 0.9); font-weight: 500; }
+.hm-app__points svg { color: var(--ab-amber-400); }
+.hm-app__stores { display: flex; gap: 12px; margin-top: 28px; }
+
+/* Real App Store screens, fanned: back one tilted, front one straight; hover brings them level */
+.hm-app__shots { position: relative; justify-self: center; align-self: end; width: 340px; height: 460px; }
+.hm-app__shot {
+  position: absolute; bottom: 0; width: 230px; height: auto; border-radius: 22px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+  transition: transform 600ms var(--ab-ease);
+}
+.hm-app__shot--back { left: 0; transform: rotate(-7deg) translateY(24px); opacity: 0.92; }
+.hm-app__shot--front { right: 0; transform: rotate(3deg); }
+.hm-app:hover .hm-app__shot--back { transform: rotate(-4deg) translateY(12px); }
+.hm-app:hover .hm-app__shot--front { transform: rotate(0deg) translateY(-8px); }
+
+/* ── Loading skeletons ── */
+.is-skeleton { background: linear-gradient(90deg, var(--ab-soft) 25%, #efefef 37%, var(--ab-soft) 63%); background-size: 400% 100%; animation: hm-shimmer 1.4s ease infinite; }
+@keyframes hm-shimmer { from { background-position: 100% 0; } to { background-position: 0 0; } }
+
+/* ── Scroll reveal (only added by JS; content visible without it) ── */
+
+.ab-home a:focus-visible, .ab-home button:focus-visible { outline: 2px solid var(--ab-navy); outline-offset: 3px; } /* search inputs show focus on their field instead */
+
+/* ── Responsive ── */
+@media (max-width: 1199.9px) {
+  .hm-reviews { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 991.9px) {
+  .hm-how__grid, .hm-pro { grid-template-columns: 1fr; } /* stack: photo above the text (was two squeezed columns on phones) */
+  .hm-how__media { aspect-ratio: 16 / 10; }
+  .hm-pro__media { min-height: 260px; order: -1; }
+}
+@media (max-width: 767.9px) {
+  .hm-hero__card { min-height: 0; }
+  .hm-hero__inner { padding-block: 112px 84px; } /* room for the category / pause group (54px + 16px) and a 14px gap */
+  .hm-hero__lead { font-size: var(--ab-fs-lead); }
+  .ab-sb--hero { margin-top: 20px; }
+  .ab-sb--hero .ab-sb { height: auto; }
+  /* Phone: the service is one 56px pill (TaskRabbit: one field, 56px); the location is a chip above it, like Urban
+     Company's address picker. "Change" / "Add your ZIP code" opens the full two-field form. */
+  .ab-sb--hero .ab-sb__chip {
+    display: inline-flex; align-items: center; gap: 6px; min-height: 36px; margin: 0 auto 10px; padding: 6px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.28); border-radius: 999px; background: rgba(255, 255, 255, 0.14);
+    color: #fff; font: 600 0.875rem/1.2 var(--ab-font); cursor: pointer;
+  }
+  .ab-sb__chip-change { font-weight: 500; text-decoration: underline; opacity: 0.85; }
+  .ab-sb--hero.is-loc-open .ab-sb__chip { display: none; }
+  .ab-sb--hero:not(.is-loc-open) .ab-sb { flex-direction: row; align-items: center; height: 56px; padding: 4px 4px 4px 8px; border-radius: 999px; }
+  .ab-sb--hero:not(.is-loc-open) .ab-sb__field:first-child,
+  .ab-sb--hero:not(.is-loc-open) .ab-sb__divider { display: none; }
+  .ab-sb--hero:not(.is-loc-open) .ab-sb__field--svc { padding: 0 10px; }
+  .ab-sb--hero:not(.is-loc-open) .ab-sb__field--svc .ab-sb__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .ab-sb--hero:not(.is-loc-open) .ab-sb__go { margin: 0; width: 48px; padding: 0; border-radius: 50%; }
+  .ab-sb--hero:not(.is-loc-open) .ab-sb__go span { display: none; }
+  .hm-hero__now { right: auto; left: 50%; bottom: 16px; transform: translateX(-50%); }
+  .hm-hero__trend { gap: 0 12px; }
+  .hm-reviews { grid-template-columns: 1fr; }
+  .hm-app__shots { width: 280px; height: 380px; }
+  .hm-app__shot { width: 190px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hm-how__seg-fill, .hm-scene { animation: none; }
+  .hm-hero__line, .hm-hero__now-names > span { transition: none; }
+  .hm-how__media img { transition: none; transform: none; }
+  .hm-hero__bg img { transition: none; }
+  .is-skeleton { animation: none; }
+  .ab-home *, .ab-home *::after { transition-duration: 0.01ms !important; }
+}
+

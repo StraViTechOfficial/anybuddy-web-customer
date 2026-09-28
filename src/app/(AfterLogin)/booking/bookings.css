@@ -1,0 +1,620 @@
+/* =====================================================================
+   Bookings: list, detail, cancel + review forms.
+   White canvas, hairline borders, one soft neutral shadow. Navy is only
+   used for the active tab, links, icons and the primary button.
+   ===================================================================== */
+
+/* ---------- status pill: icon + text, never colour alone ---------- */
+.ab-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: var(--ab-r-full);
+  font-size: var(--ab-fs-sm);
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+.ab-status--info {
+  background: var(--ab-navy-50);
+  border-color: var(--ab-navy-100);
+  color: var(--ab-navy);
+}
+.ab-status--success {
+  background: var(--ab-success-50);
+  border-color: #c6e8d4;
+  color: var(--ab-success);
+}
+.ab-status--danger {
+  background: var(--ab-danger-50);
+  border-color: #f5c2bd;
+  color: var(--ab-danger);
+}
+
+/* ---------- tabs ---------- */
+.ab-bk__tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 28px;
+  padding-bottom: 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 24px), transparent);
+  mask-image: linear-gradient(90deg, #000 calc(100% - 24px), transparent);
+}
+.ab-bk__tabs::-webkit-scrollbar {
+  display: none;
+}
+@media (min-width: 768px) {
+  .ab-bk__tabs {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}
+.ab-bk__tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  min-height: 44px;
+  padding: 10px 18px;
+  border-radius: var(--ab-r-full);
+  border: 1px solid var(--ab-line-2);
+  background: #fff;
+  color: var(--ab-ink-2);
+  font: 600 var(--ab-fs-body)/1 var(--ab-font);
+  cursor: pointer;
+  transition:
+    background-color var(--ab-t-fast) var(--ab-ease),
+    border-color var(--ab-t-fast) var(--ab-ease),
+    color var(--ab-t-fast) var(--ab-ease),
+    transform var(--ab-t-fast) var(--ab-ease);
+}
+.ab-bk__tab svg {
+  color: var(--ab-ink-3);
+}
+.ab-bk__tab:hover {
+  border-color: var(--ab-ink-3);
+  color: var(--ab-ink);
+}
+.ab-bk__tab:active {
+  transform: scale(0.98);
+}
+.ab-bk__tab[aria-selected="true"] {
+  background: var(--ab-navy);
+  border-color: var(--ab-navy);
+  color: #fff;
+}
+.ab-bk__tab[aria-selected="true"] svg {
+  color: #fff;
+}
+
+/* ---------- list grid + card ---------- */
+.ab-bk__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+@media (max-width: 767.9px) {
+  .ab-bk__grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+}
+.ab-bkcard {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 24px;
+  border-radius: var(--ab-r-lg);
+  background: #fff;
+  border: 1px solid var(--ab-line);
+  transition: box-shadow var(--ab-t) var(--ab-ease), border-color var(--ab-t) var(--ab-ease);
+}
+@media (hover: hover) {
+  .ab-bkcard:not(.ab-bkcard--skeleton):hover {
+    border-color: var(--ab-line-2);
+    box-shadow: var(--ab-sh-2);
+  }
+}
+.ab-bkcard--skeleton {
+  gap: 14px;
+}
+.ab-bkcard__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.ab-bkcard__titles {
+  min-width: 0;
+}
+.ab-bkcard__cat {
+  margin: 0 0 4px;
+  font-size: var(--ab-fs-sm);
+  font-weight: 600;
+  color: var(--ab-ink-3);
+  text-transform: capitalize;
+}
+.ab-bkcard__svc {
+  margin: 0;
+  font-size: var(--ab-fs-h3);
+  font-weight: 700;
+  line-height: 1.3;
+  text-transform: capitalize;
+  overflow-wrap: anywhere;
+}
+.ab-bkcard__pro {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.ab-bkcard__pro .ab-avatar {
+  box-shadow: none;
+  background: var(--ab-navy-100);
+  color: var(--ab-navy);
+}
+.ab-bkcard__label {
+  margin: 0;
+  font-size: var(--ab-fs-sm);
+  color: var(--ab-ink-3);
+}
+.ab-bkcard__name {
+  margin: 0;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+.ab-bkcard__meta {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 16px 0 0;
+  list-style: none;
+  border-top: 1px solid var(--ab-line);
+  color: var(--ab-ink-2);
+}
+.ab-bkcard__meta li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+}
+.ab-bkcard__meta svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: var(--ab-navy);
+}
+.ab-bkcard__sub {
+  display: block;
+  font-size: var(--ab-fs-sm);
+  color: var(--ab-ink-3);
+}
+.ab-bkcard__addr {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+.ab-bkcard__foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px 16px;
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--ab-line);
+}
+.ab-bkcard__total {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+.ab-bkcard__pay {
+  margin: 0;
+  font-size: var(--ab-fs-sm);
+  color: var(--ab-ink-3);
+}
+.ab-bkcard__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ab-bk__cancel {
+  min-height: 40px;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: var(--ab-r-full);
+  background: transparent;
+  color: var(--ab-danger);
+  font: 600 var(--ab-fs-sm)/1 var(--ab-font);
+  cursor: pointer;
+  transition: background-color var(--ab-t-fast) var(--ab-ease);
+}
+.ab-bk__cancel:hover {
+  background: var(--ab-danger-50);
+}
+.ab-bk__empty {
+  max-width: 720px;
+  margin-inline: auto;
+}
+.ab-bk__pager {
+  margin-top: 32px;
+}
+
+/* ---------- detail ---------- */
+.ab-bkd__back {
+  margin-bottom: 20px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: 600 var(--ab-fs-body)/1 var(--ab-font);
+}
+.ab-bkd__back svg {
+  transition: transform var(--ab-t) var(--ab-ease);
+}
+.ab-bkd__back:hover svg {
+  transform: translateX(-3px);
+}
+.ab-bkd {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 380px;
+  gap: 24px;
+  align-items: start;
+}
+@media (max-width: 991.9px) {
+  .ab-bkd {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.ab-bkd__main {
+  display: grid;
+  gap: 20px;
+  min-width: 0;
+}
+.ab-bkd__rail {
+  display: grid;
+  gap: 20px;
+  position: sticky;
+  top: 112px;
+}
+@media (max-width: 991.9px) {
+  .ab-bkd__rail {
+    position: static;
+  }
+}
+.ab-panel {
+  padding: 24px;
+  border-radius: var(--ab-r-lg);
+  background: #fff;
+  border: 1px solid var(--ab-line);
+  min-width: 0;
+}
+.ab-panel__title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 18px;
+  font-size: var(--ab-fs-body);
+  font-weight: 700;
+}
+.ab-panel__title svg {
+  color: var(--ab-navy);
+}
+.ab-bkd__summary {
+  display: grid;
+  gap: 10px;
+}
+.ab-bkd__summaryTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.ab-bkd__svc {
+  margin: 0;
+  font-size: var(--ab-fs-h1);
+  font-weight: 700;
+  line-height: 1.2;
+  text-transform: capitalize;
+  overflow-wrap: anywhere;
+}
+.ab-bkd__ids {
+  margin: 0;
+  color: var(--ab-ink-3);
+  font-size: var(--ab-fs-body);
+}
+
+/* timeline (was .ab-steps: that name is the booking stepper's in Components/booking.css, and this global rule
+   squeezed the stepper after client-side navigation) */
+.ab-timeline {
+  display: grid;
+  grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr));
+  margin: 22px 0 0;
+  padding: 20px 0 0;
+  list-style: none;
+  border-top: 1px solid var(--ab-line);
+}
+.ab-step {
+  position: relative;
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+  padding-right: 12px;
+  font-size: var(--ab-fs-sm);
+  color: var(--ab-ink-3);
+}
+.ab-step::before {
+  /* connector line to the next step */
+  content: "";
+  position: absolute;
+  top: 15px;
+  left: 36px;
+  right: 8px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--ab-line);
+}
+.ab-step:last-child::before {
+  display: none;
+}
+.ab-step--done::before {
+  background: var(--ab-navy);
+}
+.ab-step__dot {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--ab-line-2);
+  background: #fff;
+  color: var(--ab-ink-3);
+}
+.ab-step--done .ab-step__dot {
+  border-color: var(--ab-navy);
+  background: var(--ab-navy);
+  color: #fff;
+}
+.ab-step--current .ab-step__dot {
+  border-color: var(--ab-navy);
+  color: var(--ab-navy);
+}
+.ab-step--stop .ab-step__dot {
+  border-color: var(--ab-danger);
+  background: var(--ab-danger);
+  color: #fff;
+}
+.ab-step b {
+  display: block;
+  color: var(--ab-ink);
+  font-weight: 600;
+}
+.ab-step--pending b {
+  color: var(--ab-ink-3);
+  font-weight: 500;
+}
+
+/* definition rows */
+.ab-rows {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+}
+.ab-rows > div {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 4px 12px;
+  align-items: start;
+}
+.ab-rows svg {
+  grid-row: span 2;
+  margin-top: 2px;
+  color: var(--ab-navy);
+}
+.ab-rows dt {
+  font-size: var(--ab-fs-sm);
+  font-weight: 600;
+  color: var(--ab-ink-3);
+}
+.ab-rows dd {
+  margin: 0;
+  color: var(--ab-ink);
+  overflow-wrap: anywhere;
+}
+
+/* provider block */
+.ab-bkd__pro {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.ab-bkd__pro .ab-avatar {
+  box-shadow: none;
+  background: var(--ab-navy-100);
+  color: var(--ab-navy);
+}
+.ab-bkd__proName {
+  margin: 0;
+  font-size: var(--ab-fs-h3);
+  font-weight: 700;
+  text-transform: capitalize;
+}
+.ab-bkd__rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 2px 0 0;
+  color: var(--ab-ink-2);
+  font-size: var(--ab-fs-body);
+}
+.ab-bkd__rating svg {
+  fill: var(--ab-ink);
+  color: var(--ab-ink);
+}
+.ab-bkd__contact {
+  display: grid;
+  gap: 10px;
+  margin: 18px 0 0;
+  padding: 16px 0 0;
+  list-style: none;
+  border-top: 1px solid var(--ab-line);
+}
+.ab-bkd__contact a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ab-ink) !important;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+.ab-bkd__contact svg {
+  flex-shrink: 0;
+  color: var(--ab-navy);
+}
+.ab-bkd__photos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 10px;
+}
+.ab-bkd__photo {
+  aspect-ratio: 1;
+  padding: 0;
+  border: 1px solid var(--ab-line);
+  border-radius: var(--ab-r-md);
+  overflow: hidden;
+  background: var(--ab-soft);
+  cursor: zoom-in;
+}
+.ab-bkd__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--ab-t) var(--ab-ease);
+}
+.ab-bkd__photo:hover img {
+  transform: scale(1.04);
+}
+.ab-bkd__note {
+  margin: 0;
+  color: var(--ab-ink-2);
+  line-height: 1.6;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+/* receipt */
+.ab-receipt {
+  box-shadow: var(--ab-sh-2);
+}
+.ab-receipt__lines {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+}
+.ab-receipt__lines > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+}
+.ab-receipt__lines dt {
+  font-weight: 400;
+  color: var(--ab-ink-2);
+  min-width: 0;
+}
+.ab-receipt__lines dt small {
+  display: block;
+  color: var(--ab-ink-3);
+  font-size: var(--ab-fs-sm);
+}
+.ab-receipt__lines dd {
+  margin: 0;
+  white-space: nowrap;
+}
+.ab-receipt__total {
+  margin-top: 4px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--ab-line-2);
+}
+.ab-receipt__total dt,
+.ab-receipt__total dd {
+  color: var(--ab-ink) !important;
+  font-weight: 700;
+  font-size: 1.125rem;
+}
+.ab-receipt__pay {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 18px 0 0;
+  padding: 12px 14px;
+  border-radius: var(--ab-r-md);
+  background: var(--ab-soft);
+  color: var(--ab-ink-2);
+  font-size: var(--ab-fs-body);
+}
+.ab-receipt__pay svg {
+  color: var(--ab-navy);
+}
+.ab-receipt .ab-btn {
+  margin-top: 18px;
+}
+.ab-receipt__rated {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 18px 0 0;
+  color: var(--ab-ink-2);
+}
+.ab-receipt__rated svg {
+  fill: var(--ab-ink);
+}
+.ab-bkd__cancelled {
+  border-color: #f5c2bd;
+  background: var(--ab-danger-50);
+}
+.ab-bkd__cancelled .ab-panel__title svg {
+  color: var(--ab-danger);
+}
+
+/* ---------- cancel + review forms (inside CommanModal) ---------- */
+.ab-mform {
+  display: grid;
+  gap: 4px;
+}
+.ab-mform__intro {
+  margin: 0 0 16px;
+  color: var(--ab-ink-2);
+  line-height: 1.55;
+}
+.ab-mform textarea.ab-input {
+  min-height: 132px;
+  resize: vertical;
+}
+.ab-mform__rating {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  margin-bottom: 18px;
+  padding: 18px;
+  border-radius: var(--ab-r-md);
+  background: var(--ab-soft);
+}
+.ab-mform__rating svg {
+  display: inline-block;
+}
+.ab-btn--danger {
+  --_bg: var(--ab-danger);
+}
+
+/* Job code panel on the booking page. */
+.ab-jobcode { display: grid; gap: 4px; }
+.ab-jobcode__label { margin: 0; font-size: var(--ab-fs-sm); color: var(--ab-ink-3); }
+.ab-jobcode__code { margin: 0; font-size: var(--ab-fs-h2); font-weight: 700; letter-spacing: 0.2em; color: var(--ab-navy); }
+.ab-jobcode__note { margin: 0; font-size: var(--ab-fs-sm); color: var(--ab-ink-2); }

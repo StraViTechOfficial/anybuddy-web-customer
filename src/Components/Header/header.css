@@ -1,0 +1,360 @@
+/* Round icon button, also used by the auth pages (AuthLayout.jsx) */
+.ab-icon-btn {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--ab-ink) !important;
+  transition: background-color var(--ab-t-fast) var(--ab-ease), transform var(--ab-t-fast) var(--ab-ease);
+}
+.ab-icon-btn:hover {
+  background: var(--ab-soft);
+}
+.ab-icon-btn:active {
+  transform: scale(0.95);
+}
+
+/* ───────── Header ─────────
+   A floating white card, 16px from the top and inside the page width, fixed while scrolling.
+   Home: page links, swapped for a small search pill once the hero search is out of view (.has-pill).
+   Other pages: always the pill. .ab-hd-space reserves its height on every page, so nothing sits under it. */
+.ab-hd-space { height: 104px; }
+.ab-hd {
+  position: fixed;
+  inset: 16px 0 auto;
+  z-index: 40;
+  pointer-events: none; /* only the card and the open search take clicks */
+}
+/* One easing for every header change: quick start, long soft landing. */
+.ab-hd { --hd-ease: cubic-bezier(0.22, 1, 0.36, 1); --hd-t: 520ms; }
+.ab-hd__card {
+  pointer-events: auto;
+  width: min(calc(100% - 32px), 1120px);
+  margin-inline: auto;
+  background: #fff;
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  border-radius: 20px;
+  box-shadow: 0 6px 24px rgba(15, 23, 42, 0.08);
+  transition: width var(--hd-t) var(--hd-ease), box-shadow var(--hd-t) var(--hd-ease);
+}
+.ab-hd.is-scrolled .ab-hd__card { box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12); }
+/* Scrolled: the card tightens around logo · search pill · account; with the search open it widens so the links breathe. */
+.ab-hd.has-pill:not(.is-open) .ab-hd__card { width: min(calc(100% - 32px), 920px); } /* size follows content: pill bar = compact (inner pages from the start, Home after scrolling) */
+.ab-hd-scrim { position: fixed; inset: 0; z-index: 39; background: rgba(15, 23, 42, 0.3); animation: ab-hd-fade var(--ab-t) var(--ab-ease); }
+@keyframes ab-hd-fade { from { opacity: 0; } }
+
+.ab-hd__row {
+  position: relative;
+  height: 72px;
+  padding-inline: 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: height var(--hd-t) var(--hd-ease);
+}
+.ab-hd__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ab-navy);
+  font-weight: 800;
+  font-size: 1.1875rem;
+  letter-spacing: -0.03em;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.ab-hd__brand:hover { color: var(--ab-navy); }
+.ab-hd__brand img { width: 56px; height: auto; transition: transform var(--ab-t) var(--ab-ease); } /* owner: bigger logo; the file is 125px wide, sharp up to ~56px on 2x screens */
+.ab-hd__brand:hover img { transform: rotate(-6deg) scale(1.05); }
+
+/* Centre: page links, replaced by the search pill (it rises in as the hero search leaves) */
+.ab-hd__nav {
+  position: absolute;
+  white-space: nowrap;
+  left: 50%;
+  top: 50%;
+  display: flex;
+  gap: 4px;
+  transform: translate(-50%, -50%);
+  transition: opacity 280ms var(--hd-ease), transform var(--hd-t) var(--hd-ease);
+}
+.ab-hd__nav-link {
+  padding: 10px 16px;
+  border-radius: var(--ab-r-full);
+  font-size: var(--ab-fs-body);
+  font-weight: 500;
+  color: var(--ab-ink-2);
+  text-decoration: none;
+  transition: background var(--ab-t-fast) var(--ab-ease), color var(--ab-t-fast);
+  white-space: nowrap;
+}
+.ab-hd__nav-link:hover { background: var(--ab-soft); color: var(--ab-ink); }
+.has-pill:not(.is-open) .ab-hd__nav { opacity: 0; pointer-events: none; transform: translate(-50%, -90%); }
+.ab-hd__nav-link--open { display: none; }
+.is-open .ab-hd__nav-link--open { display: inline-flex; } /* joins the links while open... */
+.is-open .ab-hd__right .ab-hd__link { display: none; } /* ...instead of sitting on the right */
+
+.ab-hd__pill {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: flex;
+  align-items: center;
+  height: 48px;
+  padding: 0 5px 0 4px;
+  border-radius: var(--ab-r-full);
+  background: var(--ab-soft); /* a flat field in the bar: no border or shadow of its own */
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 10%) scale(0.92);
+  transition: transform var(--hd-t) var(--hd-ease), opacity 320ms var(--hd-ease), background var(--ab-t-fast);
+}
+.has-pill .ab-hd__pill { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%); }
+.is-open .ab-hd__pill { opacity: 0; pointer-events: none; transform: translate(-50%, 20%) scale(1.3); }
+.ab-hd__pill:hover { background: #efefef; }
+.ab-hd__pill-icon { display: none; }
+/* One line, "…" when long: a wrapped label was clipped to "Weston," on phones. */
+.ab-hd__pill-text { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.ab-hd__pill-part {
+  position: relative;
+  max-width: 200px;
+  height: 38px;
+  padding: 0 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border: 0;
+  border-radius: var(--ab-r-full);
+  background: transparent;
+  color: var(--ab-ink);
+  font: inherit;
+  font-size: var(--ab-fs-body);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--ab-t-fast), box-shadow var(--ab-t-fast);
+}
+.ab-hd__pill-part:hover { background: #fff; box-shadow: 0 1px 4px rgba(15, 23, 42, 0.1); }
+.ab-hd__pill-part + .ab-hd__pill-part::before { content: ""; position: absolute; left: 0; top: 12px; bottom: 12px; width: 1px; background: var(--ab-line-2); }
+.ab-hd__pill:hover .ab-hd__pill-part::before { opacity: 0; }
+.ab-hd__go--sm { border: 0; cursor: pointer; }
+
+/* Search + page links, dropping below the bar (the bar itself never grows) */
+.ab-hd__panel { pointer-events: auto; display: grid; grid-template-rows: 0fr; transition: grid-template-rows var(--hd-t) var(--hd-ease); }
+.is-open .ab-hd__panel { grid-template-rows: 1fr; }
+.ab-hd__panel-in { overflow: hidden; min-height: 0; padding: 10px 16px 24px; margin: -10px -16px -24px; } /* room for the card's shadow */
+.is-open .ab-hd__panel-in { overflow: visible; } /* so the service suggestions can drop below the panel */
+.ab-hd__drop {
+  width: min(calc(100% - 32px), 880px);
+  margin: 14px auto 0;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  border-radius: 20px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.16);
+  opacity: 0;
+  transform: translateY(-12px) scale(0.98);
+  transition: transform var(--hd-t) var(--hd-ease), opacity 280ms var(--hd-ease);
+}
+.is-open .ab-hd__drop { opacity: 1; transform: none; }
+.ab-hd__drop .ab-sb { height: 76px; box-shadow: none; }
+.ab-hd__drop .ab-sb__field input { font-size: var(--ab-fs-body); }
+.ab-hd__drop .ab-sb__go { height: 58px; padding: 0 22px; }
+.ab-hd__drop .ab-sb__go span { max-width: none; }
+.has-pill:not(.is-open) .ab-hd__row { cursor: pointer; }
+
+/* Right side */
+.ab-hd__right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; margin-left: auto; }
+.ab-hd__link {
+  padding: 10px 14px;
+  border-radius: var(--ab-r-full);
+  font-size: var(--ab-fs-sm);
+  font-weight: 600;
+  color: var(--ab-ink);
+  text-decoration: none;
+  transition: background var(--ab-t-fast) var(--ab-ease);
+}
+.ab-hd__link:hover { background: var(--ab-soft); color: var(--ab-ink); }
+.ab-hd__icon {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--ab-ink);
+  transition: background var(--ab-t-fast) var(--ab-ease);
+}
+.ab-hd__icon:hover { background: var(--ab-soft); color: var(--ab-ink); }
+.ab-hd__dot {
+  position: absolute;
+  top: 6px;
+  right: 5px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: var(--ab-r-full);
+  background: var(--ab-danger);
+  color: #fff;
+  font-size: var(--ab-fs-xs);
+  font-weight: 700;
+  line-height: 18px;
+  text-align: center;
+  box-shadow: 0 0 0 2px #fff;
+}
+.ab-hd__account {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 44px;
+  padding: 0 6px 0 14px;
+  border: 1px solid var(--ab-line-2);
+  border-radius: var(--ab-r-full);
+  background: var(--ab-canvas);
+  color: var(--ab-ink);
+  cursor: pointer;
+  transition: box-shadow var(--ab-t) var(--ab-ease);
+}
+.ab-hd__account:hover { box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08), 0 6px 16px rgba(0, 0, 0, 0.08); }
+.ab-hd__avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: var(--ab-ink-2);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+.ab-hd__avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Log in in the bar (logged out, wide screens); sign-up is reached from the login page */
+.ab-hd__login {
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 18px;
+  border-radius: var(--ab-r-full);
+  background: var(--ab-navy);
+  color: #fff;
+  font-size: var(--ab-fs-sm);
+  font-weight: 600;
+  text-decoration: none;
+  transition: background var(--ab-t-fast), transform var(--ab-t-fast) var(--ab-ease);
+}
+.ab-hd__login:hover { background: var(--ab-navy-600); color: #fff; }
+.ab-hd__login:active { transform: scale(0.97); }
+
+/* Account menu: a small popover under the avatar, not a side drawer */
+.ab-hd__menu-wrap { position: relative; }
+.ab-hd__menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 2;
+  width: 240px;
+  padding: 8px;
+  background: #fff;
+  border: 1px solid var(--ab-line);
+  border-radius: 16px;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.16);
+  transform-origin: top right;
+  animation: ab-hd-menu 200ms var(--hd-ease);
+}
+@keyframes ab-hd-menu { from { opacity: 0; transform: translateY(-6px) scale(0.97); } }
+.ab-hd__menu-nav { display: none; padding-bottom: 8px; margin-bottom: 8px; border-bottom: 1px solid var(--ab-line); }
+.ab-hd__menu-hi { margin: 4px 12px 6px; font-size: var(--ab-fs-sm); color: var(--ab-ink-3); }
+.ab-hd__menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--ab-ink);
+  font: inherit;
+  font-size: var(--ab-fs-body);
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background var(--ab-t-fast);
+}
+.ab-hd__menu-item:hover { background: var(--ab-soft); color: var(--ab-ink); }
+.ab-hd__menu-item svg { color: var(--ab-ink-3); }
+.ab-hd__menu-item--strong { font-weight: 600; color: var(--ab-navy); }
+@media (min-width: 992px) {
+  .ab-hd__menu-wrap--small { display: none; }
+}
+@media (max-width: 991.9px) {
+  .ab-hd__auth { display: none; }
+  .ab-hd__menu-nav { display: block; }
+}
+
+.ab-hd a:focus-visible,
+.ab-hd button:focus-visible { outline: 2px solid var(--ab-navy); outline-offset: 2px; }
+
+@media (max-width: 1099.9px) {
+  .ab-hd__link { display: none; }
+}
+/* Phone: logo mark · search pill · account. The pill opens the search as a stacked card. */
+@media (max-width: 991.9px) {
+  .ab-hd__nav { display: none; }
+}
+@media (max-width: 767.9px) {
+  .ab-hd { top: 8px; }
+  .ab-hd-space { height: 80px; }
+  .ab-hd__card, .ab-hd.is-scrolled.has-pill .ab-hd__card { width: calc(100% - 16px); border-radius: 16px; }
+  .ab-hd__row, .ab-hd.is-scrolled.has-pill .ab-hd__row { height: 60px; gap: 10px; padding-inline: 12px; }
+  .ab-hd__brand span { display: none; }
+  .ab-hd__brand img { width: 46px; }
+  .ab-hd__pill { position: static; flex: 1; min-width: 0; height: 44px; padding: 0 3px; transform: translateY(8px); }
+  .has-pill .ab-hd__pill { transform: none; }
+  .is-open .ab-hd__pill { transform: none; }
+  .ab-hd__pill-icon { display: block; flex-shrink: 0; }
+  .ab-hd__pill-part { flex: 1; display: flex; align-items: center; gap: 10px; max-width: none; padding: 0 14px; text-align: left; }
+  /* Phone: the whole pill opens the search, so no separate search circle; the avatar alone opens the menu.
+     (.ab-hd prefix: search.css loads later and would show the circle again.) */
+  .ab-hd .ab-hd__pill-part--cat, .ab-hd .ab-hd__go--sm { display: none; }
+  .ab-hd .ab-hd__account > svg { display: none; }
+  .ab-hd .ab-hd__account { padding: 3px; gap: 0; }
+  .ab-hd__drop { width: calc(100% - 16px); padding: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ab-hd *, .ab-hd-scrim { transition-duration: 0.01ms !important; animation: none !important; }
+}
+
+/* Drawer menu: vertical list at every width */
+.ab-drawer .ab-nav { display: flex; flex-direction: column; gap: 2px; }
+.ab-drawer .ab-header__actions { display: flex !important; flex-direction: column; align-items: stretch; gap: 8px; margin-top: 16px; }
+
+/* Unconfirmed-email reminder (EmailReminder.jsx): bottom-left card, out of the way of the header and page actions. */
+.ab-email-reminder {
+  position: fixed; left: 24px; bottom: 24px; z-index: 40; max-width: 420px;
+  display: flex; align-items: flex-start; gap: 12px; padding: 12px 8px 12px 16px;
+  background: var(--ab-navy); color: #fff; border-radius: 12px; box-shadow: 0 8px 24px rgba(16, 24, 48, 0.24);
+  font-size: var(--ab-fs-sm); line-height: 1.45;
+}
+.ab-email-reminder > svg { flex: none; margin-top: 2px; color: var(--ab-amber-400); }
+.ab-email-reminder p { margin: 0; flex: 1; }
+.ab-email-reminder p button {
+  padding: 0; border: 0; background: none; color: var(--ab-amber-400); font: inherit; font-weight: 600;
+  text-decoration: underline; text-underline-offset: 3px; cursor: pointer;
+}
+.ab-email-reminder p button:disabled { opacity: 0.6; cursor: default; }
+.ab-email-reminder__x {
+  flex: none; display: grid; place-items: center; width: 44px; height: 44px; margin: -12px 0;
+  border: 0; background: none; color: rgba(255, 255, 255, 0.8); border-radius: 8px; cursor: pointer;
+}
+.ab-email-reminder__x:hover { color: #fff; background: rgba(255, 255, 255, 0.1); }
+@media (max-width: 767px) {
+  .ab-email-reminder { left: 16px; right: 16px; bottom: 16px; max-width: none; }
+}

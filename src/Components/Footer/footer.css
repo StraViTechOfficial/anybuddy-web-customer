@@ -1,0 +1,68 @@
+/* Footer on the brand navy: logo + the owner's line, two link columns, the app. One base line underneath.
+   Contrast: link text rgba(255,255,255,.72) on #24345f = 7.6:1 (AA for small text). */
+.ab-footer {
+  --ft-slant: 5.3vw; /* tan(3deg) x width: the top edge rises 3 degrees to the right */
+  position: relative;
+  /* Never over the page: a minimum gap above, and the slant is cut into the footer's own top (clip-path)
+     instead of drawn above it, so no section of any page can end up under the band. */
+  margin-top: 24px;
+  padding-top: calc(clamp(48px, 6vw, 72px) + var(--ft-slant));
+  clip-path: polygon(0 var(--ft-slant), 100% 0, 100% 100%, 0 100%);
+  /* The same navy band as the log-in page (Components/(Auth)/style.css .ab-auth__band): dots, navy gradient,
+     amber edge, rising to the right. It ends every page, so the log-in band reads as the brand, not a one-off. */
+  background:
+    radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1.2px) 0 0 / 18px 18px,
+    linear-gradient(115deg, #17234a 0%, var(--ab-navy) 34%, #34509e 66%, #4d6fca 100%);
+  color: rgba(255, 255, 255, 0.72);
+}
+/* amber line along the slanted top edge */
+.ab-footer::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: calc(var(--ft-slant) + 5px);
+  background: linear-gradient(90deg, var(--ab-amber-400) 0%, rgba(232, 163, 61, 0.85) 60%, rgba(232, 163, 61, 0) 100%);
+  clip-path: polygon(0 var(--ft-slant), 100% 0, 100% 5px, 0 calc(var(--ft-slant) + 5px));
+  pointer-events: none;
+}
+.ab-footer__grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr 1.2fr;
+  gap: 40px 32px;
+  padding-bottom: clamp(40px, 5vw, 56px);
+}
+.ab-footer__logo { display: inline-flex; align-items: center; gap: 12px; color: #fff; font-size: 1.375rem; font-weight: 700; letter-spacing: -0.02em; text-decoration: none; }
+.ab-footer__logo:hover { color: #fff; }
+.ab-footer__tag { margin: 18px 0 8px; color: #fff; font-weight: 600; }
+.ab-footer__blurb { margin: 0; max-width: 38ch; line-height: 1.6; font-size: var(--ab-fs-body); }
+.ab-footer__h { margin: 4px 0 16px; color: #fff; font-size: var(--ab-fs-xs); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+.ab-footer__col ul { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.ab-footer a { color: rgba(255, 255, 255, 0.72); text-decoration: none; transition: color var(--ab-t-fast); }
+.ab-footer a:hover { color: #fff; }
+.ab-footer a:focus-visible { outline: 2px solid var(--ab-amber-400); outline-offset: 3px; border-radius: 4px; }
+.ab-footer__stores { display: flex; flex-wrap: wrap; gap: 10px; }
+.ab-footer__base {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
+  padding-block: 20px 28px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  font-size: var(--ab-fs-sm);
+}
+.ab-footer__base p { margin: 0; }
+.ab-footer__base a { color: #fff; font-weight: 600; }
+@media (max-width: 991.9px) {
+  .ab-footer__grid { grid-template-columns: 1fr 1fr; }
+  .ab-footer__brand { grid-column: 1 / -1; }
+}
+@media (max-width: 575.9px) {
+  .ab-footer__grid { grid-template-columns: 1fr 1fr; gap: 32px 20px; }
+  .ab-footer__col:last-child { grid-column: 1 / -1; }
+}
+.ab-footer .ab-footer__logo, .ab-footer .ab-footer__logo:hover { color: #fff; }
+/* Logo shown once, at a size where its own name and tagline are readable. */
+.ab-footer__logo img { width: 96px; height: auto; }
+.ab-footer__blurb { margin-top: 0; }

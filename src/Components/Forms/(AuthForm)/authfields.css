@@ -1,0 +1,304 @@
+/* ============ Auth form fields (signup, profile, OTP, reset/change password) ============
+   Not scoped to .ab-auth: SetProfile and ResetChangePasswordForm are also embedded on /profile. */
+
+/* field shell: .ab-field from ds.css + a relative box for the trailing button */
+.ab-control {
+  position: relative;
+}
+.ab-field .ab-control .form-control {
+  background: #fff !important;
+  border: 1px solid var(--ab-field) !important;
+}
+.ab-field .ab-control .form-control:focus {
+  border-color: var(--ab-navy) !important;
+}
+.ab-field .form-control:disabled {
+  background: var(--ab-soft) !important;
+  color: var(--ab-ink-3);
+  cursor: not-allowed;
+}
+.ab-field .form-control::placeholder {
+  color: #6b7280; /* 4.8:1 on white (was #8a93a8, 3.1:1): placeholders carry hints like "At least 8 characters" */
+}
+.ab-label__opt {
+  margin-left: 6px;
+  font-weight: 500;
+  color: var(--ab-ink-3);
+}
+
+/* password with show/hide button */
+.ab-pw .form-control {
+  padding-right: 56px;
+}
+.ab-pw__toggle {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  translate: 0 -50%;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ab-ink-3);
+  transition: background-color var(--ab-t-fast) var(--ab-ease), color var(--ab-t-fast) var(--ab-ease);
+}
+.ab-pw__toggle:hover {
+  background: var(--ab-soft);
+  color: var(--ab-ink);
+}
+.ab-pw__toggle:focus-visible {
+  outline: 2px solid var(--ab-navy);
+  outline-offset: 2px;
+}
+
+/* phone input inside an .ab-field */
+.ab-field .react-tel-input .form-control {
+  height: 46px !important; /* same as every other field, so the rows line up */
+  padding-left: 56px !important;
+}
+
+/* one-time code: six equal boxes that shrink to fit a 390px card */
+.ab-otp {
+  margin-bottom: 18px;
+}
+.ab-otp .ab-label {
+  display: block;
+  margin-bottom: 10px;
+  text-align: center;
+}
+.ab-otp .passcode-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 10px !important;
+}
+.ab-otp .passcode-wrapper input.otpInputs {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 56px;
+  width: 0 !important; /* basis 0 so six boxes always fit; the input's intrinsic width would widen the page */
+  height: 60px !important;
+  margin: 0;
+  padding: 0;
+  border-radius: var(--ab-r-md);
+  border: 1px solid var(--ab-field);
+  background: #fff;
+  color: var(--ab-ink);
+  font: 700 1.5rem/1 var(--ab-font);
+  font-variant-numeric: tabular-nums;
+  transition: border-color var(--ab-t-fast) var(--ab-ease), box-shadow var(--ab-t-fast) var(--ab-ease);
+}
+.ab-otp .passcode-wrapper input.otpInputs:focus {
+  outline: 0 !important;
+  border: 1px solid var(--ab-navy);
+  background: #fff;
+  color: var(--ab-ink);
+  box-shadow: 0 0 0 4px rgba(111, 131, 230, 0.22);
+}
+.ab-otp .ab-error {
+  justify-content: center;
+  margin-top: 10px;
+}
+.ab-otp__meta {
+  margin: 0 0 20px;
+  text-align: center;
+  color: var(--ab-ink-3);
+  font-size: var(--ab-fs-sm);
+}
+.ab-otp__resend {
+  display: flex;
+  justify-content: center;
+  margin-top: 6px;
+}
+.ab-textbtn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: var(--ab-r-full);
+  background: transparent;
+  color: var(--ab-navy);
+  font: 600 var(--ab-fs-body)/1 var(--ab-font);
+}
+.ab-textbtn:hover {
+  background: var(--ab-soft);
+}
+
+/* round icon above a step heading */
+.ab-step-icon {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  background: var(--ab-soft);
+  border: 1px solid var(--ab-line);
+  color: var(--ab-ink);
+}
+@media (min-width: 992px) {
+  .ab-auth .ab-step-icon {
+    display: none; /* the card already shows the logo mark at this width */
+  }
+}
+.ab-auth__head strong {
+  color: var(--ab-ink);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+/* submit row */
+.ab-form-actions {
+  margin-top: 8px;
+}
+.ab-form-note {
+  margin: 14px 0 20px;
+  text-align: center;
+  font-size: var(--ab-fs-sm);
+  line-height: 1.5;
+  color: var(--ab-ink-3);
+}
+.ab-form-note a {
+  color: var(--ab-navy);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ---------- SetProfile ---------- */
+.ab-sp__head {
+  display: none; /* only shown on the standalone auth screens; /profile has its own title */
+}
+.ab-auth .ab-sp__head {
+  display: block;
+}
+/* Six tracks: a field takes half (3), State / City / ZIP a third each (2), headings and street the full row. */
+.ab-sp__grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  column-gap: 16px;
+}
+.ab-sp__grid > .ab-field {
+  grid-column: span 3;
+  min-width: 0;
+  align-content: start; /* an error under one column must not stretch its neighbour */
+}
+.ab-sp__grid > .ab-sp__full {
+  grid-column: 1 / -1;
+}
+.ab-sp__grid > .ab-sp__third {
+  grid-column: span 2;
+}
+/* US only: once the country is set (United States) the field is not shown. */
+.ab-sp__country.is-set {
+  display: none;
+}
+.ab-sp__section {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0 14px;
+  font-size: var(--ab-fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ab-ink-3);
+}
+.ab-sp__section::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--ab-line);
+}
+.ab-sp__section:not(:first-child) {
+  margin-top: 14px;
+}
+
+/* profile photo: avatar with camera badge; ImageUploadInput's file input covers the circle */
+.ab-sp__photo {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+.ab-sp__avatar {
+  position: relative;
+  flex-shrink: 0;
+  width: 96px;
+  height: 96px;
+}
+.ab-sp__avatar .upload-btn-wrapper {
+  display: block;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px #fff, 0 0 0 5px var(--ab-line);
+}
+.ab-sp__avatar .upload-btn-wrapper .btn {
+  width: 96px;
+  height: 96px;
+  background: var(--ab-soft);
+  overflow: hidden;
+}
+.ab-sp__avatar .upload-btn-wrapper .btn img {
+  width: 96px !important;
+  height: 96px !important;
+  object-fit: cover;
+}
+.ab-sp__avatar progress {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: -14px;
+  width: auto !important;
+  accent-color: var(--ab-navy);
+}
+.ab-sp__cam {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--ab-ink);
+  color: #fff;
+  border: 3px solid #fff;
+  pointer-events: none;
+}
+.ab-sp__photo b {
+  display: block;
+  color: var(--ab-ink);
+  font-size: var(--ab-fs-body);
+}
+.ab-sp__photo small {
+  display: block;
+  color: var(--ab-ink-3);
+  font-size: var(--ab-fs-sm);
+}
+
+@media (max-width: 575.9px) {
+  .ab-sp__grid > .ab-field,
+  .ab-sp__grid > .ab-sp__third {
+    grid-column: 1 / -1; /* phones: one field per row */
+  }
+  .ab-sp__grid > .ab-sp__name {
+    grid-column: span 3; /* first and last name share a row, so sign-up fits a phone screen */
+  }
+  .ab-otp .passcode-wrapper {
+    gap: 8px !important;
+  }
+  .ab-otp .passcode-wrapper input.otpInputs {
+    height: 54px !important;
+  }
+}
+
+/* "We already sent you a code..." on a code step when no new code went out (one live code per account). */
+.ab-otp-notice { margin: 0 0 12px; padding: 10px 12px; border-radius: 10px; background: var(--ab-soft); color: var(--ab-ink-2); font-size: var(--ab-fs-sm); line-height: 1.45; }
