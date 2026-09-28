@@ -3,22 +3,25 @@ import AppleProvider from "next-auth/providers/apple";
 import GoogleProvider from "next-auth/providers/google";
 
 const handler = NextAuth({
+  // Each sign-in is switched on only when its settings exist, so a site without them (e.g. staging) still builds.
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    }),
+    process.env.GOOGLE_CLIENT_ID &&
+      GoogleProvider({
+        clientId: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      }),
 
-    AppleProvider({
-      clientId: process.env.APPLE_CLIENT_ID,
-      clientSecret: {
-        appleId: process.env.APPLE_CLIENT_ID,
-        teamId: process.env.APPLE_TEAM_ID,
-        privateKey: process.env.APPLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
-        keyId: process.env.APPLE_KEY_ID,
-      },
-    }),
-  ],
+    process.env.APPLE_PRIVATE_KEY &&
+      AppleProvider({
+        clientId: process.env.APPLE_CLIENT_ID,
+        clientSecret: {
+          appleId: process.env.APPLE_CLIENT_ID,
+          teamId: process.env.APPLE_TEAM_ID,
+          privateKey: process.env.APPLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+          keyId: process.env.APPLE_KEY_ID,
+        },
+      }),
+  ].filter(Boolean),
 
   secret: process.env.NEXTAUTH_SECRET,
 
