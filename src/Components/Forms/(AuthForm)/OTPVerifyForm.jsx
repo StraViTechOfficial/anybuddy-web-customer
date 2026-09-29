@@ -32,8 +32,8 @@ function OTPVerifyForm(props) {
     Cookies.remove("otpUntil");
     Cookies.remove("otpNotice");
   }, []);
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = seconds % 60;
+  // Whole minutes, never seconds (owner, 29 Sep); rounded up so it never reads "0 min" early.
+  const minutesLeft = Math.ceil(seconds / 60);
 
   useEffect(() => {
     if (seconds > 0) {
@@ -146,8 +146,7 @@ function OTPVerifyForm(props) {
         <p className="ab-otp__meta" aria-live="off">
           You can request a new code in{" "}
           <span className="ab-num">
-            {String(minutes).padStart(2, "0")}:
-            {String(remainingSeconds).padStart(2, "0")}
+            {minutesLeft} min
           </span>
         </p>
       )}

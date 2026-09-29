@@ -95,8 +95,8 @@ function MobileLogin(props) {
   };
 
   const [seconds, setSeconds] = useState(0);
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = seconds % 60;
+  // Whole minutes, never seconds (owner, 29 Sep); rounded up so it never reads "0 min" early.
+  const minutesLeft = Math.ceil(seconds / 60);
 
   useEffect(() => {
     if (seconds > 0) {
@@ -166,7 +166,7 @@ function MobileLogin(props) {
             <div className="ab-label-row">
               <label className="ab-label">Enter the 6-digit code we texted you</label>
               {seconds > 0 ? (
-                <span className="ab-otp-step__timer ab-num">Expires in {minutes}:{String(remainingSeconds).padStart(2, "0")}</span>
+                <span className="ab-otp-step__timer ab-num">Expires in {minutesLeft} min</span>
               ) : (
                 <button type="button" className="ab-link ab-link--sm ab-linkbtn" onClick={getOtp} disabled={loading1}>
                   Resend code
