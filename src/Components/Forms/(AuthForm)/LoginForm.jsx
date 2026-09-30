@@ -64,7 +64,7 @@ function LoginForm(props) {
         });
       } else {
         if (values.OTPshow) {
-          OTPVerificationApi({ otp: values.otp }).then((res) => {
+          OTPVerificationApi({ loginOtp: values.otp }).then((res) => {
             if (res?.status === 1) {
               toast.success(res.message);
               Cookies.set(TOKEN_NAME_REG, res?.data?.token);
