@@ -52,3 +52,25 @@ export const bookWith = (push, category, service, pro) => {
   }
   push(taskDoneFor(service) ? `/service/${category}/${service}` : taskPage);
 };
+
+// The payment step, kept for a payment method that leaves the site (Cash App Pay): /booking/return rebuilds the same
+// step from it when the customer comes back. Never holds the client secret (Stripe adds it to the return address).
+const CHECKOUT = "ab-checkout";
+export const saveCheckout = (ctx) => {
+  try {
+    sessionStorage.setItem(CHECKOUT, JSON.stringify(ctx));
+  } catch {}
+};
+export const readCheckout = (bookingId) => {
+  try {
+    const ctx = JSON.parse(sessionStorage.getItem(CHECKOUT) || "null");
+    return ctx && String(ctx.bookingId) === String(bookingId) ? ctx : null;
+  } catch {
+    return null;
+  }
+};
+export const clearCheckout = () => {
+  try {
+    sessionStorage.removeItem(CHECKOUT);
+  } catch {}
+};

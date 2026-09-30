@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   PaymentElement,
   useStripe,
@@ -11,6 +11,7 @@ import Loader from "@/Components/Loader/Loader";
 import Icon from "@/Components/ui/Icon";
 import { ConfirmPaymentApi } from "@/api/setting";
 import { ShowPrice } from "@/Until";
+import { saveCheckout } from "@/Until/bookingTask";
 import "../../booking.css";
 
 // How long to wait for Stripe's card form before offering a retry.
@@ -25,6 +26,9 @@ export default function CheckoutForm(props) {
   const [loadError, setLoadError] = useState(false);
   const [attempt, setAttempt] = useState(0);
   const [payError, setPayError] = useState("");
+  // Set by /booking/return after a payment that left the site didn't go through; cleared on the next try.
+  const [notice, setNotice] = useState(props.notice || "");
+  const method = useRef(""); // the chosen tab (card, cashapp, …), so the return page can name it
 
   useEffect(() => {
     if (ready || loadError) return;
@@ -38,13 +42,21 @@ export default function CheckoutForm(props) {
 
     setLoading(true);
     setPayError("");
+    setNotice("");
+    // For a method that leaves the site: /booking/return rebuilds this step (or the success screen) from it.
+    saveCheckout({
+      ...props.checkout,
+      returnPath: props.checkout?.returnPath || window.location.pathname, // the service page, to book again
+      bookingId: props.bookingId,
+      method: method.current,
+    });
 
     const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        // Only for methods that leave the page (Cash App Pay on a phone): Stripe sends the customer back here with
-        // payment_intent and redirect_status added, and the bookings page finishes the booking (confirm-payment).
-        return_url: `${window.location.origin}/booking?bookingId=${encodeURIComponent(props.bookingId)}`,
+        // Only for methods that leave the page (Cash App Pay): Stripe sends the customer back here with payment_intent,
+        // payment_intent_client_secret and redirect_status added; /booking/return shows the result like a card payment.
+        return_url: `${window.location.origin}/booking/return?bookingId=${encodeURIComponent(props.bookingId)}`,
         // Required by Stripe when the country field is hidden.
         payment_method_data: { billing_details: { address: { country: "US" } } },
       },
@@ -70,6 +82,13 @@ export default function CheckoutForm(props) {
       {/* One plain label and one trust line under the button (owner 28 Sep: the four stacked reassurances and an
           icon on every label read as generated). */}
       <p className="ab-card-form__title">Payment</p>
+
+      {notice && (
+        <div className="ab-alert ab-card-form__alert" role="alert">
+          <Icon name="alert" size={20} />
+          <p className="ab-card-form__alertText">{notice}</p>
+        </div>
+      )}
 
       {loadError ? (
         <div className="ab-alert ab-card-form__alert" role="alert">
@@ -120,6 +139,7 @@ export default function CheckoutForm(props) {
                 wallets: { applePay: "auto", googlePay: "auto", link: "never" },
                 fields: { billingDetails: { address: { country: "never" } } },
               }}
+              onChange={(e) => (method.current = e.value?.type || "")}
               onReady={() => setReady(true)}
               onLoadError={() => setLoadError(true)}
             />

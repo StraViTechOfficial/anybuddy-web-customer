@@ -89,6 +89,7 @@ function CommanModal(props) {
               pathname={props.pathname}
             />
           )}
+          {props.children}
         </Modal.Body>
       </Modal>
     </>

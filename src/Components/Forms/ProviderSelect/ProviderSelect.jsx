@@ -80,6 +80,58 @@ function ProAvatar({ pro, size = 48 }) {
   );
 }
 
+// The payment step (summary, "Change", Stripe's form). Also rebuilt by /booking/return after a payment that left the
+// site didn't go through, so the customer is back on the same step with the time still held.
+export function PaymentStep({ pro, date, time, slot, bookingId, clientSecret, publishableKey, returnPath, notice, onChange, changing, changeError, handleShow, setModalType }) {
+  // Same key, loaded once instead of on every render.
+  const stripePromise = useMemo(
+    () => (publishableKey ? loadStripe(publishableKey).catch(() => null) : Promise.resolve(null)),
+    [publishableKey]
+  );
+  // What /booking/return needs to show this step again (saved by CheckoutForm just before paying).
+  const { hours, hourlyRate, servicePrice, taxAmount, totalPrice } = slot || {};
+  const checkout = { publishableKey, pro, date, time, slot: { hours, hourlyRate, servicePrice, taxAmount, totalPrice }, returnPath };
+  return (
+    <div className="ab-pay">
+      <div className="ab-pay__head">
+        <h2 className="ab-modal__title">Complete your payment</h2>
+        <p className="ab-pay__sub">
+          Your time is held while you pay.
+        </p>
+      </div>
+      <div className="ab-pay__grid">
+        <aside className="ab-pay__summary" aria-label="Booking summary">
+          <div className="ab-slot__pro">
+            <ProAvatar pro={pro} size={40} />
+            <div>
+              <p className="ab-slot__proName">{pro?.name}</p>
+              <p className="ab-slot__proMeta ab-pay__when">
+                <span>{fmtDate(date)} · {fmtTime(time)}</span>
+                <button type="button" className="ab-link ab-linkbtn ab-pay__change" onClick={onChange} disabled={changing}>
+                  {changing ? "Changing…" : "Change"}
+                </button>
+              </p>
+              {changeError && <p className="ab-error" role="alert">{changeError}</p>}
+            </div>
+          </div>
+          <PriceRows slot={slot} />
+        </aside>
+        <Elements stripe={stripePromise} options={{ clientSecret }}>
+          <CheckoutForm
+            clientSecret={clientSecret}
+            bookingId={bookingId}
+            handleShow={handleShow}
+            setModalType={setModalType}
+            total={slot?.totalPrice}
+            checkout={checkout}
+            notice={notice}
+          />
+        </Elements>
+      </div>
+    </div>
+  );
+}
+
 function ProviderSelect(props) {
   const [loading, setloading] = useState(false);
   const [Loading, setLoading] = useState(false);
@@ -206,56 +258,26 @@ function ProviderSelect(props) {
     formik.setFieldValue("date", moment(formik.values.date).add(1, "day").format("YYYY-MM-DD"));
   }, [SlotService, Loading, loadedDate]);
 
-  // Same key, loaded once instead of on every render.
-  const stripePromise = useMemo(
-    () =>
-      PublishableKey
-        ? loadStripe(PublishableKey).catch(() => null)
-        : Promise.resolve(null),
-    [PublishableKey]
-  );
-
   const priceChanged = bookError.startsWith("The price has changed");
   const hasPrice = SlotService?.servicePrice !== undefined;
   const slots = SlotService?.listAvailableSlots || [];
 
   if (clientSecret) {
     return (
-      <div className="ab-pay">
-        <div className="ab-pay__head">
-          <h2 className="ab-modal__title">Complete your payment</h2>
-          <p className="ab-pay__sub">
-            Your time is held while you pay.
-          </p>
-        </div>
-        <div className="ab-pay__grid">
-          <aside className="ab-pay__summary" aria-label="Booking summary">
-            <div className="ab-slot__pro">
-              <ProAvatar pro={props.ProviderObj} size={40} />
-              <div>
-                <p className="ab-slot__proName">{props.ProviderObj?.name}</p>
-                <p className="ab-slot__proMeta ab-pay__when">
-                  <span>{fmtDate(formik.values.date)} · {fmtTime(formik.values.time)}</span>
-                  <button type="button" className="ab-link ab-linkbtn ab-pay__change" onClick={changeTime} disabled={changing}>
-                    {changing ? "Changing…" : "Change"}
-                  </button>
-                </p>
-                {changeError && <p className="ab-error" role="alert">{changeError}</p>}
-              </div>
-            </div>
-            <PriceRows slot={SlotService} />
-          </aside>
-          <Elements stripe={stripePromise} options={{ clientSecret }}>
-            <CheckoutForm
-              clientSecret={clientSecret}
-              bookingId={bookingId}
-              handleShow={props.handleShow}
-              setModalType={props.setModalType}
-              total={SlotService?.totalPrice}
-            />
-          </Elements>
-        </div>
-      </div>
+      <PaymentStep
+        pro={props.ProviderObj}
+        date={formik.values.date}
+        time={formik.values.time}
+        slot={SlotService}
+        bookingId={bookingId}
+        clientSecret={clientSecret}
+        publishableKey={PublishableKey}
+        onChange={changeTime}
+        changing={changing}
+        changeError={changeError}
+        handleShow={props.handleShow}
+        setModalType={props.setModalType}
+      />
     );
   }
 

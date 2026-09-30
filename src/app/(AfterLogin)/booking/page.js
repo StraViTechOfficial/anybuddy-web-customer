@@ -1,5 +1,5 @@
 "use client";
-import { BookingCancelApi, ConfirmPaymentApi, ReleaseCheckoutApi } from "@/api/setting";
+import { BookingCancelApi } from "@/api/setting";
 import { useDataStore } from "@/api/store/store";
 import CommanModal from "@/Components/Modals/CommanModal";
 import Paginations from "@/Components/Paginations/Pagination";
@@ -78,24 +78,10 @@ function BookingPage() {
     });
   }, [page, Tab]);
 
-  // Back from a payment that left the site (Cash App Pay on a phone): Stripe adds payment_intent and redirect_status
-  // to the return_url set in CheckoutForm. Confirm it with the server as the checkout does, then clean the URL.
+  // Old return address of a payment that left the site (before /booking/return): send it there.
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
-    const bookingId = q.get("bookingId");
-    if (!bookingId || !q.get("payment_intent")) return;
-    window.history.replaceState(null, "", "/booking");
-    if (q.get("redirect_status") !== "succeeded") {
-      ReleaseCheckoutApi({ bookingId }); // frees the held time now, as closing the checkout does
-      toast.error("The payment didn't go through, so nothing was booked. Please try again.");
-      return;
-    }
-    ConfirmPaymentApi({ bookingId }).then((res) => {
-      if (res?.data?.paid) toast.success("Payment received. Your request has been sent to your Buddy.");
-      else if (res?.data?.status === "cancelled") toast.error("That time was no longer free, so your payment is being refunded.");
-      else toast.info("Your payment is still being confirmed. It will show here shortly.");
-      fetchBookingList(params);
-    });
+    if (q.get("bookingId") && q.get("payment_intent")) window.location.replace(`/booking/return${window.location.search}`);
   }, []);
 
   const cencelBooking = (reson) => {
