@@ -24,7 +24,7 @@ const FAQ = [
   {
     title: "For Buddies (Service Providers)",
     items: [
-      { q: "How do I sign up as a Buddy?", a: "Download the Any-Buddy app, create your provider profile, list your services, share license and credential details for skilled jobs, and submit your documents for verification. Once approved, your profile goes live and you can start accepting jobs." },
+      { q: "How do I sign up as a Buddy?", a: "Sign up on the Any-Buddy Pro website, create your provider profile, list your services, share license and credential details for skilled jobs, and submit your documents for verification. Once approved, your profile goes live and you can start accepting jobs." },
       { q: "Is there a fee to join Any-Buddy?", a: "No. Signing up as a Buddy is completely free. Any-Buddy takes a small service fee from each completed booking — you keep the rest." },
       { q: "How and when do I get paid?", a: "Payments are released to your account after each completed job. You'll receive a notification once payment is on its way. Funds typically arrive within 3-5 business days depending on your bank." },
       { q: "Can I set my own rates?", a: "Pricing on Any-Buddy is based on our standard rate structure for each service category to ensure fairness and transparency for customers. You'll know exactly what a job pays before you accept it." },

@@ -1,3 +1,4 @@
+import { SHOW_APP_BADGES } from "@/Until";
 import { AppPlay, AppStore } from "@/Until/ImageExport";
 import Link from "next/link";
 import React from "react";
@@ -21,6 +22,7 @@ function Badge({ href, img, label }) {
 }
 
 function AppBtnLink(props) {
+  if (!SHOW_APP_BADGES) return null;
   return (
     <>
       <Badge href={props.play} img={AppPlay} label="Get it on Google Play" />

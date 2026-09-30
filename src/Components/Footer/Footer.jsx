@@ -1,4 +1,4 @@
-import { APP_LINKS } from "@/Until";
+import { APP_LINKS, PRO_URL, SHOW_APP_BADGES } from "@/Until";
 import Image from "next/image";
 import Link from "next/link";
 import AppBtnLink from "../CommonParts/AppBtnLink";
@@ -14,6 +14,7 @@ const COLUMNS = [
     links: [
       ["About Us", "/about_us"],
       ["Become a Buddy", "/become-buddy"],
+      ["Buddy log in", `${PRO_URL}/login`],
       ["Trust & Safety", "/trust-safety"],
       ["Careers", "/career"],
     ],
@@ -59,12 +60,14 @@ export default function Footer() {
           </nav>
         ))}
 
-        <div className="ab-footer__col">
-          <h2 className="ab-footer__h">Download the App</h2>
-          <div className="ab-footer__stores">
-            <AppBtnLink {...APP_LINKS} />
+        {SHOW_APP_BADGES && (
+          <div className="ab-footer__col">
+            <h2 className="ab-footer__h">Download the App</h2>
+            <div className="ab-footer__stores">
+              <AppBtnLink {...APP_LINKS} />
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       <div className="ab-container ab-footer__base">

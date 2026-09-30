@@ -1,12 +1,13 @@
 import AppBtnLink from "@/Components/CommonParts/AppBtnLink";
 import { PRO_PHOTO } from "@/Components/home/content";
 import Icon from "@/Components/ui/Icon";
+import { PRO_URL, SHOW_APP_BADGES } from "@/Until";
 import Image from "next/image";
 import "@/Components/content.css";
 import "@/Components/home.css"; // the shared navy app card (hm-app)
 
 // Become a Buddy — the owner's copy word for word, in the content-page layout (Components/content.css).
-// Pros apply in the Any-Buddy Pro app (D-16), so every "Apply" goes to the download section at the bottom.
+// Buddies sign up on the Any-Buddy Pro website, so every "Apply" goes to its sign-up page.
 // Claims to confirm with the owner: "Payments are released directly to your account after every completed job"
 // (provider payouts are not built yet, AB-014) and the two Buddy quotes (real people?).
 const PRO_APP = "https://apps.apple.com/us/app/any-buddy-pro/id6771679358";
@@ -41,12 +42,12 @@ const needs = [
   "US work authorization",
   "Verifiable skill or experience in the services you offer",
   "Valid documents for verification",
-  "A smartphone (iOS or Android) to manage bookings",
+  "A phone, tablet or computer to manage bookings",
   "Reliability and professionalism — your reputation is everything on Any-Buddy",
 ];
 
 const Apply = ({ children, ghost }) => (
-  <a href="#get-the-app" className={`ab-btn ${ghost ? "ab-btn--ghost" : "ab-btn--primary"} ab-btn--lg`}>
+  <a href={`${PRO_URL}/signup`} className={`ab-btn ${ghost ? "ab-btn--ghost" : "ab-btn--primary"} ab-btn--lg`}>
     {children}
     <Icon name="arrowRight" size={18} className="ab-arrow" />
   </a>
@@ -155,14 +156,14 @@ function BecomeBuddy() {
         </div>
       </section>
 
-      {/* Closing card: same design as Home's app section, with the Pro app's real App Store screens. */}
+      {/* Closing card: same design as Home's app section. The Pro app's store screens show only while store badges are on. */}
       <div className="ab-home">
-      <section className="ab-container hm-section hm-cta" id="get-the-app" aria-labelledby="bb-app-title">
+      <section className="ab-container hm-section hm-cta" id="join" aria-labelledby="bb-app-title">
         <div className="hm-app">
           <div className="hm-app__copy">
-            <span className="hm-kicker hm-kicker--light">Any-Buddy Pro app</span>
-            <h2 id="bb-app-title" className="hm-title">Join as Buddy</h2>
-            <p className="hm-sub hm-sub--light">Download the Any-Buddy Pro app to apply.</p>
+            <span className="hm-kicker hm-kicker--light">Any-Buddy Pro</span>
+            <h2 id="bb-app-title" className="hm-title">Join as a Buddy</h2>
+            <p className="hm-sub hm-sub--light">Sign up on the Any-Buddy Pro website. It works on your phone, tablet or computer.</p>
             <ul className="hm-app__points">
               {steps.map((s) => (
                 <li key={s.title}>
@@ -171,13 +172,20 @@ function BecomeBuddy() {
               ))}
             </ul>
             <div className="hm-app__stores">
+              {/* White on the navy card: the page's main action. */}
+              <a href={`${PRO_URL}/signup`} className="ab-btn ab-btn--light ab-btn--lg">
+                Join as a Buddy
+                <Icon name="arrowRight" size={18} className="ab-arrow" />
+              </a>
               <AppBtnLink app={PRO_APP} play="" />
             </div>
           </div>
-          <div className="hm-app__shots">
-            <Image src={PRO_SHOTS[1]} alt="" width={300} height={650} className="hm-app__shot hm-app__shot--back" />
-            <Image src={PRO_SHOTS[0]} alt="Any-Buddy Pro app: bookings and earnings at a glance" width={300} height={650} className="hm-app__shot hm-app__shot--front" />
-          </div>
+          {SHOW_APP_BADGES && (
+            <div className="hm-app__shots">
+              <Image src={PRO_SHOTS[1]} alt="" width={300} height={650} className="hm-app__shot hm-app__shot--back" />
+              <Image src={PRO_SHOTS[0]} alt="Any-Buddy Pro app: bookings and earnings at a glance" width={300} height={650} className="hm-app__shot hm-app__shot--front" />
+            </div>
+          )}
         </div>
       </section>
       </div>

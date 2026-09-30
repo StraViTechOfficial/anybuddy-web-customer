@@ -661,6 +661,12 @@ export const FiveSlideSettings = {
   ],
 };
 
+// The old store apps are withdrawn: every store badge (and the Home app section) stays hidden until the new apps
+// ship. To bring them back, put the new links in APP_LINKS and set this to true.
+export const SHOW_APP_BADGES = false;
+// The Buddy (provider) website: "Join as a Buddy" goes to its sign-up, "Buddy log in" to its log-in.
+export const PRO_URL = (process.env.NEXT_PUBLIC_PRO_URL || "https://pro.any-buddy.com").replace(/\/$/, "");
+
 // Store links for the customer app (footer + Home). Empty = not published yet; its badge is not shown.
 export const APP_LINKS = {
   app: "https://apps.apple.com/us/app/any-buddy/id6770849160",

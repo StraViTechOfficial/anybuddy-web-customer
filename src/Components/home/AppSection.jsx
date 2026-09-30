@@ -1,12 +1,13 @@
 "use client";
 import AppBtnLink from "@/Components/CommonParts/AppBtnLink";
 import Icon from "@/Components/ui/Icon";
-import { APP_LINKS } from "@/Until";
+import { APP_LINKS, SHOW_APP_BADGES } from "@/Until";
 import Image from "next/image";
 import { APP_COPY, APP_SHOTS } from "./content";
 
 // The app: copy + store badge, beside real screens from the app's App Store listing.
 export default function AppSection() {
+  if (!SHOW_APP_BADGES) return null; // the whole section is about getting the app
   return (
     <section className="ab-container hm-section hm-cta" aria-labelledby="hm-app-title">
       <div className="hm-app ab-reveal">
