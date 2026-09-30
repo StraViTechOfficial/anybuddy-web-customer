@@ -1,4 +1,4 @@
-import { SHOW_APP_BADGES } from "@/Until";
+import { SHOW_APP_BADGES, STORE_LINKS_LIVE } from "@/Until";
 import { AppPlay, AppStore } from "@/Until/ImageExport";
 import Link from "next/link";
 import React from "react";
@@ -6,7 +6,7 @@ import { Image } from "react-bootstrap";
 
 // Store badges. A store with a real link is a normal link; a store without one yet (Google Play, until the
 // Android app is published) still shows its badge, but as plain, non-clickable text — no broken or dead link.
-const isLink = (href) => typeof href === "string" && /^https?:\/\//.test(href);
+const isLink = (href) => STORE_LINKS_LIVE && typeof href === "string" && /^https?:\/\//.test(href);
 
 function Badge({ href, img, label }) {
   const art = <Image src={img} alt="" width={130} height={40} className="object-fit-contain" />;
