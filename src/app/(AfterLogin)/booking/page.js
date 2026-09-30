@@ -1,5 +1,5 @@
 "use client";
-import { BookingCancelApi } from "@/api/setting";
+import { BookingCancelApi, ConfirmPaymentApi, ReleaseCheckoutApi } from "@/api/setting";
 import { useDataStore } from "@/api/store/store";
 import CommanModal from "@/Components/Modals/CommanModal";
 import Paginations from "@/Components/Paginations/Pagination";
@@ -78,12 +78,32 @@ function BookingPage() {
     });
   }, [page, Tab]);
 
+  // Back from a payment that left the site (Cash App Pay on a phone): Stripe adds payment_intent and redirect_status
+  // to the return_url set in CheckoutForm. Confirm it with the server as the checkout does, then clean the URL.
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search);
+    const bookingId = q.get("bookingId");
+    if (!bookingId || !q.get("payment_intent")) return;
+    window.history.replaceState(null, "", "/booking");
+    if (q.get("redirect_status") !== "succeeded") {
+      ReleaseCheckoutApi({ bookingId }); // frees the held time now, as closing the checkout does
+      toast.error("The payment didn't go through, so nothing was booked. Please try again.");
+      return;
+    }
+    ConfirmPaymentApi({ bookingId }).then((res) => {
+      if (res?.data?.paid) toast.success("Payment received. Your request has been sent to your Buddy.");
+      else if (res?.data?.status === "cancelled") toast.error("That time was no longer free, so your payment is being refunded.");
+      else toast.info("Your payment is still being confirmed. It will show here shortly.");
+      fetchBookingList(params);
+    });
+  }, []);
+
   const cencelBooking = (reson) => {
     setLoading(true);
     BookingCancelApi({ bookingId: BookingId, cancelReason: reson }).then(
       (res) => {
         if (res?.status === 1) {
-          toast.success("Booking cancelled. Your refund is on its way to your card; it usually shows in 5–10 business days.");
+          toast.success("Booking cancelled. Your refund is on its way back to how you paid; it usually shows in 5–10 business days.");
           fetchBookingList(params).then(() => {
             setLoading(false);
           });

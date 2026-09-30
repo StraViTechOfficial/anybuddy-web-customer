@@ -42,7 +42,9 @@ export default function CheckoutForm(props) {
     const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: `${window.location.origin}/booking`,
+        // Only for methods that leave the page (Cash App Pay on a phone): Stripe sends the customer back here with
+        // payment_intent and redirect_status added, and the bookings page finishes the booking (confirm-payment).
+        return_url: `${window.location.origin}/booking?bookingId=${encodeURIComponent(props.bookingId)}`,
         // Required by Stripe when the country field is hidden.
         payment_method_data: { billing_details: { address: { country: "US" } } },
       },
@@ -109,8 +111,8 @@ export default function CheckoutForm(props) {
           <div className={ready ? "" : "ab-card-form__pending"}>
             <PaymentElement
               key={attempt}
-              // Stripe shows every method the server allows (card, Link; Apple Pay / Google Pay where the device has
-              // them - Apple Pay only on the verified https domain). US only: no country picker; ZIP stays for card checks.
+              // Stripe shows every method the server allows (card, Cash App Pay; Apple Pay / Google Pay where the device
+              // has them - Apple Pay only on the verified https domain). US only: no country picker; ZIP stays for card checks.
               options={{
                 layout: "tabs",
                 // Apple Pay / Google Pay stay automatic; Link's sign-up block (email, phone, name) is hidden - it made
