@@ -3,10 +3,15 @@ import { dummyImageImg } from "@/Until/ImageExport";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Icon from "@/Components/ui/Icon";
+import { useDataStore } from "@/api/store/store";
+import { fromPrice } from "@/Until";
 import "./cards.css";
 
 function CategoryBox(props) {
   const { push } = useRouter();
+  // This list (sub-categories) has no price: the homepage entry for the same slug has it (as iOS ServiceRow).
+  const { Homepage } = useDataStore();
+  const price = fromPrice(props.item, Homepage?.services);
   // The card opens the service's page: its details and the pros who offer it (contract: pick a pro, then book).
   // It used to open a pop-up whose "Book" skipped the pros, so the customer never saw who they were booking.
   const servicePage = `/service/${props.item?.categorySlug || props.service}/${props.item?.slug}`;
@@ -17,7 +22,7 @@ function CategoryBox(props) {
         className="ab-svccard ab-spotlight"
         role="button"
         tabIndex={0}
-        aria-label={`${props.item?.serviceName || "Service"}: see pros`}
+        aria-label={`${props.item?.serviceName || "Service"}${price ? `, ${price}` : ""}: see pros`}
         onKeyDown={(e) => {
           if (e.target === e.currentTarget && (e.key === "Enter" || e.key === " ")) {
             e.preventDefault();
@@ -42,6 +47,7 @@ function CategoryBox(props) {
         </span>
         <span className="ab-svccard__body">
           <span className="ab-svccard__name">{props.item?.serviceName}</span>
+          {price && <span className="ab-svccard__price ab-num">{price}</span>}
           <span className="ab-svccard__cta">
             See pros
             <Icon name="arrowRight" size={16} />

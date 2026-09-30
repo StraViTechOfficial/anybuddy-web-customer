@@ -101,6 +101,10 @@
   text-transform: capitalize;
   color: var(--ab-ink);
 }
+.ab-svccard__price {
+  font-size: var(--ab-fs-sm);
+  color: var(--ab-ink-2);
+}
 .ab-svccard__cta {
   display: inline-flex;
   align-items: center;

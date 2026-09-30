@@ -18,6 +18,7 @@ import {
   SlotServiceApi,
   SubCateListApi,
 } from "../setting";
+import { getSavedLocation } from "@/Until/searchLocation";
 
 export const useDataStore = create((set) => ({
   getProfile: {},
@@ -28,7 +29,9 @@ export const useDataStore = create((set) => ({
 
   Homepage: {},
   fetchHomepage: async (data) => {
-    const res = await HomepageApi(data);
+    // With the customer's saved point the API adds fromPriceNearby/priceUnitNearby, which fromPrice() prefers (as iOS).
+    const at = getSavedLocation();
+    const res = await HomepageApi(at ? { lat: at.lat, long: at.long, ...data } : data);
     set({ Homepage: await res?.data });
   },
 

@@ -140,6 +140,20 @@ export function ShowPrice(price) {
 
   return `$${formattedPrice}`;
 }
+// "From $45/hr" / "From $120/day" (cents only when not whole): the iOS app's ServiceRow.fromPrice rule. The nearby price
+// when the API sent one (homepage called with lat/long), else fromPrice. A row without a price (sub-categories list)
+// (older API) borrows the homepage entry with the same slug when `homepageGroups` is given. "" when unpriced: never "$0".
+export function fromPrice(s, homepageGroups) {
+  const has = (x) => typeof x?.fromPrice === "number" || typeof x?.fromPriceNearby === "number";
+  if (!has(s) && homepageGroups) s = homepageGroups.flatMap((g) => g.services || []).find((x) => x.slug === s?.slug) || s;
+  const near = typeof s?.fromPriceNearby === "number";
+  const p = near ? s.fromPriceNearby : s?.fromPrice;
+  if (!(p > 0)) return "";
+  const cents = Math.round(p * 100);
+  const d = cents % 100 === 0 ? 0 : 2;
+  const money = (cents / 100).toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
+  return `From $${money}${{ hour: "/hr", day: "/day" }[near ? s.priceUnitNearby : s.priceUnit] || ""}`;
+}
 export const ThreeSlideSettings = {
   dots: true,
   infinite: true,

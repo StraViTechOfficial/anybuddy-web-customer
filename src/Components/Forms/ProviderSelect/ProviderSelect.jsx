@@ -36,26 +36,31 @@ const fmtTime = (t) => (t ? moment(t, "HH:mm").format("h:mm A") : "");
 const SIZE_LABEL = { 1: "Small (1 hr)", 3: "Medium (up to 3 hrs)", 4: "Large (up to 4 hrs)" };
 const sizeLabel = (h) => SIZE_LABEL[Number(h)] || (Number(h) > 0 ? `${Number(h)} hrs` : "Size not chosen");
 
+// Same as the iOS app (TimeVC.priceCard): with tax, Service price + Tax + Total; without, only the Total with how it
+// is made under it (one line item equal to the total is noise, and "Tax $0.00" reads like a mistake).
 export function PriceRows({ slot }) {
+  const how = slot?.hours > 0 && slot?.hourlyRate > 0 && (
+    <span className="ab-price__how ab-num">
+      {slot.hours} {Number(slot.hours) === 1 ? "hr" : "hrs"} × {ShowPrice(slot.hourlyRate)}/hr
+    </span>
+  );
+  const taxed = Number(slot?.taxAmount) > 0;
   return (
     <dl className="ab-price">
-      <div className="ab-price__row">
-        <dt>
-          Service price
-          {slot?.hours > 0 && slot?.hourlyRate > 0 && (
-            <span className="ab-price__how ab-num">
-              {slot.hours} {Number(slot.hours) === 1 ? "hr" : "hrs"} × {ShowPrice(slot.hourlyRate)}/hr
-            </span>
-          )}
-        </dt>
-        <dd className="ab-num">{ShowPrice(slot?.servicePrice)}</dd>
-      </div>
-      <div className="ab-price__row">
-        <dt>Tax</dt>
-        <dd className="ab-num">{ShowPrice(slot?.taxAmount)}</dd>
-      </div>
+      {taxed && (
+        <>
+          <div className="ab-price__row">
+            <dt>Service price{how}</dt>
+            <dd className="ab-num">{ShowPrice(slot?.servicePrice)}</dd>
+          </div>
+          <div className="ab-price__row">
+            <dt>Tax</dt>
+            <dd className="ab-num">{ShowPrice(slot?.taxAmount)}</dd>
+          </div>
+        </>
+      )}
       <div className="ab-price__row ab-price__total">
-        <dt>Total (USD)</dt>
+        <dt>Total (USD){!taxed && how}</dt>
         <dd className="ab-num">{ShowPrice(slot?.totalPrice)}</dd>
       </div>
     </dl>

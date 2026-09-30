@@ -61,6 +61,7 @@
   color: var(--ab-ink); font-size: var(--ab-fs-body); cursor: pointer;
 }
 .ab-sb__opt[aria-selected="true"] { background: var(--ab-soft); }
+.ab-sb__opt-price { display: block; font-size: var(--ab-fs-sm); color: var(--ab-ink-2); }
 .ab-sb__opt-cat { flex-shrink: 0; font-size: var(--ab-fs-sm); color: var(--ab-ink-3); }
 .ab-sb__field input::placeholder { color: var(--ab-ink-3); }
 .ab-sb__row { display: flex; align-items: center; gap: 8px; }

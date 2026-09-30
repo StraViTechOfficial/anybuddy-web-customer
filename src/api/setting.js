@@ -1,4 +1,11 @@
 import { getData, postRawData, putRawData } from "./index";
+import { getSavedLocation } from "@/Until/searchLocation";
+
+// The customer's saved point (as fetchHomepage sends it): the API then adds fromPriceNearby/priceUnitNearby.
+const withPoint = (payload) => {
+  const at = getSavedLocation();
+  return at ? { lat: at.lat, long: at.long, ...payload } : payload;
+};
 
 export const LoginApi = async (payload) => {
   return postRawData("user/auth/login", payload).then((data) => {
@@ -98,7 +105,7 @@ export const ServiceDetailApi = async (payload) => {
 };
 // Services one pro offers (name, price) — used on the provider profile.
 // C16: categories, services and pros by name (Atlas Search on the backend; typo tolerant).
-export const SiteSearchApi = async (q) => getData("user/homepage/search", { q });
+export const SiteSearchApi = async (q) => getData("user/homepage/search", withPoint({ q }));
 export const ProviderServicesApi = async (payload) => getData("user/services/list-vendor-services", payload);
 
 export const ProviderDetailApi = async (payload) => {
@@ -141,7 +148,7 @@ export const SaveBuddyApi = async (payload) => postRawData("user/wishlist/save-b
 export const RemoveBuddyApi = async (payload) => putRawData("user/wishlist/remove-buddy", payload);
 export const SavedBuddiesApi = async () => getData("user/wishlist/list-buddies");
 export const SubCateListApi = async (payload) => {
-  return getData("user/sub-categories/list", payload).then((data) => {
+  return getData("user/sub-categories/list", withPoint(payload)).then((data) => {
     return data;
   });
 };

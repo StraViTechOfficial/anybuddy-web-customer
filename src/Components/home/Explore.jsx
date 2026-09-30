@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { CATEGORY_ICON, heroPhoto } from "./content";
 import { openSiteSearch } from "@/Until/searchLocation";
+import { fromPrice } from "@/Until";
 
 // Explore services: a directory of category cards (owner 27 Sep). Each card: the category photo, its name, its top 3
 // services (most bookable pros first, from the API; pro counts are not shown) and one "View all N" link.
@@ -52,6 +53,8 @@ export default function Explore({ categories, groups, loaded, place }) {
                           <Link href={`${href}/${s.slug}`} title={cap(s.serviceName)}>
                             {cap(s.serviceName)}
                           </Link>
+                          {/* Same row, not a second line: the cards keep one fixed height (3 rows). */}
+                          {fromPrice(s) && <span className="hm-dir__price ab-num">{fromPrice(s)}</span>}
                         </li>
                       ))}
                     </ul>

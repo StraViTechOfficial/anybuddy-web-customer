@@ -202,6 +202,9 @@
 .ab-home .hm-dir__name { margin: 0 0 16px; /* heading-to-list gap > gap between services (proximity); .ab-home h3 zeroes margins, so same specificity */ font-size: var(--ab-fs-h3); font-weight: 700; line-height: 1.3; color: var(--ab-ink); }
 .hm-dir__count { display: none; } /* phones only (below) */
 .hm-dir__list { list-style: none; margin: 0 0 12px; padding: 0; min-height: calc(3 * var(--row)); }
+.hm-dir__list li { display: flex; align-items: baseline; gap: 12px; }
+.hm-dir__list a { flex: 1; min-width: 0; }
+.hm-dir__price { flex-shrink: 0; color: var(--ab-ink-3); font-size: var(--ab-fs-sm); }
 .hm-dir__list a {
   display: block; line-height: var(--row); color: var(--ab-ink-2); font-size: var(--ab-fs-body);
   text-decoration: none; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; /* one line each; full name on hover */

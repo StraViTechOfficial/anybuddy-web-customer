@@ -2,6 +2,7 @@
 import { SiteSearchApi } from "@/api/setting";
 import { useDataStore } from "@/api/store/store";
 import Icon from "@/Components/ui/Icon";
+import { fromPrice } from "@/Until";
 import { getSavedLocation, LOCATION_EVENT, locateMe, locateZip, saveLocation } from "@/Until/searchLocation";
 import { useRouter } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
@@ -244,7 +245,10 @@ export default function SearchForm({ className = "", onDone, id, focus }) {
                   onClick={() => pick(x)}
                   onMouseEnter={() => setHi(i)}
                 >
-                  <span>{x.serviceName}</span>
+                  <span>
+                    {x.serviceName}
+                    {fromPrice(x, Homepage?.services) && <span className="ab-sb__opt-price ab-num">{fromPrice(x, Homepage?.services)}</span>}
+                  </span>
                   <span className="ab-sb__opt-cat">{x.categoryName}</span>
                 </li>
               ))}
