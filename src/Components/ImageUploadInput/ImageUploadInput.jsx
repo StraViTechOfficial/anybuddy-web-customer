@@ -7,20 +7,26 @@ import { toast } from "react-toastify";
 import { uid } from "uid";
 import "./inputStyle.css";
 
+const MAX_BYTES = 10 * 1024 * 1024;
+
 function ImageUploadInput(props) {
   const [isActive1, setIsActive1] = useState(false);
   const [time1, setTime1] = useState(0);
 
   // The backend picks the file path and signs a 5-minute link; the browser never sees storage keys.
+  // Browsers often leave HEIC (iPhone photos) without a type; the server needs one to sign the upload.
+  const typeOf = (file) =>
+    file.type || { heic: "image/heic", webp: "image/webp", jpg: "image/jpeg", jpeg: "image/jpeg", png: "image/png", pdf: "application/pdf" }[file.name.split(".").pop().toLowerCase()] || "";
   const uploadFile = async (file) => {
-    const link = await getUploadLinkApi({ folder: props.folderName, contentType: file.type });
-    if (link?.status !== 1) throw new Error(link?.message || "Upload link refused");
+    // size: the server signs it into the link, so S3 refuses a file bigger than declared (and >10 MB outright).
+    const link = await getUploadLinkApi({ folder: props.folderName, contentType: typeOf(file), size: file.size });
+    if (link?.status !== 1) throw new Error(link?.message || "We couldn't upload that file. Try again.");
     const put = await fetch(link.data.uploadUrl, {
       method: "PUT",
-      headers: { "Content-Type": file.type },
+      headers: { "Content-Type": typeOf(file) },
       body: file,
     });
-    if (!put.ok) throw new Error(`Upload failed (${put.status})`);
+    if (!put.ok) throw new Error("The upload didn't finish. Check your connection and try again.");
     return link.data.fileUrl;
   };
 
@@ -33,7 +39,7 @@ function ImageUploadInput(props) {
     const allowedExtensions = [];
 
     if (accept.includes("image/*"))
-      allowedExtensions.push("jpg", "jpeg", "png", "gif", "webp", "bmp");
+      allowedExtensions.push("jpg", "jpeg", "png", "webp", "heic"); // what the server accepts for photos
     if (accept.includes("video/*"))
       allowedExtensions.push("mp4", "mov", "avi", "webm", "mkv");
     if (accept.includes("application/pdf")) allowedExtensions.push("pdf");
@@ -56,7 +62,12 @@ function ImageUploadInput(props) {
       const fileExtension = val.name.split(".").pop().toLowerCase();
 
       if (!allowedExtensions.includes(fileExtension)) {
-        toast.error(`File ${val.name} is not allowed.`);
+        toast.error(accept.includes("image/*") && !accept.includes("pdf") ? "Use a JPG, PNG or WebP photo." : `${val.name} isn't a file type we accept.`);
+        continue;
+      }
+      // Same limit as the server (10 MB), checked before uploading so a big file fails fast and clearly.
+      if (val.size > MAX_BYTES) {
+        toast.error(`This file is ${(val.size / 1048576).toFixed(1)} MB. Use a file up to 10 MB.`);
         continue;
       }
 
@@ -65,7 +76,7 @@ function ImageUploadInput(props) {
         props.ImgName || "Zemba"
       }_${originalFileName}_${uid()}.${fileExtension}`;
 
-      const isImage = ["jpg", "jpeg", "png", "gif", "webp", "bmp"].includes(
+      const isImage = ["jpg", "jpeg", "png", "webp", "heic"].includes(
         fileExtension,
       );
       const isVideo = ["mp4", "mov", "avi", "webm", "mkv"].includes(
@@ -79,7 +90,7 @@ function ImageUploadInput(props) {
         successCount++;
         setTime1(Math.round((successCount / files.length) * 100));
       } catch (err) {
-        toast.error(err?.message || "Upload Failed");
+        toast.error(err?.message || "We couldn't upload that file. Try again.");
         console.error("Upload error:", err);
       }
     }
@@ -90,8 +101,9 @@ function ImageUploadInput(props) {
         ...existingData,
         ...uploadedData,
       ]);
-    } else {
-      props.formik.setFieldValue(props.inputKey, uploadedData[0] || {});
+    } else if (uploadedData[0]) {
+      // Only replace the current photo when the new one actually uploaded (a failed upload kept wiping it).
+      props.formik.setFieldValue(props.inputKey, uploadedData[0]);
     }
 
     setTimeout(() => {
