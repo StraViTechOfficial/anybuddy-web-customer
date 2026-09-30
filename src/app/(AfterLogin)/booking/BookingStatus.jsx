@@ -1,4 +1,5 @@
 import Icon from "@/Components/ui/Icon";
+import { ShowPrice } from "@/Until";
 import moment from "moment";
 
 // Booking status codes as the API returns them (models/user/booking.js). These are the customer tabs.
@@ -68,4 +69,22 @@ export function cancelNote(b) {
   if (Number(b?.status) !== 4 && !b?.cancelledBy) return "";
   const who = b?.cancelledBy === "provider" ? "Declined by your Buddy" : b?.cancelledBy === "customer" ? "You cancelled" : "Cancelled";
   return b?.cancelReason ? `${who}: ${b.cancelReason}` : who;
+}
+
+// Where the money is after a cancel (refundStatus is Stripe's refund status, kept current by the webhook).
+export function refundNote(b) {
+  const amount = ShowPrice(b?.refundAmount || b?.price);
+  if (b?.refundStatus === "succeeded") return `${amount} refunded to your card.`;
+  if (b?.refundStatus === "pending") return `Your ${amount} refund is on its way to your card. It usually shows in 5–10 business days.`;
+  if (b?.refundStatus === "failed" || b?.refundStatus === "canceled") return `Your ${amount} refund is delayed. We're sorting it out; contact support if you have questions.`;
+  return "";
+}
+
+// Free cancellation (backend D-21): any time while requested, and up to 24 hours before an accepted visit.
+// ponytail: start is read in the browser's time zone; the backend checks in New York time and has the last word.
+export function canCancel(b) {
+  if (Number(b?.status) === 1) return true;
+  if (Number(b?.status) !== 2 || b?.checkInAt || !b?.scheduledDate || !b?.selectedSlot) return false;
+  const start = moment(`${moment(b.scheduledDate).format("YYYY-MM-DD")} ${b.selectedSlot}`, "YYYY-MM-DD HH:mm");
+  return start.diff(moment(), "hours", true) >= 24;
 }

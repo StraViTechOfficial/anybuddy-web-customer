@@ -10,7 +10,9 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import {
   BOOKING_STATUS,
+  canCancel,
   cancelNote,
+  refundNote,
   PAYMENT_STATUS,
   ProviderAvatar,
   StatusPill,
@@ -81,7 +83,7 @@ function BookingPage() {
     BookingCancelApi({ bookingId: BookingId, cancelReason: reson }).then(
       (res) => {
         if (res?.status === 1) {
-          toast.success(res?.message);
+          toast.success("Booking cancelled. Your refund is on its way to your card; it usually shows in 5–10 business days.");
           fetchBookingList(params).then(() => {
             setLoading(false);
           });
@@ -186,6 +188,12 @@ function BookingPage() {
                             <span>{cancelNote({ ...item, status: 4 })}</span>
                           </li>
                         )}
+                        {Tab === "4" && refundNote(item) && (
+                          <li>
+                            <Icon name="card" size={18} />
+                            <span>{refundNote(item)}</span>
+                          </li>
+                        )}
                       </ul>
 
                       <footer className="ab-bkcard__foot">
@@ -199,7 +207,7 @@ function BookingPage() {
                           </p>
                         </div>
                         <div className="ab-bkcard__actions">
-                          {Tab === "1" && (
+                          {(Tab === "1" || Tab === "2") && canCancel({ ...item, status: Number(Tab) }) && (
                             <button
                               type="button"
                               className="ab-bk__cancel"

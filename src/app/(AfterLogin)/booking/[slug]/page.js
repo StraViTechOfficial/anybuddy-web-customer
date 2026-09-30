@@ -16,21 +16,31 @@ import {
   StatusPill,
   cancelNote,
   providerName,
+  refundNote,
   whenParts,
 } from "../BookingStatus";
 import "../bookings.css";
 
-// Progress derived only from the booking's status code; the API has no
-// per-step timestamps, so only "Booked" carries a date (createdAt).
-function steps(status, createdAt) {
+const hm = (t) => moment(t).format("h:mm A");
+
+// Progress from the status code plus the job-day times: onTheWayAt (+ etaMinutes) when the Buddy sets off,
+// checkInAt when the start code is used.
+function steps(b) {
+  const status = b?.status;
   const booked = {
     label: "Booked",
-    note: createdAt ? moment(createdAt).format("MMM D, h:mm A") : "",
+    note: b?.createdAt ? moment(b.createdAt).format("MMM D, h:mm A") : "",
     state: "done",
     icon: "check",
   };
   if (status === 4) return [booked, { label: "Cancelled", state: "stop", icon: "x" }];
   if (status === 5) return [booked, { label: "Rejected", note: "Your Buddy declined", state: "stop", icon: "x" }];
+  const live = status === 2 && !b?.checkOutAt;
+  const way = b?.checkInAt
+    ? { label: "In progress", note: `Started ${hm(b.checkInAt)}`, state: status === 3 ? "done" : "current", icon: status === 3 ? "check" : "briefcase" }
+    : b?.onTheWayAt && live
+      ? { label: "On the way", note: `Arriving about ${hm(moment(b.onTheWayAt).add(Number(b.etaMinutes) || 0, "minutes"))}`, state: "current", icon: "pin" }
+      : { label: "On the way", state: status === 3 ? "done" : "pending", icon: status === 3 ? "check" : "pin" };
   return [
     booked,
     {
@@ -40,9 +50,10 @@ function steps(status, createdAt) {
       state: status >= 2 ? "done" : "current",
       icon: status >= 2 ? "check" : "clock",
     },
+    way,
     {
       label: "Completed",
-      state: status === 3 ? "done" : status === 2 ? "current" : "pending",
+      state: status === 3 ? "done" : live && !b?.onTheWayAt && !b?.checkInAt ? "current" : "pending",
       icon: status === 3 ? "check" : "checkCircle",
     },
   ];
@@ -113,12 +124,20 @@ function BookingDetail() {
 
   const b = BookingDetail?.booking_detail;
   const v = b?.vendor;
+
+  // While the booking is live, refresh quietly so "On the way", the codes and "In progress" appear without a reload.
+  const liveStatus = b?.status === 1 || b?.status === 2;
+  useEffect(() => {
+    if (!liveStatus) return;
+    const t = setInterval(() => fetchBookingDetail(params), 30000);
+    return () => clearInterval(t);
+  }, [slug, liveStatus]);
   const { date, range } = whenParts(b);
   const name = providerName(v);
   const rating = Number(v?.averageRating) || 0;
   const tax = Number(b?.taxAmount) || 0;
   const total = Number(b?.price) || 0;
-  const flow = steps(b?.status, b?.createdAt);
+  const flow = steps(b);
   // Minutes between check-in and check-out; hoursWorked (from the API) when only that is sent.
   const worked = b?.checkInAt && b?.checkOutAt
     ? moment(b.checkOutAt).diff(moment(b.checkInAt), "minutes")
@@ -206,6 +225,7 @@ function BookingDetail() {
                       {b?.cancelledBy === "provider" ? "Declined by your Buddy" : "Cancelled"}
                     </h3>
                     <p className="ab-bkd__note">{cancelNote(b)}</p>
+                    {refundNote(b) && <p className="ab-bkd__note">{refundNote(b)}</p>}
                   </div>
                 )}
 

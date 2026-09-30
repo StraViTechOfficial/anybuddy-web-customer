@@ -29,8 +29,8 @@ function BookingCencel(props) {
   return (
     <form className="ab-mform" onSubmit={formik.handleSubmit} noValidate>
       <p className="ab-mform__intro">
-        Let us know why you&apos;re cancelling. The booking moves to your
-        Cancelled tab once it&apos;s done.
+        You get a full refund to your card; it usually shows in 5–10
+        business days. Let us know why you&apos;re cancelling.
       </p>
       <div className="ab-field">
         <label htmlFor="ab-cancel-reason" className="ab-label">
