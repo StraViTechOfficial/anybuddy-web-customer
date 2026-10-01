@@ -1,7 +1,6 @@
 "use client";
-import { updatDeviceTokenApi } from "@/api/setting";
 import { useDataStore } from "@/api/store/store";
-import { FMC_TOKEN, getDeviceId, TOKEN_NAME } from "@/Until";
+import { TOKEN_NAME } from "@/Until";
 import EmailReminder from "./EmailReminder";
 import Icon from "@/Components/ui/Icon";
 import { logoImg } from "@/Until/ImageExport";
@@ -59,18 +58,15 @@ function Header() {
   const home = pathname === "/";
 
   const [token, setToken] = useState(null);
-  const [deviceId, setDeviceId] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false); // false | "location" | "service": which field to put the cursor in
   const [pastSearch, setPastSearch] = useState(false);
   const [place, setPlace] = useState("");
-  const fcmToken = Cookies.get(FMC_TOKEN);
   const showPill = !home || pastSearch;
 
   useEffect(() => {
     setToken(Cookies.get(TOKEN_NAME));
-    getDeviceId().then(setDeviceId);
     const onScroll = () => {
       setScrolled(window.scrollY > 24);
       setPastSearch((document.getElementById("hero-search")?.getBoundingClientRect().bottom ?? 0) < 96);
@@ -142,16 +138,6 @@ function Header() {
     if (!token || !/^\d{5}$/.test(zip || "") || getSavedLocation()) return;
     locateZip(zip).then((found) => found && !getSavedLocation() && saveLocation(found)).catch(() => {});
   }, [token, getProfile?.postalCode]);
-
-  useEffect(() => {
-    if (fcmToken && deviceId && getProfile?.firstName && token) {
-      updatDeviceTokenApi({
-        device_id: `${getProfile.firstName.replaceAll(" ", "-") || "user-W"}-${deviceId}`,
-        device_type: "W",
-        firebase_token: fcmToken,
-      });
-    }
-  }, [fcmToken, deviceId, getProfile?.firstName, token]);
 
   const openSearch = (field) => setSearchOpen(field);
   // The search panel is a pop-up too: freeze the page's moving parts while it is open.

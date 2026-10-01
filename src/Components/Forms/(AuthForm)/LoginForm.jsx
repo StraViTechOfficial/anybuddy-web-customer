@@ -4,7 +4,6 @@ import Loader from "@/Components/Loader/Loader";
 import { OTP_FOR, pageAfterLogin, TOKEN_NAME, TOKEN_NAME_REG } from "@/Until";
 import { EmailValidation, PasswordRequired, showError } from "@/Until/ValidationError";
 import { forgotPasswordApi, LoginApi, OTPVerificationApi } from "@/api/setting";
-import { requestForToken } from "@/app/firebase";
 import { useFormik } from "formik";
 import Cookies from "js-cookie";
 import Link from "next/link";
@@ -89,14 +88,6 @@ function LoginForm(props) {
               Cookies.remove(TOKEN_NAME_REG);
               props.onLoggedIn ? props.onLoggedIn() : push(pageAfterLogin(Cookies)); // pop-up: stay on this page
               setloading(false);
-              (async () => {
-                try {
-                  const registration = await navigator.serviceWorker.ready;
-                  requestForToken(registration); // <-- FCM token save hoga
-                } catch (err) {
-                  console.error("Service worker not ready", err);
-                }
-              })();
             } else if (res?.data?.needsVerification) {
               // BUG-13: account not verified yet. The backend emailed a code; confirm it on the code screen.
               Cookies.set(TOKEN_NAME_REG, res.data.token);

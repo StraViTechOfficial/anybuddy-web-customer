@@ -12,7 +12,6 @@ import { useEffect, useState } from "react";
 import OTPInput from "react-otp-input";
 import * as Yup from "yup";
 import "../FormStyle.css";
-import { requestForToken } from "@/app/firebase";
 
 function MobileLogin(props) {
   const [loading, setloading] = useState(false);
@@ -52,14 +51,6 @@ function MobileLogin(props) {
             Cookies.set(TOKEN_NAME, res?.data?.token);
             props.onLoggedIn ? props.onLoggedIn() : push(pageAfterLogin(Cookies)); // pop-up: stay on this page
             setloading(false);
-            (async () => {
-              try {
-                const registration = await navigator.serviceWorker.ready;
-                requestForToken(registration); // <-- FCM token save hoga
-              } catch (err) {
-                console.error("Service worker not ready", err);
-              }
-            })();
           } else {
             setloading(false);
             setFormError(res?.message || "Something went wrong. Please try again.");

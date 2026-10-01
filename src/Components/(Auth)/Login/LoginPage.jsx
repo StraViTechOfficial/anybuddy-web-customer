@@ -1,6 +1,5 @@
 "use client";
 import { LoginApi } from "@/api/setting";
-import { requestForToken } from "@/app/firebase";
 import LoginForm from "@/Components/Forms/(AuthForm)/LoginForm";
 import MobileLogin from "@/Components/Forms/(AuthForm)/MobileLogin";
 import { pageAfterLogin, TOKEN_NAME, TOKEN_NAME_REG } from "@/Until";
@@ -72,14 +71,6 @@ function LoginPage(props) {
           Cookies.remove(TOKEN_NAME_REG);
           push(pageAfterLogin(Cookies));
 
-          (async () => {
-            try {
-              const registration = await navigator.serviceWorker.ready;
-              requestForToken(registration); // <-- FCM token save hoga
-            } catch (err) {
-              console.error("Service worker not ready", err);
-            }
-          })();
         } else {
           toast.error(res.message);
         }

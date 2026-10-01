@@ -22,18 +22,7 @@ export const TOKEN_NAME = "AnyBuddyWebToken";
 export const TOKEN_NAME_REG = "AnyBuddyWebTokenReg";
 // BUG-13: set to "login" when the code screen is finishing an unverified login (not a password reset).
 export const OTP_FOR = "AnyBuddyWebOtpFor";
-export const FMC_TOKEN = "AnyBuddyWebFMC";
-
-export const firebaseConfig = {
-  apiKey: "AIzaSyBp1p0H0Y3qIJkQDCRjuGmdnGH-lUdiIB0",
-  authDomain: "any-buddy.firebaseapp.com",
-  projectId: "any-buddy",
-  storageBucket: "any-buddy.firebasestorage.app",
-  messagingSenderId: "1014974926067",
-  appId: "1:1014974926067:web:cf58150f1a75d54e19fb86",
-};
-export const vapidKey =
-  "BDyJtITO2IOmGGW25x5ol9qWbQpOKm6PrvCflseTUrZdOpQcJipJowVvoMSwfFg7hUCVJ-SFiGgWIzR-RmlqXNg";
+export const FMC_TOKEN = "AnyBuddyWebFMC"; // old browser-push cookie: logout still clears it
 
 const generateFallbackDeviceId = () => {
   // Use browser-specific details or random generator
