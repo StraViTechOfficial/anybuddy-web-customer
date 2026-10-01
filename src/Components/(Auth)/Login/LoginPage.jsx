@@ -4,7 +4,7 @@ import LoginForm from "@/Components/Forms/(AuthForm)/LoginForm";
 import MobileLogin from "@/Components/Forms/(AuthForm)/MobileLogin";
 import { pageAfterLogin, TOKEN_NAME, TOKEN_NAME_REG } from "@/Until";
 import Cookies from "js-cookie";
-import { signIn, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -56,8 +56,11 @@ function LoginPage(props) {
   };
 
   useEffect(() => {
-    if (session?.user?.provider) {
+    if (session?.user?.idToken) {
       LoginApi(payload).then((res) => {
+        // The provider's session has done its job (our own token is the session now); dropping it stops a later
+        // visit to /login from replaying an expired ID token.
+        signOut({ redirect: false }).catch(() => null);
         if (res?.status === 1 && res?.data?.needsProfile) {
           // First time with Google / Apple: the account still needs a verified phone and the Terms tick (like email
           // sign-up). The token only allows finishing sign-up; name / email are shown there for an hour at most.
@@ -76,7 +79,7 @@ function LoginPage(props) {
         }
       });
     }
-  }, [session?.user?.googleId]);
+  }, [session?.user?.idToken]); // idToken, not googleId: Apple has no googleId, so it never fired for Apple
 
   return (
     <>

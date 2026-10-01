@@ -432,7 +432,7 @@
 .ab-auth--split .ab-seg { margin-bottom: 18px; }
 .ab-auth--split .ab-field { margin-bottom: 12px; gap: 6px; }
 .ab-auth--split .ab-auth__or { margin: 18px 0 14px; }
-.ab-auth--split .ab-auth__social { grid-template-columns: 1fr 1fr; }
+.ab-auth--split .ab-auth__social { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 1fr; } /* one or two providers, always full width */
 .ab-auth--split .ab-auth__switch { margin-top: 16px; text-align: left; }
 .ab-auth--split .ab-sp__grid { gap: 0 14px; }
 /* Short laptop screens: tighten a little more rather than scroll. */
