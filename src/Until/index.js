@@ -9,14 +9,11 @@ export const getDeviceInfo = (userAgent) => {
   return os;
 };
 
-export const mapApiKey = "AIzaSyC9piPp1Fur-HMWVQ50PbbU9rzIo9Fpo6I";
-
-// export const STRIPE_PUBLISHABLE_KEY =
-//   "pk_test_51Rpj4qPnyDiIIqQRngwONHYZcQ6EiabVBQa1ka1xV6NmHSXoY3OIwz14XDnyKVcRbOK14T5YRyFkk3dxAYDI0kqp00QLXsdRAp";
+// Google Maps browser key, set per environment (Vercel: NEXT_PUBLIC_GOOGLE_MAPS_KEY). Never hard-code keys here.
+export const mapApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY;
 
 // Set per environment in .env.local (never hard-code the live server).
 export const BASE_API_URL = process.env.NEXT_PUBLIC_API_URL;
-// export const BASE_API_URL = "https://uae.appsstart.com/anybuddy/api/";
 
 export const TOKEN_NAME = "AnyBuddyWebToken";
 export const TOKEN_NAME_REG = "AnyBuddyWebTokenReg";
