@@ -1,7 +1,6 @@
 "use client";
 import { markTaskDone } from "@/Until/bookingTask";
 import Loader from "@/Components/Loader/Loader";
-import { mapApiKey } from "@/Until";
 import Icon from "@/Components/ui/Icon";
 import {
   AddressRequired,
@@ -10,40 +9,17 @@ import {
 import { BookProccedApi } from "@/api/setting";
 import { useDataStore } from "@/api/store/store";
 import { locateAddress } from "@/Until/searchLocation";
+import AddressInput from "./AddressInput";
 import { useFormik } from "formik";
-import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
-import { Suspense, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 import "../FormStyle.css";
 import "../../booking.css";
-// The address box appears only once Google's script has loaded, and the skeleton shows until then. The library
-// attaches to its input after the script loads. If the customer pressed Continue first (the address is pre-filled
-// from the profile), the box was already gone and the library logged "Input ref must be HTMLInputElement".
-const Autocomplete = dynamic(async () => {
-  const [lib, { loadGoogleMapScript }] = await Promise.all([
-    import("react-google-autocomplete"),
-    import("react-google-autocomplete/lib/utils"),
-  ]);
-  const base = "https://maps.googleapis.com/maps/api/js";
-  // The same script the library would load. Wait at most 4 seconds, so the box still shows if Google is blocked or
-  // slow. Typing works, and suggestions appear if the script arrives later.
-  await Promise.race([
-    loadGoogleMapScript(base, `${base}?libraries=places&key=${mapApiKey}`),
-    new Promise((r) => setTimeout(r, 4000)),
-  ]);
-  return lib.default;
-}, {
-  ssr: false,
-  loading: () => <div className="ab-skeleton" style={{ height: 52 }} />,
-});
-
 function ServiceBook(props) {
   const [loading, setloading] = useState(false);
   const { push } = useRouter();
-  const startLocationRef = useRef();
-  const endAutocompleteRef = useRef();
 
 
   // The id is the number of hours sent as timeInterval. 4 hours is the most one booking covers.
@@ -201,46 +177,23 @@ function ServiceBook(props) {
             </label>
             <div className="ab-book__input">
               <Icon name="pin" size={20} />
-              <Suspense fallback={<div className="ab-skeleton" style={{ height: 52 }} />}>
-                <Autocomplete
-                  apiKey={mapApiKey}
-                  id="ab-task-start"
-                  name="address"
-                  value={formik.values.address || ""}
-                  ref={startLocationRef}
-                  className="form-control ab-input"
-                  placeholder="Street address, city or ZIP code"
-                  autoComplete="off"
-                  onChange={() => {
-                    if (startLocationRef.current) {
-                      formik.setFieldValue(
-                        "address",
-                        startLocationRef.current.value
-                      );
-                      formik.setFieldValue("lat", "");
-                      formik.setFieldValue("lng", "");
-
-                      if (startLocationRef.current.value === "") {
-                        startLocationRef.current.value = "";
-                      }
-                    }
-                  }}
-                  onPlaceSelected={(place, inputRef, autocompleteRef) => {
-                    if (place) {
-                      let lat = place.geometry.location.lat();
-                      let lng = place.geometry.location.lng();
-                      let address = place.formatted_address;
-                      formik.setFieldValue("address", address);
-                      formik.setFieldValue("lat", lat);
-                      formik.setFieldValue("lng", lng);
-                    }
-                  }}
-                  options={{
-                    types: ["geocode", "establishment"],
-                    componentRestrictions: { country: "us" }, // Any-Buddy serves US addresses only.
-                  }}
-                />
-              </Suspense>
+              <AddressInput
+                id="ab-task-start"
+                name="address"
+                value={formik.values.address || ""}
+                className="form-control ab-input"
+                placeholder="Street address, city or ZIP code"
+                onType={(text) => {
+                  formik.setFieldValue("address", text);
+                  formik.setFieldValue("lat", "");
+                  formik.setFieldValue("lng", "");
+                }}
+                onPick={({ address, lat, lng }) => {
+                  formik.setFieldValue("address", address);
+                  formik.setFieldValue("lat", lat);
+                  formik.setFieldValue("lng", lng);
+                }}
+              />
             </div>
             {showError(formik, "address") && (
               <p className="ab-error">
@@ -255,38 +208,21 @@ function ServiceBook(props) {
               </label>
               <div className="ab-book__input">
                 <Icon name="pin" size={20} />
-                <Autocomplete
-                  apiKey={mapApiKey}
+                <AddressInput
                   id="ab-task-end"
-                  name="address"
-                  value={formik.values.endAddress}
-                  ref={endAutocompleteRef}
+                  name="endAddress"
+                  value={formik.values.endAddress || ""}
                   className="form-control ab-input"
                   placeholder="Street address, city or ZIP code"
-                  autoComplete="off"
-                  onChange={() => {
-                    if (endAutocompleteRef.current) {
-                      formik.setFieldValue(
-                        "endAddress",
-                        endAutocompleteRef.current.value
-                      );
-                      formik.setFieldValue("endLat", "");
-                      formik.setFieldValue("endLng", "");
-                    }
+                  onType={(text) => {
+                    formik.setFieldValue("endAddress", text);
+                    formik.setFieldValue("endLat", "");
+                    formik.setFieldValue("endLng", "");
                   }}
-                  onPlaceSelected={(place, inputRef, endAutocompleteRef) => {
-                    if (place) {
-                      let lat = place.geometry.location.lat();
-                      let lng = place.geometry.location.lng();
-                      let address = place.formatted_address;
-                      formik.setFieldValue("endAddress", address);
-                      formik.setFieldValue("endLat", lat);
-                      formik.setFieldValue("endLng", lng);
-                    }
-                  }}
-                  options={{
-                    types: ["geocode", "establishment"],
-                    componentRestrictions: { country: "us" },
+                  onPick={({ address, lat, lng }) => {
+                    formik.setFieldValue("endAddress", address);
+                    formik.setFieldValue("endLat", lat);
+                    formik.setFieldValue("endLng", lng);
                   }}
                 />
               </div>

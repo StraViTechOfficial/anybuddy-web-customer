@@ -1404,3 +1404,28 @@
 @media (max-width: 767.9px) {
   .ab-pay .ab-pay__summary { padding-bottom: 20px; border-bottom: 1px solid var(--ab-line); }
 }
+
+/* Address suggestions under the booking address boxes (AddressInput). */
+.ab-suggest {
+  position: absolute;
+  z-index: 5;
+  left: 0;
+  right: 0;
+  top: calc(100% + 4px);
+  margin: 0;
+  padding: 4px 0;
+  list-style: none;
+  background: var(--ab-canvas);
+  border: 1px solid var(--ab-line-2);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(15, 24, 48, 0.12);
+}
+.ab-suggest li {
+  padding: 10px 16px;
+  cursor: pointer;
+  color: var(--ab-ink);
+}
+.ab-suggest li:hover,
+.ab-suggest li[aria-selected="true"] {
+  background: var(--ab-navy-50);
+}
