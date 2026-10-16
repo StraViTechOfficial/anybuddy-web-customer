@@ -5,7 +5,7 @@ import Image from "next/image";
 import React from "react";
 import Cookies from "@/Until/cookies";
 import { useCookie } from "@/Until/useCookie";
-import { ChangeName, TOKEN_NAME } from "@/Until";
+import { ChangeName, SIGNED_IN } from "@/Until";
 import Icon from "@/Components/ui/Icon";
 
 const PROMISES = [
@@ -19,7 +19,7 @@ const PROMISES = [
 const plain = (html) => html?.replace(/<[^>]*>/g, "").trim();
 
 function ServicesDetail(props) {
-  const token = useCookie(TOKEN_NAME); // Read after load, to avoid a server and browser mismatch on the Book link.
+  const token = useCookie(SIGNED_IN); // Read after load, to avoid a server and browser mismatch on the Book link.
   const promises = (
     <ul className="ab-sd__list">
       {PROMISES.map((text) => (

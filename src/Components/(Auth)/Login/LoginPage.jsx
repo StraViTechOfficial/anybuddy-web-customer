@@ -1,8 +1,9 @@
 "use client";
 import { LoginApi } from "@/api/setting";
+import { forgetSession } from "@/api";
 import LoginForm from "@/Components/Forms/(AuthForm)/LoginForm";
 import MobileLogin from "@/Components/Forms/(AuthForm)/MobileLogin";
-import { pageAfterLogin, TOKEN_NAME, TOKEN_NAME_REG } from "@/Until";
+import { pageAfterLogin } from "@/Until";
 import Cookies from "@/Until/cookies";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
@@ -41,7 +42,7 @@ function LoginPage(props) {
   // Opening the login page signs out an old session, once. It used to run on every render, so the token that a
   // successful login had just saved was deleted again before the page changed, and you landed on Home signed out.
   useEffect(() => {
-    Cookies.remove(TOKEN_NAME);
+    forgetSession();
   }, []);
 
   const payload = {
@@ -64,14 +65,11 @@ function LoginPage(props) {
         if (res?.status === 1 && res?.data?.needsProfile) {
           // The first time with Google or Apple, the account still needs a verified phone and the Terms tick, as in an email
           // sign-up. The token only allows finishing sign-up, and the name and email are shown there for an hour at most.
-          Cookies.set(TOKEN_NAME_REG, res.data.token);
           Cookies.set("socialName", res.data.firstName || "", { expires: 1 / 24 });
           Cookies.set("socialEmail", res.data.email || "", { expires: 1 / 24 });
           push("/complete-signup"); // Keep the "path" cookie for after step 2.
         } else if (res?.status === 1) {
           toast.success(res.message);
-          Cookies.set(TOKEN_NAME, res?.data?.token);
-          Cookies.remove(TOKEN_NAME_REG);
           push(pageAfterLogin(Cookies));
 
         } else {

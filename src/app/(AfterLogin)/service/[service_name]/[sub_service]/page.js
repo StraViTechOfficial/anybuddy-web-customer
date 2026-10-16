@@ -8,7 +8,7 @@ import SearchForm from "@/Components/Header/SearchForm";
 import Icon from "@/Components/ui/Icon";
 import { getSavedLocation, LOCATION_EVENT } from "@/Until/searchLocation";
 import { bookWith, taskDoneFor, takePro } from "@/Until/bookingTask";
-import { TOKEN_NAME } from "@/Until";
+import { SIGNED_IN } from "@/Until";
 import Cookies from "@/Until/cookies";
 import { ShowPrice, buddyArea } from "@/Until";
 import { employeImg } from "@/Until/ImageExport";
@@ -81,12 +81,12 @@ function ServiceProviderList() {
       name: `${item?.vendorFirstName} ${item?.vendorLastName}`,
       img: item?.vendorLogoUrl?.includes("http") ? item?.vendorLogoUrl : employeImg,
     };
-    if (Cookies.get(TOKEN_NAME) && taskDoneFor(sub_service)) return openPro(pro);
+    if (Cookies.get(SIGNED_IN) && taskDoneFor(sub_service)) return openPro(pro);
     bookWith(push, service_name, sub_service, pro); // Login and the task step come first, and the Buddy is remembered.
   };
   // Back from the task step (or from "Book" on a Buddy's profile), so open the remembered Buddy's times straight away.
   useEffect(() => {
-    if (!Cookies.get(TOKEN_NAME) || !taskDoneFor(sub_service)) return;
+    if (!Cookies.get(SIGNED_IN) || !taskDoneFor(sub_service)) return;
     const pro = takePro(sub_service);
     if (pro) openPro(pro);
   }, [sub_service]);

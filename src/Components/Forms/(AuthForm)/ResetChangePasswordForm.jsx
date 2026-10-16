@@ -1,9 +1,7 @@
 "use client";
 import Loader from "@/Components/Loader/Loader";
-import { TOKEN_NAME, TOKEN_NAME_REG } from "@/Until";
 import { NewPassword, PasswordMatch, PasswordRequired, showError } from "@/Until/ValidationError";
 import { useFormik } from "formik";
-import Cookies from "@/Until/cookies";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import * as Yup from "yup";
@@ -48,7 +46,6 @@ function ResetChangePasswordForm(props) {
         changePasswordApi(payload).then((res) => {
           if (res?.status === 1) {
             toast.success(res.message);
-            Cookies.remove(TOKEN_NAME);
             push("/");
             setloading(false);
           } else {
@@ -60,7 +57,6 @@ function ResetChangePasswordForm(props) {
         resetPasswordApi(payload).then((res) => {
           if (res?.status === 1) {
             toast.success(res.message);
-            Cookies.remove(TOKEN_NAME_REG);
             push("/");
             setloading(false);
           } else {

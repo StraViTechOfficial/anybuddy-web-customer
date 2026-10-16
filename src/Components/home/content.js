@@ -48,11 +48,13 @@ export const PRO_PHOTO = "https://images.unsplash.com/photo-1725597199755-de76c9
 export const APP_COPY =
   "Download the Any-Buddy app and manage your bookings, track your Buddy in real time, and chat with your pro — all from your phone.";
 
-// Why Any-Buddy: the client's original copy, word for word (do not rewrite).
+// Why Any-Buddy: the client's original copy, word for word (do not rewrite). The one exception is the shield card. It
+// used to promise background checks, which the Terms of Use (section 32) say are not done, so it now describes the ID
+// review that does happen.
 export const WHY_LEAD =
   "Every Buddy on our platform goes through a thorough vetting process — so you never have to wonder who's coming to your home.";
 export const TRUST = [
-  { icon: "shield", title: "Background Checked", text: "Every service provider is screened through a comprehensive background check before they ever take a job on Any-Buddy. Your safety is non-negotiable." },
+  { icon: "shield", title: "ID-verified Buddies", text: "Every Buddy submits a government photo ID and a live selfie, which the Any-Buddy team reviews before approving them. Your safety is non-negotiable." },
   { icon: "star", title: "Rated & Reviewed", text: "Read real reviews from real customers in your area before you book. Our rating system means only the best Buddies keep working." },
   { icon: "tag", title: "Transparent Pricing", text: "See the full price before you confirm. No surprise fees, no awkward conversations at the door." },
   { icon: "lock", title: "Secure Payments", text: "Pay safely through the Any-Buddy app or website using your card or digital wallet. No cash required." },
@@ -66,7 +68,7 @@ export const TRUST = [
 // finished home.
 export const STEPS = [
   { photo: "https://images.unsplash.com/photo-1779968130487-f619b788ad84", title: "Tell us what you need", text: "Choose from our list of home services, pick a date and time that works for you, and describe the job. Takes less than 2 minutes" },
-  { photo: "https://images.unsplash.com/photo-1680648305742-1a8fd94ab8d5", title: "Meet your Buddy", text: "We match you with a vetted, background-checked local pro. See their profile, ratings, and past reviews before you confirm." },
+  { photo: "https://images.unsplash.com/photo-1680648305742-1a8fd94ab8d5", title: "Meet your Buddy", text: "We match you with a local pro whose photo ID and live selfie our team has reviewed. See their profile, ratings, and past reviews before you confirm." },
   { photo: "https://images.unsplash.com/photo-1666585958641-4f70887372a1", title: "Sit back and relax", text: "Your Buddy shows up on time, gets the job done, and you pay securely through the app. It's that simple." },
 ];
 

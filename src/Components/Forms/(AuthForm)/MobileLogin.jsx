@@ -2,7 +2,7 @@
 import Icon from "@/Components/ui/Icon";
 import Loader from "@/Components/Loader/Loader";
 import MobileInput from "@/Components/MobileInput/MobileInput";
-import { pageAfterLogin, TOKEN_NAME, TOKEN_NAME_REG } from "@/Until";
+import { pageAfterLogin } from "@/Until";
 import { MobileRequired, OTPRequired, showError } from "@/Until/ValidationError";
 import { LoginPhoneApi, OTPVerificationApi } from "@/api/setting";
 import { useFormik } from "formik";
@@ -47,8 +47,6 @@ function MobileLogin(props) {
       if (values.OTPshow) {
         OTPVerificationApi(payload).then((res) => {
           if (res?.status === 1) {
-            Cookies.remove(TOKEN_NAME_REG);
-            Cookies.set(TOKEN_NAME, res?.data?.token);
             props.onLoggedIn ? props.onLoggedIn() : push(pageAfterLogin(Cookies)); // From the pop-up, stay on this page.
             setloading(false);
           } else {
@@ -72,7 +70,6 @@ function MobileLogin(props) {
     }).then((res) => {
       if (res?.status === 1) {
         formik.setFieldValue("OTPshow", true);
-        Cookies.set(TOKEN_NAME_REG, res?.data?.token);
         setloading1(false);
         // One live code per account. The server says how long the code already sent is still valid.
         setSeconds(res?.data?.codeValidFor || 600);

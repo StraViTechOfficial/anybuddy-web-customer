@@ -13,7 +13,7 @@ import {
   ResendOTPApi,
 } from "@/api/setting";
 import { toast } from "react-toastify";
-import { OTP_FOR, pageAfterLogin, TOKEN_NAME, TOKEN_NAME_REG } from "@/Until";
+import { OTP_FOR, pageAfterLogin } from "@/Until";
 import { OTPRequired, showError } from "@/Until/ValidationError";
 import "./authfields.css";
 
@@ -91,14 +91,11 @@ function OTPVerifyForm(props) {
         if (res?.status === 1) {
           toast.success(res.message);
           if (Cookies.get(OTP_FOR) === "login") {
-            // The code was confirmed after an unverified login, so this is the full login token.
-            Cookies.set(TOKEN_NAME, res?.data?.token);
-            Cookies.remove(TOKEN_NAME_REG);
+            // The code was confirmed after an unverified login, so the proxy has stored the full login token.
             Cookies.remove(OTP_FOR);
             push(pageAfterLogin(Cookies));
           } else {
-            Cookies.set(TOKEN_NAME_REG, res?.data?.token);
-            push("/reset-password");
+            push("/reset-password"); // The proxy keeps the short reset token for the next step.
           }
           Cookies.remove("email");
           setloading(false);

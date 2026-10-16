@@ -1,6 +1,6 @@
 "use client";
 import { useDataStore } from "@/api/store/store";
-import { TOKEN_NAME } from "@/Until";
+import { SIGNED_IN } from "@/Until";
 import EmailReminder from "./EmailReminder";
 import Icon from "@/Components/ui/Icon";
 import { logoImg } from "@/Until/ImageExport";
@@ -65,7 +65,7 @@ function Header() {
   const showPill = !home || pastSearch;
 
   useEffect(() => {
-    setToken(Cookies.get(TOKEN_NAME));
+    setToken(Cookies.get(SIGNED_IN));
     const onScroll = () => {
       setScrolled(window.scrollY > 24);
       setPastSearch((document.getElementById("hero-search")?.getBoundingClientRect().bottom ?? 0) < 96);
@@ -114,8 +114,7 @@ function Header() {
   }, [searchOpen]);
 
   useEffect(() => {
-    if (token === undefined) Cookies.remove(TOKEN_NAME);
-    else if (token) {
+    if (token) {
       fetchgetProfile();
       fetchNotificationCont();
     }

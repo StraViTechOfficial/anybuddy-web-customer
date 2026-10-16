@@ -8,7 +8,7 @@
 // The copy is the client's original wording where it exists, and the data comes from /api/user/homepage.
 import { useDataStore } from "@/api/store/store";
 import Icon from "@/Components/ui/Icon";
-import { TOKEN_NAME } from "@/Until";
+import { SIGNED_IN } from "@/Until";
 import Cookies from "@/Until/cookies";
 import Image from "next/image";
 import Link from "next/link";
@@ -30,7 +30,7 @@ export default function HomePage() {
   const { Homepage, fetchHomepage } = useDataStore();
   const [loaded, setLoaded] = useState(false);
   const [signedIn, setSignedIn] = useState(false);
-  useEffect(() => setSignedIn(!!Cookies.get(TOKEN_NAME)), []);
+  useEffect(() => setSignedIn(!!Cookies.get(SIGNED_IN)), []);
 
   useEffect(() => {
     fetchHomepage({ limit: 50 }).then(() => setLoaded(true));

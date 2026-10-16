@@ -1,7 +1,7 @@
 "use client";
 import Icon from "@/Components/ui/Icon";
 import Loader from "@/Components/Loader/Loader";
-import { OTP_FOR, pageAfterLogin, TOKEN_NAME, TOKEN_NAME_REG } from "@/Until";
+import { OTP_FOR, pageAfterLogin } from "@/Until";
 import { EmailValidation, PasswordRequired, showError } from "@/Until/ValidationError";
 import { forgotPasswordApi, LoginApi, OTPVerificationApi } from "@/api/setting";
 import { useFormik } from "formik";
@@ -49,8 +49,6 @@ function LoginForm(props) {
         forgotPasswordApi({ email: values.email }).then((res) => {
           if (res?.status === 1) {
             // No toast here. The reply is the same whether or not the account exists, and the code screen explains what to do.
-            Cookies.set(TOKEN_NAME_REG, res?.data?.token);
-
             Cookies.set("email", values.email);
             Cookies.remove(OTP_FOR);
             push("/otp-verify");
@@ -65,7 +63,6 @@ function LoginForm(props) {
           OTPVerificationApi({ loginOtp: values.otp }).then((res) => {
             if (res?.status === 1) {
               toast.success(res.message);
-              Cookies.set(TOKEN_NAME_REG, res?.data?.token);
               push(pageAfterLogin(Cookies));
               setloading(false);
             } else {
@@ -76,13 +73,10 @@ function LoginForm(props) {
         } else {
           LoginApi(payload).then((res) => {
             if (res?.status === 1) {
-              Cookies.set(TOKEN_NAME, res?.data?.token);
-              Cookies.remove(TOKEN_NAME_REG);
               props.onLoggedIn ? props.onLoggedIn() : push(pageAfterLogin(Cookies)); // From the pop-up, stay on this page.
               setloading(false);
             } else if (res?.data?.needsVerification) {
               // The account is not verified yet. The backend has emailed a code, which the customer confirms on the code screen.
-              Cookies.set(TOKEN_NAME_REG, res.data.token);
               Cookies.set("email", values.email);
               Cookies.set(OTP_FOR, "login");
               // One live code per account. The code screen counts down the real time left, and says when no new code was sent.

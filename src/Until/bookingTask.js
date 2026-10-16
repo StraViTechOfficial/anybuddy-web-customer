@@ -1,5 +1,5 @@
 import Cookies from "@/Until/cookies";
-import { TOKEN_NAME } from "@/Until";
+import { SIGNED_IN } from "@/Until";
 
 // The task step (address, task size, description) is saved on the server per customer, not per service.
 // So the browser remembers which service it was filled in for during this visit. Booking a Buddy needs it,
@@ -47,7 +47,7 @@ export const takePro = (serviceSlug) => {
 export const bookWith = (push, category, service, pro) => {
   const taskPage = `/service/${category}/${service}/book`;
   rememberPro(service, pro);
-  if (!Cookies.get(TOKEN_NAME)) {
+  if (!Cookies.get(SIGNED_IN)) {
     Cookies.set("path", taskPage); // After login, the customer comes back to the task step.
     return push("/login");
   }

@@ -1,6 +1,6 @@
 "use client";
 import { RemoveBuddyApi, SaveBuddyApi, SavedBuddiesApi } from "@/api/setting";
-import { TOKEN_NAME } from "@/Until";
+import { SIGNED_IN } from "@/Until";
 import { useCookie } from "@/Until/useCookie";
 import Icon from "@/Components/ui/Icon";
 import Cookies from "@/Until/cookies";
@@ -13,7 +13,7 @@ import "./cards.css";
 // once and flips back if the server refuses. Guests log in first and then come back to this page.
 export function useSavedBuddies() {
   const { push } = useRouter();
-  const token = useCookie(TOKEN_NAME);
+  const token = useCookie(SIGNED_IN);
   const [ids, setIds] = useState(() => new Set());
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export function useSavedBuddies() {
     });
 
   const toggle = (vendorId) => {
-    if (!Cookies.get(TOKEN_NAME)) {
+    if (!Cookies.get(SIGNED_IN)) {
       Cookies.set("path", window.location.pathname); // After login, come back to this page.
       return push("/login");
     }

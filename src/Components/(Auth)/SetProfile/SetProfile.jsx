@@ -15,7 +15,7 @@ import Link from "next/link";
 import ImageUploadInput from "@/Components/ImageUploadInput/ImageUploadInput";
 import Loader from "@/Components/Loader/Loader";
 import MobileInput from "@/Components/MobileInput/MobileInput";
-import { pageAfterLogin, TOKEN_NAME, TOKEN_NAME_REG } from "@/Until";
+import { pageAfterLogin, SIGNED_IN } from "@/Until";
 import { useCookie } from "@/Until/useCookie";
 import { employeImg } from "@/Until/ImageExport";
 import {
@@ -50,7 +50,7 @@ const GENDERS = [
 ];
 
 function SetProfile(props) {
-  const token = Cookies.get(TOKEN_NAME);
+  const token = Cookies.get(SIGNED_IN);
   const getProfile = useDataStore((store) => store.getProfile);
   const { fetchgetProfile } = useDataStore();
 
@@ -214,7 +214,6 @@ function SetProfile(props) {
               if (props.page !== "signup") toast.success(res.message); // During sign-up the code screen gives this message instead.
               setloading(false);
               if (props.page === "signup") {
-                Cookies.set(TOKEN_NAME_REG, res?.data?.token);
                 setTimeout(() => {
                   setOTPshow(3); // The "Check your phone" screen, because sign-up is verified by a text code.
                   setSeconds(600);
@@ -229,8 +228,6 @@ function SetProfile(props) {
           OTPVerificationApi({ loginOtp: values.otp }).then((res) => {
             if (res?.status === 1) {
               toast.success(res.message);
-              Cookies.set(TOKEN_NAME, res?.data?.token);
-              Cookies.remove(TOKEN_NAME_REG);
               // Google and Apple have already confirmed the email, so step 2 shows no "we sent a link" note.
               if (!isSocial && res?.data?.user && !res.data.user.emailVerified) Cookies.set("emailLinkSent", res.data.user.email || "1");
               Cookies.remove("socialName");

@@ -3,11 +3,14 @@ import moment from "moment";
 // The Google Maps browser key is set per environment (NEXT_PUBLIC_GOOGLE_MAPS_KEY on Vercel). Never hard-code keys here.
 export const mapApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY;
 
-// Set per environment in .env.local. Never hard-code the live server here.
-export const BASE_API_URL = process.env.NEXT_PUBLIC_API_URL;
+// The browser calls the API only through this site's proxy (src/app/api/[...path]/route.js), which adds the login token.
+export const BASE_API_URL = "/api/";
 
-export const TOKEN_NAME = "AnyBuddyWebToken";
-export const TOKEN_NAME_REG = "AnyBuddyWebTokenReg";
+// The login token and the code-step token live in httpOnly cookies that only the proxy can read. Page scripts see just
+// SIGNED_IN ("1" while a session cookie exists), which tells the page whether to show the customer as signed in.
+export const SESSION_COOKIE = "ab_session";
+export const CODE_COOKIE = "ab_code";
+export const SIGNED_IN = "ab_signed_in";
 // Set to "login" when the code screen is finishing an unverified login (not a password reset).
 export const OTP_FOR = "AnyBuddyWebOtpFor";
 export const FMC_TOKEN = "AnyBuddyWebFMC"; // The old browser push cookie. Logging out still clears it.

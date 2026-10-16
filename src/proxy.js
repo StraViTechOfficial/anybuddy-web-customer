@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { TOKEN_NAME } from "./Until";
+import { SESSION_COOKIE } from "./Until";
 
 // Runs before every page that needs a login. It sends guests to /login and makes sure these pages are never cached.
 export default function proxy(request) {
@@ -10,7 +10,7 @@ export default function proxy(request) {
     "no-store, no-cache, must-revalidate, proxy-revalidate"
   );
 
-  const token = request.cookies.get(TOKEN_NAME);
+  const token = request.cookies.get(SESSION_COOKIE); // The httpOnly session cookie, which the server can read.
 
   if (!token) {
     // The guest logs in first and then comes back here, because the login forms read the "path" cookie.
