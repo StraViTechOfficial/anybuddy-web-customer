@@ -1,9 +1,10 @@
 // Home page content: copy, photos and timings in one place.
-export const HERO_STEP_MS = 7000; // hero photo + headline change every 7 s; the ring on the pause button shows it
-export const HOW_STEP_MS = 5000; // keep in step with the step progress bar in home.css (hm-how-progress)
+export const HERO_STEP_MS = 7000; // The hero photo and headline change every 7 seconds, and the ring on the pause button shows the progress.
+export const HOW_STEP_MS = 5000; // Keep this in step with the progress bar in home.css (hm-how-progress).
 
-// Hero photo per trade: the thing the trade works on (sink, stairs, paint, washer...), no people. [Unsplash id, focus point]. The focus point keeps the subject in frame
-// whatever the screen shape (wide laptop, tall phone), since the photo is cropped to fill.
+// The hero photo for each trade shows the thing the trade works on (sink, stairs, paint, washer...), with no people.
+// Each entry is [Unsplash id, focus point]. The photo is cropped to fill, so the focus point keeps the subject in
+// frame whatever the screen shape (a wide laptop or a tall phone).
 export const HERO_PHOTO = {
   "assembly": ["photo-1620388640952-35a1d22d158d", "50% 50%"],
   "mounting": ["photo-1771371428960-35a50c2d4e7c", "50% 50%"],
@@ -18,8 +19,8 @@ export const heroPhoto = (c) => {
   return id ? { src: `https://images.unsplash.com/${id}`, focus } : { src: c.image, focus: "50% 50%" };
 };
 
-// Hero headline per trade: each its own sentence (no shared template), shown with its photo.
-// Written for the live categories (no original copy exists for these) — pending client approval.
+// The hero headline for each trade is its own sentence (there is no shared template), shown with its photo.
+// They were written for the live categories, since no original copy exists for these, and still need client approval.
 export const HERO_LINE = {
   "cleaning": "Come home to a spotless house.",
   "mounting": "TVs, shelves and art, mounted to stay.",
@@ -41,7 +42,7 @@ export const CATEGORY_ICON = {
 };
 
 // Section photos: American homes, no people.
-export const PRO_PHOTO = "https://images.unsplash.com/photo-1725597199755-de76c90ad531"; // a pro's work truck: fits "grow your business"
+export const PRO_PHOTO = "https://images.unsplash.com/photo-1725597199755-de76c90ad531"; // A Buddy's work truck, which fits "grow your business".
 
 // The app section: the client's original copy, word for word.
 export const APP_COPY =
@@ -59,16 +60,17 @@ export const TRUST = [
 ];
 
 // How it works: the client's original copy, word for word (do not rewrite).
-// Product flow for reference: find a service → pick a verified pro and time → pay, then share
-// the emailed code at the visit (the pro checks in and completes the job with it).
-// Photos tell the story, no people: the problem (dripping faucet) → the pro's tools → a relaxed, finished home.
+// The product flow, for reference: find a service, pick a verified Buddy and a time, and pay. Then share the emailed
+// code at the visit, which the Buddy uses to check in and complete the job.
+// The photos tell the story without people: the problem (a dripping faucet), then the Buddy's tools, then a relaxed,
+// finished home.
 export const STEPS = [
   { photo: "https://images.unsplash.com/photo-1779968130487-f619b788ad84", title: "Tell us what you need", text: "Choose from our list of home services, pick a date and time that works for you, and describe the job. Takes less than 2 minutes" },
   { photo: "https://images.unsplash.com/photo-1680648305742-1a8fd94ab8d5", title: "Meet your Buddy", text: "We match you with a vetted, background-checked local pro. See their profile, ratings, and past reviews before you confirm." },
   { photo: "https://images.unsplash.com/photo-1666585958641-4f70887372a1", title: "Sit back and relax", text: "Your Buddy shows up on time, gets the job done, and you pay securely through the app. It's that simple." },
 ];
 
-// Real app screens: the business's own App Store listing images (id6770849160), in listing order.
+// Real app screens: the images from the business's own App Store listing (app id 6770849160), in listing order.
 export const APP_SHOTS = [
   "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/ff/4b/7c/ff4b7cad-f8d9-bc15-c88e-b4cb8a3542a9/1.jpg/600x1300bb.webp",
   "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/01/c4/ed/01c4eda4-e941-c2b3-dc3f-fe5d445bad6a/2.jpg/600x1300bb.webp",
@@ -76,8 +78,8 @@ export const APP_SHOTS = [
   "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/b9/1c/92/b91c9214-933c-5d7b-a1db-217b4fb537da/4.jpg/600x1300bb.webp",
 ];
 
-// Customer reviews confirmed as real (from the original site), word for word.
-// Shown first; real reviews from the database (homepage API) follow when they exist.
+// Customer reviews from the original site that are confirmed as real, word for word. They are shown first, and real
+// reviews from the database (homepage API) follow when there are any.
 export const OWNER_REVIEWS = [
   {
     _id: "owner-lara",

@@ -26,9 +26,9 @@ function MobileLogin(props) {
     OTPshow: false,
     terms: false,
   };
-  // Server answers (wrong password, expired code…) show inline above the button, not as a pop-up.
+  // Server replies (wrong password, expired code and so on) show inline above the button, not as a pop-up.
   const [formError, setFormError] = useState("");
-  const [notice, setNotice] = useState(""); // "We already sent you a code..." (no new code went out)
+  const [notice, setNotice] = useState(""); // "We already sent you a code...", shown when no new code went out.
 
   const formik = useFormik({
     initialValues: initialValues,
@@ -49,7 +49,7 @@ function MobileLogin(props) {
           if (res?.status === 1) {
             Cookies.remove(TOKEN_NAME_REG);
             Cookies.set(TOKEN_NAME, res?.data?.token);
-            props.onLoggedIn ? props.onLoggedIn() : push(pageAfterLogin(Cookies)); // pop-up: stay on this page
+            props.onLoggedIn ? props.onLoggedIn() : push(pageAfterLogin(Cookies)); // From the pop-up, stay on this page.
             setloading(false);
           } else {
             setloading(false);
@@ -74,7 +74,7 @@ function MobileLogin(props) {
         formik.setFieldValue("OTPshow", true);
         Cookies.set(TOKEN_NAME_REG, res?.data?.token);
         setloading1(false);
-        // One live code per account: the server says how long the code already sent is still valid.
+        // One live code per account. The server says how long the code already sent is still valid.
         setSeconds(res?.data?.codeValidFor || 600);
         setNotice(res?.data?.codeValidFor && res.data.codeValidFor < 600 ? res.message : "");
       } else {
@@ -86,7 +86,7 @@ function MobileLogin(props) {
   };
 
   const [seconds, setSeconds] = useState(0);
-  // Whole minutes, never seconds; rounded up so it never reads "0 min" early.
+  // Whole minutes, never seconds. It rounds up so it never reads "0 min" too early.
   const minutesLeft = Math.ceil(seconds / 60);
 
   useEffect(() => {
@@ -98,7 +98,7 @@ function MobileLogin(props) {
       return () => clearTimeout(timer);
     }
   }, [seconds]);
-  // The "already sent" message is about the code that just ran out: it goes when the timer does.
+  // The "already sent" message is about the code that just ran out, so it disappears when the timer does.
   useEffect(() => {
     if (seconds === 0) setNotice("");
   }, [seconds]);
@@ -106,7 +106,8 @@ function MobileLogin(props) {
   const { onCodeStep } = props;
   useEffect(() => onCodeStep?.(!!formik.values.OTPshow), [formik.values.OTPshow, onCodeStep]);
 
-  // All 6 digits in (typed or pasted): verify straight away - no extra click. The button stays for keyboards and retries.
+  // Once all 6 digits are in (typed or pasted), verify straight away with no extra click. The button stays for
+  // keyboard users and retries.
   useEffect(() => {
     if (formik.values.OTPshow && formik.values.otp.length === 6 && !loading) formik.submitForm();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -114,8 +115,8 @@ function MobileLogin(props) {
 
   return (
     <>
-      {/* Phone log in: 1) number + Send code  2) 6-digit code + Log in  3) Resend when the timer ends.
-          One primary button at a time, no second button inside the field. */}
+      {/* Phone login has three steps: the number and Send code, then the 6-digit code and Log in, then Resend
+          when the timer ends. There is one primary button at a time, and no second button inside the field. */}
       <form onSubmit={formik.handleSubmit} noValidate>
         <div className="ab-field">
           <div className="ab-label-row">
@@ -153,7 +154,7 @@ function MobileLogin(props) {
 
         {formik.values.OTPshow && (
           <div className="ab-field ab-otp-step">
-            {/* Timer / Resend on the label's row (like "Change number" above), so the step stays one screen tall. */}
+            {/* The timer and Resend sit on the label's row (like "Change number" above), so the step stays one screen tall. */}
             <div className="ab-label-row">
               <label className="ab-label">Enter the 6-digit code we texted you</label>
               {seconds > 0 ? (

@@ -14,9 +14,9 @@ import { Suspense } from "react";
 import "@/Components/Header/header.css";
 import "./style.css";
 
-// Auth frame: one centred card (Airbnb / Thumbtack / Stripe standard). Background as on Stripe's sign-in:
-// white top with the full-colour logo, a slim angled brand-colour band fixed along the bottom of the page (same height
-// on every step, like the footer), small legal links on the band. No pictures.
+// The sign-in frame is one centred card, as on Airbnb, Thumbtack and Stripe. The background follows Stripe's sign-in:
+// a white top with the full-colour logo, and a slim angled band in the brand colour fixed along the bottom of the page
+// (the same height on every step, like the footer) with small legal links on it. There are no pictures.
 function AuthLayout(props) {
   const { back, push } = useRouter();
   const wide = props.page === "profile" || props.page === "signup";
@@ -24,8 +24,8 @@ function AuthLayout(props) {
   return (
     <div className="ab-auth ab-auth--split ab-auth--center">
       <div className="ab-auth__band" aria-hidden="true" />
-      {/* Same white pill header as every other page (Header.jsx / header.css), so moving from the site to log in
-          feels like one product. Only the logo and Back: no menu links, the form keeps the focus. */}
+      {/* The same white pill header as every other page (Header.jsx and header.css), so moving from the site to
+          log in feels like one product. It has only the logo and Back, with no menu links, so the form keeps the focus. */}
       <header className="ab-hd has-pill ab-hd--auth">
         <div className="ab-hd__card">
           <div className="ab-hd__row">

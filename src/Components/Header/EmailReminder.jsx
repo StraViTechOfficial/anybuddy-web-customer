@@ -4,8 +4,9 @@ import Icon from "@/Components/ui/Icon";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-// Signed in with an email that is not confirmed yet: a small reminder at the bottom of the screen with a Resend link.
-// Not a blocker (the phone is verified); the customer can close it until the next visit.
+// Shown when the customer is signed in with an email that is not confirmed yet: a small reminder at the bottom of the
+// screen with a Resend link. It doesn't block anything (the phone is verified), and the customer can close it until
+// the next visit.
 const KEY = "ab-email-reminder-closed";
 export default function EmailReminder({ email }) {
   const [open, setOpen] = useState(false);

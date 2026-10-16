@@ -34,9 +34,9 @@ function EditProfilePage() {
     { id: 3, name: "About us", icon: "help", group: "Support", path: "/about_us" },
     { id: 4, name: "Privacy policy", icon: "shield", group: "Support", path: "/privacy-policy" },
     { id: 5, name: "Terms & conditions", icon: "fileCheck", group: "Support", path: "/terms-conditions" },
-    // { id: 8, name: "Notification" } lives at /notification
-    { id: 10, name: "Log out", icon: "logout", group: "end", logout: true }, // one click: CommonParts/logout.js
-  ]; // About, Privacy, Terms and Help open their one page (same as the footer), not a copy in this panel.
+    // Notifications (tab 8) have their own page at /notification.
+    { id: 10, name: "Log out", icon: "logout", group: "end", logout: true }, // Logs out in one click (CommonParts/logout.js).
+  ]; // About, Privacy, Terms and Help open their own page, as in the footer, rather than a copy inside this panel.
 
   useEffect(() => {
     const tab = Cookies.get("tabShow");

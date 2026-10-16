@@ -26,7 +26,7 @@ function LoginForm(props) {
     otp: "",
     OTPshow: false,
   };
-  // Server answers (wrong password, expired code…) show inline above the button, not as a pop-up.
+  // Server replies (wrong password, expired code and so on) show inline above the button, not as a pop-up.
   const [formError, setFormError] = useState("");
 
   const formik = useFormik({
@@ -48,7 +48,7 @@ function LoginForm(props) {
       if (props.page === "forgot") {
         forgotPasswordApi({ email: values.email }).then((res) => {
           if (res?.status === 1) {
-            // No toast: the reply is the same whether or not the account exists; the code screen explains.
+            // No toast here. The reply is the same whether or not the account exists, and the code screen explains what to do.
             Cookies.set(TOKEN_NAME_REG, res?.data?.token);
 
             Cookies.set("email", values.email);
@@ -78,20 +78,19 @@ function LoginForm(props) {
             if (res?.status === 1) {
               Cookies.set(TOKEN_NAME, res?.data?.token);
               Cookies.remove(TOKEN_NAME_REG);
-              props.onLoggedIn ? props.onLoggedIn() : push(pageAfterLogin(Cookies)); // pop-up: stay on this page
+              props.onLoggedIn ? props.onLoggedIn() : push(pageAfterLogin(Cookies)); // From the pop-up, stay on this page.
               setloading(false);
             } else if (res?.data?.needsVerification) {
-              // Account not verified yet. The backend emailed a code; confirm it on the code screen.
+              // The account is not verified yet. The backend has emailed a code, which the customer confirms on the code screen.
               Cookies.set(TOKEN_NAME_REG, res.data.token);
               Cookies.set("email", values.email);
               Cookies.set(OTP_FOR, "login");
-              // One live code per account: the code screen counts down the real time left, and says when no new
-              // code was sent.
+              // One live code per account. The code screen counts down the real time left, and says when no new code was sent.
               Cookies.set("otpUntil", String(Date.now() + (res.data.codeValidFor || 600) * 1000));
-              if (res.data.sentTo) Cookies.set("otpSentTo", res.data.sentTo); // "+1 ••• ••• 0101"
+              if (res.data.sentTo) Cookies.set("otpSentTo", res.data.sentTo); // For example "+1 ••• ••• 0101".
               if (res.data.codeValidFor && res.data.codeValidFor < 600) Cookies.set("otpNotice", res.message);
               setloading(false);
-              // No toast here: from the pop-up it showed behind the dimmed backdrop and vanished as the page changed.
+              // No toast here. From the pop-up it showed behind the dimmed backdrop and vanished as the page changed.
               // The code screen itself says "Check your email - enter the 6-digit code we sent to ...".
               push("/otp-verify");
             } else {
@@ -124,7 +123,7 @@ function LoginForm(props) {
         </div>
         {props.page === "login" && (
           <>
-            {/* "Forgot password" sits on the label row (as on Stripe): one line less, so the card fits a laptop screen. */}
+            {/* "Forgot password" sits on the label row, as on Stripe. That saves a line, so the card fits a laptop screen. */}
             <div className="ab-label-row">
               <label htmlFor="ab-password" className="ab-label">Password</label>
               <Link href={"/forgot-password"} className="ab-link ab-link--sm">

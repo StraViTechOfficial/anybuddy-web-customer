@@ -47,7 +47,7 @@ function ProviderDetail() {
     if (slug) fetchRatingReviewList({ vendorSlug: slug });
   }, [slug]);
 
-  // The pro's services, matched by name to the site's services for their photo and page link.
+  // The Buddy's services, matched by name to the site's services for their photo and page link.
   const { Homepage, fetchHomepage } = useDataStore();
   const [offered, setOffered] = useState([]);
   useEffect(() => {
@@ -151,14 +151,14 @@ function ProviderDetail() {
                   <ul className="ab-prof__services">
                     {services.map((x) => (
                       <li key={x._id}>
-                        {/* Book this pro directly (contract: book from the pro's price list): task step, then their
-                            open times - the customer never has to find them again in the list. */}
+                        {/* Book this Buddy directly, as the contract asks (book from the Buddy's price list). The task step
+                            comes first, then their open times, so the customer never has to find them again in the list. */}
                         <Link
                           href={x.site ? `/service/${x.site.categorySlug}/${x.site.slug}` : "/service"}
                           className="ab-prof__svc"
                           aria-label={x.site && x.serviceSlug ? `Book ${x.serviceName} with ${p.firstName || "this pro"}` : undefined}
                           onClick={(e) => {
-                            if (!x.site || !x.serviceSlug) return; // not matched to a site service: open the service list
+                            if (!x.site || !x.serviceSlug) return; // Not matched to a site service, so open the service list.
                             e.preventDefault();
                             bookWith(push, x.site.categorySlug, x.site.slug, {
                               id: x.vendorId,
@@ -224,8 +224,8 @@ function ProviderDetail() {
                     </ul>
                   </>
                 )}
-                {/* No contact details here: a pro's phone is shown only in the customer's
-                    booking history after they book, so chats and payments stay on Any-Buddy. */}
+                {/* No contact details here. A Buddy's phone number is shown only in the customer's booking history
+                    after they book, so chats and payments stay on Any-Buddy. */}
                 <p className="ab-prof__note">
                   Choose a service to book {p.firstName || "this pro"}: describe the task, pick one of their
                   open times and see the full price before you pay.

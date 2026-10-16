@@ -3,8 +3,9 @@ import { AppleLogo, GoogleG } from "@/Components/ui/BrandIcons";
 import { getProviders } from "next-auth/react";
 import { useEffect, useState } from "react";
 
-// "or continue with" + Google / Apple, shared by log-in and sign-up. onPick(provider) starts the sign-in. Only the
-// providers the server has settings for show (route.js registers each one only when its env is present).
+// "or continue with" and the Google and Apple buttons, shared by login and sign-up. onPick(provider) starts the
+// sign-in. Only the providers the server has settings for are shown, because route.js registers each one only when
+// its environment variables are present.
 function SocialButtons({ onPick }) {
   const [on, setOn] = useState({});
   useEffect(() => {

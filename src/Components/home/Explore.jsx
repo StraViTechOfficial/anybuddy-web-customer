@@ -6,12 +6,13 @@ import { CATEGORY_ICON, heroPhoto } from "./content";
 import { openSiteSearch } from "@/Until/searchLocation";
 import { fromPrice } from "@/Until";
 
-// Explore services: a directory of category cards. Each card: the category photo, its name, its top 3
-// services (most bookable pros first, from the API; pro counts are not shown) and one "View all N" link.
-// Every card is the same height whatever the admin adds; a new category is a new card. A closing card links to the
-// full list. Nothing moves on its own. Phones: one compact row per category (photo, name, count), tap to open.
+// Explore services: a directory of category cards. Each card has the category photo, its name, its top 3 services
+// (the ones with the most bookable Buddies come first, from the API, but the counts are not shown) and one
+// "View all N" link. Every card is the same height whatever the admin adds, and a new category is simply a new card.
+// A closing card links to the full list. Nothing moves on its own. On phones each category is one compact row
+// (photo, name, count) that opens on tap.
 const TOP = 3;
-const cap = (s = "") => s.charAt(0).toUpperCase() + s.slice(1); // admin data has "cleaning", "electrician"
+const cap = (s = "") => s.charAt(0).toUpperCase() + s.slice(1); // The admin data stores names in lower case, such as "cleaning" and "electrician".
 
 export default function Explore({ categories, groups, loaded, place }) {
   const byCat = Object.fromEntries(groups.map((g) => [g.categorySlug, g.services]));
@@ -53,12 +54,12 @@ export default function Explore({ categories, groups, loaded, place }) {
                           <Link href={`${href}/${s.slug}`} title={cap(s.serviceName)}>
                             {cap(s.serviceName)}
                           </Link>
-                          {/* Same row, not a second line: the cards keep one fixed height (3 rows). */}
+                          {/* Kept on the same row rather than a second line, so the cards keep one fixed height (3 rows). */}
                           {fromPrice(s) && <span className="hm-dir__price ab-num">{fromPrice(s)}</span>}
                         </li>
                       ))}
                     </ul>
-                    {/* One action per card (primary-action); the count lives in it. */}
+                    {/* One action per card, with the count inside it. */}
                     <Link href={href} className="hm-dir__all" aria-label={`View all ${services.length} ${name} services`}>
                       View all {services.length} <Icon name="arrowRight" size={16} />
                     </Link>
@@ -73,8 +74,8 @@ export default function Explore({ categories, groups, loaded, place }) {
               );
             })}
         {loaded && total > 0 && (
-          // Not a link to /service: that page shows these same categories again. Searching is the next step for a
-          // customer who did not see their task above (search covers every service, category and pro).
+          // Not a link to /service, because that page shows these same categories again. Searching is the next step for a
+          // customer who did not see their task above, since search covers every service, category and Buddy.
           <button type="button" className="hm-dir__end" onClick={() => openSiteSearch("service")}>
             <span className="hm-dir__end-icon" aria-hidden="true">
               <Icon name="search" size={20} />

@@ -1,7 +1,8 @@
 import { getData, postRawData, putRawData } from "./index";
 import { getSavedLocation } from "@/Until/searchLocation";
 
-// The customer's saved point (as fetchHomepage sends it): the API then adds fromPriceNearby/priceUnitNearby.
+// Adds the customer's saved location, the same way fetchHomepage sends it, so the API adds fromPriceNearby and
+// priceUnitNearby.
 const withPoint = (payload) => {
   const at = getSavedLocation();
   return at ? { lat: at.lat, long: at.long, ...payload } : payload;
@@ -13,10 +14,11 @@ export const LoginPhoneApi = async (payload) => postRawData("user/auth/login", p
 export const forgotPasswordApi = async (payload) => putRawData("user/auth/forget-password", payload);
 
 export const OTPVerificationApi = async (payload) => postRawData("user/auth/verify-otp", payload);
-// Email confirmation by link (verify both: phone by code at sign-up, email by link).
+// Confirms the email by link. Both are verified: the phone by a code at sign-up, and the email by a link.
 export const VerifyEmailApi = async (payload) => postRawData("user/auth/verify-email", payload);
 export const ResendEmailLinkApi = async () => postRawData("user/auth/resend-email-link", {});
-// Google / Apple first sign-in: add the phone (texted a code) and accept the Terms, with the restricted token.
+// The first Google or Apple sign-in. Using the restricted token, the customer adds a phone number (a code is texted
+// to it) and accepts the Terms.
 export const SocialCompleteApi = async (payload) => postRawData("user/auth/social-complete", payload);
 export const ResendOTPApi = async (payload) => postRawData("user/auth/resend-otp", payload);
 
@@ -25,7 +27,7 @@ export const resetPasswordApi = async (payload) => postRawData("user/auth/reset-
 export const changePasswordApi = async (payload) => putRawData("user/auth/change-password", payload);
 
 export const logoutApi = async (payload) => postRawData("user/auth/logout", payload);
-// Ask the backend for a 5-minute upload link instead of holding storage keys.
+// Asks the backend for an upload link that lasts 5 minutes, so the browser never holds storage keys.
 export const getUploadLinkApi = async (payload) => postRawData("uploads/presign", payload);
 export const RegisterApi = async (payload) => postRawData("user/auth/signup", payload);
 export const SetProfileApi = async (payload) => putRawData("user/auth/update-profile", payload);
@@ -34,9 +36,9 @@ export const HomepageApi = async (payload) => getData("user/homepage", payload);
 export const CategoryListApi = async (payload) => getData("user/homepage/list-categories", payload);
 export const ServiceListApi = async (payload) => getData("user/services/list", payload);
 export const ServiceDetailApi = async (payload) => getData("user/services/list-filter-service", payload);
-// Categories, services and pros by name (Atlas Search on the backend; typo tolerant).
+// Finds categories, services and Buddies by name. The backend uses Atlas Search, which tolerates typos.
 export const SiteSearchApi = async (q) => getData("user/homepage/search", withPoint({ q }));
-// Services one pro offers (name, price) — used on the provider profile.
+// The services one Buddy offers, with name and price. Used on the Buddy's profile page.
 export const ProviderServicesApi = async (payload) => getData("user/services/list-vendor-services", payload);
 
 export const ProviderDetailApi = async (payload) => getData("user/services/details", payload);
@@ -46,7 +48,7 @@ export const BookingDetailApi = async (payload) => getData("user/booking/detail"
 export const AddressListApi = async (payload) => getData("user/address/list", payload);
 export const AddressDetailApi = async (payload) => getData("user/address/detail", payload);
 export const SendHelpApi = async (payload) => postRawData("user/support/send-message", payload);
-// Saved Buddies (favourites are pros, not services).
+// Saved Buddies. Favourites are Buddies, not services.
 export const SaveBuddyApi = async (payload) => postRawData("user/wishlist/save-buddy", payload);
 export const RemoveBuddyApi = async (payload) => putRawData("user/wishlist/remove-buddy", payload);
 export const SavedBuddiesApi = async () => getData("user/wishlist/list-buddies");

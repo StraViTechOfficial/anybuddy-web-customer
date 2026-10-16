@@ -8,14 +8,14 @@ function MobileInput(props) {
     <>
       <PhoneInput
         country={"us"}
-        preferredCountries={["us"]} // US on top; every other country (incl. Canada) in the A-Z list below
+        preferredCountries={["us"]} // The US is on top, and every other country (including Canada) is in the A to Z list below.
         searchPlaceholder="Search country"
-        disableSearchIcon // the library draws an emoji icon; the placeholder says what the box does
+        disableSearchIcon // Hide the library's emoji search icon. The placeholder says what the box does.
         countryCodeEditable={false}
         inputProps={{
           name: props.mobile,
           id: props.inputId,
-          autoComplete: "tel", // lets the browser fill the saved phone number
+          autoComplete: "tel", // Lets the browser fill in the saved phone number.
         }}
         disabled={props.disabled}
         enableSearch

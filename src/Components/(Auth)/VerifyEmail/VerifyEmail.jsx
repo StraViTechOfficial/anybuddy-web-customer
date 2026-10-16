@@ -6,11 +6,11 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-// The link in the "Confirm your email" message lands here (?token=...). Works signed in or out, on any device.
+// The link in the "Confirm your email" message lands here (?token=...). It works signed in or out, on any device.
 export default function VerifyEmail() {
   const token = useSearchParams().get("token");
   const [state, setState] = useState({ status: "checking" });
-  const sent = useRef(false); // React dev mode runs effects twice; the token is single-use
+  const sent = useRef(false); // React's development mode runs effects twice, and the token works only once.
 
   useEffect(() => {
     if (sent.current) return;

@@ -9,11 +9,12 @@ import "./cards.css";
 
 function CategoryBox(props) {
   const { push } = useRouter();
-  // This list (sub-categories) has no price: the homepage entry for the same slug has it (as iOS ServiceRow).
+  // This sub-category list has no price, so we use the homepage entry with the same slug, as the iOS ServiceRow does.
   const { Homepage } = useDataStore();
   const price = fromPrice(props.item, Homepage?.services);
-  // The card opens the service's page: its details and the pros who offer it (contract: pick a pro, then book).
-  // It used to open a pop-up whose "Book" skipped the pros, so the customer never saw who they were booking.
+  // The card opens the service's page, with its details and the Buddies who offer it (the contract says to pick a
+  // Buddy, then book). It used to open a pop-up whose "Book" skipped the Buddies, so the customer never saw who they
+  // were booking.
   const servicePage = `/service/${props.item?.categorySlug || props.service}/${props.item?.slug}`;
 
   return (
@@ -41,7 +42,7 @@ function CategoryBox(props) {
             alt=""
             fill
             sizes="(max-width: 575px) 80vw, (max-width: 991px) 45vw, 25vw"
-            priority={props.priority} // the first row is above the fold: load it first (Next.js LCP warning)
+            priority={props.priority} // The first row is above the fold, so load it first (otherwise Next.js warns about LCP).
             className="ab-svccard__img"
           />
         </span>

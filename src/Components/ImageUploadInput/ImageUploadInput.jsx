@@ -13,12 +13,12 @@ function ImageUploadInput(props) {
   const [isActive1, setIsActive1] = useState(false);
   const [time1, setTime1] = useState(0);
 
-  // The backend picks the file path and signs a 5-minute link; the browser never sees storage keys.
-  // Browsers often leave HEIC (iPhone photos) without a type; the server needs one to sign the upload.
+  // The backend picks the file path and signs a link that lasts 5 minutes, so the browser never sees storage keys.
+  // Browsers often leave HEIC files (iPhone photos) without a type, and the server needs one to sign the upload.
   const typeOf = (file) =>
     file.type || { heic: "image/heic", webp: "image/webp", jpg: "image/jpeg", jpeg: "image/jpeg", png: "image/png", pdf: "application/pdf" }[file.name.split(".").pop().toLowerCase()] || "";
   const uploadFile = async (file) => {
-    // size: the server signs it into the link, so S3 refuses a file bigger than declared (and >10 MB outright).
+    // The server signs the size into the link, so S3 refuses a file bigger than declared, and anything over 10 MB.
     const link = await getUploadLinkApi({ folder: props.folderName, contentType: typeOf(file), size: file.size });
     if (link?.status !== 1) throw new Error(link?.message || "We couldn't upload that file. Try again.");
     const put = await fetch(link.data.uploadUrl, {
@@ -39,7 +39,7 @@ function ImageUploadInput(props) {
     const allowedExtensions = [];
 
     if (accept.includes("image/*"))
-      allowedExtensions.push("jpg", "jpeg", "png", "webp", "heic"); // what the server accepts for photos
+      allowedExtensions.push("jpg", "jpeg", "png", "webp", "heic"); // The photo types the server accepts.
     if (accept.includes("video/*"))
       allowedExtensions.push("mp4", "mov", "avi", "webm", "mkv");
     if (accept.includes("application/pdf")) allowedExtensions.push("pdf");
@@ -65,7 +65,7 @@ function ImageUploadInput(props) {
         toast.error(accept.includes("image/*") && !accept.includes("pdf") ? "Use a JPG, PNG or WebP photo." : `${val.name} isn't a file type we accept.`);
         continue;
       }
-      // Same limit as the server (10 MB), checked before uploading so a big file fails fast and clearly.
+      // The same 10 MB limit as the server, checked before uploading so a big file fails quickly and clearly.
       if (val.size > MAX_BYTES) {
         toast.error(`This file is ${(val.size / 1048576).toFixed(1)} MB. Use a file up to 10 MB.`);
         continue;
@@ -102,7 +102,7 @@ function ImageUploadInput(props) {
         ...uploadedData,
       ]);
     } else if (uploadedData[0]) {
-      // Only replace the current photo when the new one actually uploaded (a failed upload kept wiping it).
+      // Only replace the current photo once the new one has actually uploaded. A failed upload used to wipe it.
       props.formik.setFieldValue(props.inputKey, uploadedData[0]);
     }
 

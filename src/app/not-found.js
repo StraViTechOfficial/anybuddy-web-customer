@@ -2,7 +2,8 @@ import Provider from "@/Components/Provider/Provider";
 import Icon from "@/Components/ui/Icon";
 import Link from "next/link";
 
-// Any unknown address: say so plainly and offer the two ways on (services, home). Same header and footer as the site.
+// Shown for any unknown address. It says so plainly and offers two ways forward (services and home), with the
+// same header and footer as the rest of the site.
 export default function NotFound() {
   return (
     <Provider>

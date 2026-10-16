@@ -1,10 +1,11 @@
 "use client";
-// Home — ui-ux-pro-max Marketplace pattern. Section order follows the customer's decision, then the second audience:
-//   1 Hero (search)  2 Explore (browse)  3 How it works  4 Why Any-Buddy (trust)  5 Reviews (proof)
-//   6 App (customer call to action)  7 For local pros (supply side, last so it never interrupts the customer story).
-// Backgrounds alternate so each section reads as its own block: photo · white · cream · white · cream · white cards.
-// One gap rule: every section has the same padding; two card sections in a row share a single gap (.hm-cta + .hm-cta).
-// Copy is the client's original wording where it exists; data comes from /api/user/homepage.
+// The home page follows a standard marketplace layout. The sections follow the customer's decision first, then the
+// second audience: 1 Hero (search), 2 Explore (browse), 3 How it works, 4 Why Any-Buddy (trust), 5 Reviews (proof),
+// 6 App (the customer call to action) and 7 For local pros (for Buddies). The Buddy section comes last so it never
+// interrupts the customer's story.
+// Backgrounds alternate so each section reads as its own block: photo, white, cream, white, cream, then white cards.
+// Every section has the same padding, and two card sections in a row share a single gap (.hm-cta + .hm-cta).
+// The copy is the client's original wording where it exists, and the data comes from /api/user/homepage.
 import { useDataStore } from "@/api/store/store";
 import Icon from "@/Components/ui/Icon";
 import { TOKEN_NAME } from "@/Until";
@@ -23,7 +24,7 @@ import { CATEGORY_ICON, HERO_STEP_MS, heroPhoto, HERO_LINE, PRO_PHOTO, OWNER_REV
 import "./home.css";
 
 
-const cap = (t = "") => t.charAt(0).toUpperCase() + t.slice(1); // admin data has "cleaning", "electrician"
+const cap = (t = "") => t.charAt(0).toUpperCase() + t.slice(1); // The admin data stores names in lower case, such as "cleaning" and "electrician".
 
 export default function HomePage() {
   const { Homepage, fetchHomepage } = useDataStore();
@@ -39,12 +40,12 @@ export default function HomePage() {
   // The hero rotates through the categories except Trending, which has its own row under the search.
   const heroCats = categories.filter((c) => c.slug !== "trending");
   const [active, setActive] = useState(0);
-  const [paused, setPaused] = useState(false); // while the cursor is in the search
-  const [userPaused, setUserPaused] = useState(false); // the visitor pressed pause
-  const overlay = useOverlayOpen(); // a pop-up is open: the photos stop behind it
+  const [paused, setPaused] = useState(false); // True while the cursor is in the search.
+  const [userPaused, setUserPaused] = useState(false); // True when the visitor has pressed pause.
+  const overlay = useOverlayOpen(); // True while a pop-up is open, so the photos stop behind it.
   const showSlide = useSlideWindow(active, heroCats.length || 1);
 
-  // Coming back to the page (back button / restored tab) always starts the rotation again.
+  // Coming back to the page (with the back button or a restored tab) always starts the rotation again.
   useEffect(() => {
     const resume = () => setPaused(false);
     window.addEventListener("pageshow", resume);
@@ -63,7 +64,7 @@ export default function HomePage() {
       ? trendGroup.services.map((x) => ({ ...x, cat: trendGroup.categorySlug }))
       : groups.flatMap((g) => g.services.map((x) => ({ ...x, cat: g.categorySlug }))).sort((a, b) => (b.pros || 0) - (a.pros || 0))
   ).slice(0, 4)
-  // Confirmed reviews from the original site first, then real reviews from the database.
+  // Reviews confirmed from the original site come first, followed by real reviews from the database.
   const reviews = [...OWNER_REVIEWS, ...(Homepage?.reviews || [])];
 
   const [place, setPlace] = useState("");
@@ -76,9 +77,8 @@ export default function HomePage() {
 
   return (
     <main className="ab-home">
-      {/* ── Hero: category photos crossfade behind a centred search, with a pause button; trending services
-             under the search. It advances on its own and
-             pauses only while the cursor is in the search. ── */}
+      {/* ── Hero: category photos crossfade behind a centred search, with a pause button and trending services
+             under the search. It advances on its own and pauses only while the cursor is in the search. ── */}
       <section className="hm-hero">
       <div className="hm-hero__card">
         <div className="hm-hero__bg" aria-hidden="true">
@@ -88,11 +88,11 @@ export default function HomePage() {
             ) : null,
           )}
         </div>
-        {/* Which category the photo and headline show, where it is in the set, and the pause: one control group
-            (WAI-ARIA carousel pattern). Not announced on every automatic change (aria-live off while it runs). */}
+        {/* The current category, its place in the set and the pause button form one control group (the WAI-ARIA
+            carousel pattern). Automatic changes are not announced, because aria-live is off while it runs. */}
         {heroCats.length > 1 && (
           <div className="hm-hero__now" aria-live={userPaused ? "polite" : "off"}>
-            {/* Name over its progress lines, in a fixed width: the control never changes size between heroCats. */}
+            {/* The name sits over its progress lines at a fixed width, so the control never changes size between categories. */}
             <Icon name={CATEGORY_ICON[heroCats[active]?.slug] || "home"} size={18} className="hm-hero__now-icon" />
             <span className="hm-hero__now-info">
               <Link href={`/service/${heroCats[active]?.slug}`} className="hm-hero__now-link" title={cap(heroCats[active]?.categoryName)}>
@@ -136,7 +136,7 @@ export default function HomePage() {
             </span>
           </h1>
           <p className="hm-hero__lead">Book trusted home service pros in Massachusetts, with every pro&apos;s documents verified. Cleaning, repairs, handyman help, and more — on your schedule.</p>
-          {/* Pause only while the cursor is in the search; leaving it (chip, page, back button) resumes. */}
+          {/* Pause only while the cursor is in the search. Leaving it (for a chip, the page or the back button) resumes the rotation. */}
           <div
             className="hm-hero__search"
             onFocus={() => setPaused(true)}
@@ -144,8 +144,8 @@ export default function HomePage() {
           >
             <SearchForm id="hero-search" className="ab-sb--hero" />
           </div>
-          {/* Trending services under the search: the admin's "Trending" category (picked in the admin
-              panel); if it is empty, the services with the most bookable pros. Real links, one click to the service. */}
+          {/* The trending services under the search come from the admin's "Trending" category. If it is empty, we
+              show the services with the most bookable Buddies. Each is a real link, one click away from the service. */}
           <div className="hm-hero__trend" aria-label="Trending services">
             {trending.length > 0 && (
               <>
@@ -169,7 +169,7 @@ export default function HomePage() {
 
       <WhyAnyBuddy />
 
-      {/* ── Reviews: confirmed real reviews + real ones from the database ── */}
+      {/* ── Reviews: confirmed reviews from the original site, then real ones from the database ── */}
       {reviews.length > 0 && (
         <section className="hm-reviews-band" aria-labelledby="hm-reviews-title">
           <div className="ab-container hm-section">
@@ -194,8 +194,8 @@ export default function HomePage() {
 
       <AppSection />
 
-      {/* ── For local pros: original copy + a fitting photo. Hidden for signed-in customers: they came to book, and
-             the Buddy invite stays in their account menu and the footer. Last section, so removing it moves nothing. ── */}
+      {/* ── For local pros: the original copy with a fitting photo. It is hidden for signed-in customers, who came to book,
+             and the Buddy invite stays in their account menu and the footer. It is the last section, so hiding it moves nothing. ── */}
       {!signedIn && (
       <section className="ab-container hm-section hm-cta">
         <div className="hm-pro ab-reveal">

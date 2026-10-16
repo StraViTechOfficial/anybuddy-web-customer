@@ -12,9 +12,9 @@ import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
 
-// Real notifications for the signed-in customer (replaces the old placeholder list).
-// Booking notices link to their booking. The listing call marks items read on the server, but the list it returns
-// still carries read_status as it was, so this visit's new items keep their dot; the bell count is refreshed after.
+// Real notifications for the signed-in customer (this replaced the old placeholder list).
+// Booking notices link to their booking. The listing call marks items as read on the server, but the list it returns
+// still has read_status as it was, so this visit's new items keep their dot. The bell count is refreshed afterwards.
 function NotificationList() {
   const [Loading, setLoading] = useState(true);
   const [page, setpage] = useState(1);

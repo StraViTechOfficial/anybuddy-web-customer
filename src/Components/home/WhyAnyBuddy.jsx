@@ -3,8 +3,8 @@ import Icon from "@/Components/ui/Icon";
 import Link from "next/link";
 import { TRUST, WHY_LEAD } from "./content";
 
-// Why Any-Buddy: centred heading, the five promises side by side
-// with thin dividers (Airbnb "AirCover" style). The client's original copy, word for word.
+// Why Any-Buddy: a centred heading with the five promises side by side and thin dividers between them, in the
+// style of Airbnb's "AirCover" section. The client's original copy, word for word.
 export default function WhyAnyBuddy() {
   return (
     <section className="ab-container hm-section hm-why" aria-labelledby="hm-why-title">

@@ -26,9 +26,9 @@ export default function CheckoutForm(props) {
   const [loadError, setLoadError] = useState(false);
   const [attempt, setAttempt] = useState(0);
   const [payError, setPayError] = useState("");
-  // Set by /booking/return after a payment that left the site didn't go through; cleared on the next try.
+  // Set by /booking/return when a payment that left the site didn't go through. It is cleared on the next try.
   const [notice, setNotice] = useState(props.notice || "");
-  const method = useRef(""); // the chosen tab (card, cashapp, …), so the return page can name it
+  const method = useRef(""); // The chosen payment tab (card, cashapp and so on), so the return page can name it.
 
   useEffect(() => {
     if (ready || loadError) return;
@@ -43,10 +43,10 @@ export default function CheckoutForm(props) {
     setLoading(true);
     setPayError("");
     setNotice("");
-    // For a method that leaves the site: /booking/return rebuilds this step (or the success screen) from it.
+    // For a payment method that leaves the site, /booking/return rebuilds this step (or the success screen) from this.
     saveCheckout({
       ...props.checkout,
-      returnPath: props.checkout?.returnPath || window.location.pathname, // the service page, to book again
+      returnPath: props.checkout?.returnPath || window.location.pathname, // The service page, for booking again.
       bookingId: props.bookingId,
       method: method.current,
     });
@@ -54,8 +54,8 @@ export default function CheckoutForm(props) {
     const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        // Only for methods that leave the page (Cash App Pay): Stripe sends the customer back here with payment_intent,
-        // payment_intent_client_secret and redirect_status added; /booking/return shows the result like a card payment.
+        // Only used by methods that leave the page (Cash App Pay). Stripe sends the customer back here with payment_intent,
+        // payment_intent_client_secret and redirect_status added, and /booking/return shows the result like a card payment.
         return_url: `${window.location.origin}/booking/return?bookingId=${encodeURIComponent(props.bookingId)}`,
         // Required by Stripe when the country field is hidden.
         payment_method_data: { billing_details: { address: { country: "US" } } },
@@ -66,8 +66,8 @@ export default function CheckoutForm(props) {
     if (error) {
       setPayError(error.message);
     } else if (paymentIntent?.status === "succeeded") {
-      // Ask our server to check with Stripe now, so the booking is marked paid even when Stripe's webhook is late
-      // (or can't reach a local test server). Never blocks the success screen.
+      // Ask our server to check with Stripe now, so the booking is marked paid even when Stripe's webhook is late (or
+      // can't reach a local test server). This never blocks the success screen.
       await ConfirmPaymentApi({ bookingId: props.bookingId }).catch(() => {});
       props.setModalType("Success");
     }
@@ -76,8 +76,8 @@ export default function CheckoutForm(props) {
 
   return (
     <form onSubmit={handleSubmit} className="ab-card-form" noValidate>
-      {/* One plain label and one trust line under the button (the four stacked reassurances and an
-          icon on every label read as generated). */}
+      {/* One plain label and one trust line under the button. Four stacked reassurances and an icon on
+          every label looked machine-generated. */}
       <p className="ab-card-form__title">Payment</p>
 
       {notice && (
@@ -127,12 +127,13 @@ export default function CheckoutForm(props) {
           <div className={ready ? "" : "ab-card-form__pending"}>
             <PaymentElement
               key={attempt}
-              // Stripe shows every method the server allows (card, Cash App Pay; Apple Pay / Google Pay where the device
-              // has them - Apple Pay only on the verified https domain). US only: no country picker; ZIP stays for card checks.
+              // Stripe shows every method the server allows: card and Cash App Pay, plus Apple Pay and Google Pay where the device
+              // has them (Apple Pay only on the verified https domain). The site is US only, so there is no country picker, but
+              // the ZIP stays for card checks.
               options={{
                 layout: "tabs",
-                // Apple Pay / Google Pay stay automatic; Link's sign-up block (email, phone, name) is hidden - it made
-                // the step scroll and pre-filled India.
+                // Apple Pay and Google Pay stay automatic. Link's sign-up block (email, phone, name) is hidden, because it made the
+                // step scroll and pre-filled India.
                 wallets: { applePay: "auto", googlePay: "auto", link: "never" },
                 fields: { billingDetails: { address: { country: "never" } } },
               }}

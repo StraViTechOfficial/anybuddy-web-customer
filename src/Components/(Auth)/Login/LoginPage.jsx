@@ -13,7 +13,7 @@ import SocialButtons from "./SocialButtons";
 
 function LoginPage(props) {
   const [codeStep, setCodeStep] = useState(false);
-  const [ForLogin, setForLogin] = useState("email"); // email first: the usual way to sign in on a US site
+  const [ForLogin, setForLogin] = useState("email"); // Email comes first, because it is the usual way to sign in on a US site.
   // The box glides to the open form's own height (250 ms), so the shorter phone form leaves no empty space and
   // nothing jumps. It follows the form as it grows (code boxes, messages).
   const panesRef = useRef(null);
@@ -28,9 +28,9 @@ function LoginPage(props) {
     return () => ro.disconnect();
   }, [ForLogin]);
   const { push } = useRouter();
-  // Google / Apple leave the site and come back to /login, which finishes the sign-in (effect below) and goes on to
-  // the "path" cookie (pageAfterLogin). From the pop-up, that is the page it was opened on - so the customer ends
-  // up where they were, signed in (the pop-up itself cannot survive the round trip).
+  // Google and Apple leave the site and come back to /login, which finishes the sign-in (in the effect below) and then
+  // goes to the page in the "path" cookie (pageAfterLogin). From the pop-up, that is the page it was opened on, so the
+  // customer ends up where they were, signed in. The pop-up itself cannot survive the round trip.
   const socialSignIn = (provider) => {
     if (props.onLoggedIn) Cookies.set("path", window.location.pathname + window.location.search);
     signIn(provider, { callbackUrl: "/login" });
@@ -38,8 +38,8 @@ function LoginPage(props) {
   const { data: session } = useSession();
 
 
-  // Opening the log-in page signs out an old session, once. (It ran on every render before, so the token a
-  // successful login had just saved was deleted again before the page changed: you landed on Home signed out.)
+  // Opening the login page signs out an old session, once. It used to run on every render, so the token that a
+  // successful login had just saved was deleted again before the page changed, and you landed on Home signed out.
   useEffect(() => {
     Cookies.remove(TOKEN_NAME);
   }, []);
@@ -58,16 +58,16 @@ function LoginPage(props) {
   useEffect(() => {
     if (session?.user?.idToken) {
       LoginApi(payload).then((res) => {
-        // The provider's session has done its job (our own token is the session now); dropping it stops a later
+        // The provider's session has done its job, because our own token is the session now. Dropping it stops a later
         // visit to /login from replaying an expired ID token.
         signOut({ redirect: false }).catch(() => null);
         if (res?.status === 1 && res?.data?.needsProfile) {
-          // First time with Google / Apple: the account still needs a verified phone and the Terms tick (like email
-          // sign-up). The token only allows finishing sign-up; name / email are shown there for an hour at most.
+          // The first time with Google or Apple, the account still needs a verified phone and the Terms tick, as in an email
+          // sign-up. The token only allows finishing sign-up, and the name and email are shown there for an hour at most.
           Cookies.set(TOKEN_NAME_REG, res.data.token);
           Cookies.set("socialName", res.data.firstName || "", { expires: 1 / 24 });
           Cookies.set("socialEmail", res.data.email || "", { expires: 1 / 24 });
-          push("/complete-signup"); // the "path" cookie stays for after step 2
+          push("/complete-signup"); // Keep the "path" cookie for after step 2.
         } else if (res?.status === 1) {
           toast.success(res.message);
           Cookies.set(TOKEN_NAME, res?.data?.token);
@@ -79,7 +79,7 @@ function LoginPage(props) {
         }
       });
     }
-  }, [session?.user?.idToken]); // idToken, not googleId: Apple has no googleId, so it never fired for Apple
+  }, [session?.user?.idToken]); // Check idToken, not googleId. Apple has no googleId, so this never ran for Apple.
 
   return (
     <>
@@ -109,7 +109,7 @@ function LoginPage(props) {
         </button>
       </div>
 
-      {/* Both forms share one grid cell and cross-fade, so switching Email / Phone never moves the page. */}
+      {/* Both forms share one grid cell and cross-fade, so switching between Email and Phone never moves the page. */}
       <div className="ab-auth__form ab-auth__panes" ref={panesRef} style={{ height: paneH || undefined }}>
         <div className={`ab-auth__pane${ForLogin === "email" ? " is-on" : ""}`} data-pane="email" role="tabpanel" inert={ForLogin !== "email"}>
           <LoginForm page={props.page} onLoggedIn={props.onLoggedIn} />
@@ -119,8 +119,8 @@ function LoginPage(props) {
         </div>
       </div>
 
-      {/* Code step on the phone tab: the customer has picked their way in, so Google / Apple step aside (and the card
-          stays one screen tall). "Change number" or the Email tab brings them back. */}
+      {/* On the phone tab's code step the customer has chosen how to sign in, so the Google and Apple buttons are
+          hidden and the card stays one screen tall. "Change number" or the Email tab brings them back. */}
       {!(ForLogin === "mobile" && codeStep) && <SocialButtons onPick={socialSignIn} />}
 
       <p className="ab-auth__switch">

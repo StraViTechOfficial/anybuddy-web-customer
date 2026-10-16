@@ -143,7 +143,7 @@
 /* Plain paragraphs in a content section. */
 .ab-cp-prose { display: grid; gap: 14px; max-width: 64ch; }
 .ab-cp-prose p { margin: 0; font-size: var(--ab-fs-body); line-height: 1.7; color: var(--ab-ink-2); }
-/* Steps as a simple numbered list (no cards), e.g. How to apply. */
+/* Steps as a simple numbered list without cards, for example How to apply. */
 .ab-cp-steps--list { grid-template-columns: 1fr; gap: 12px; }
 .ab-cp-steps--list li { grid-template-columns: 40px 1fr; align-items: center; gap: 14px; padding: 16px 18px; }
 /* About / Terms / Privacy / Support: one column of readable text under the page title. */

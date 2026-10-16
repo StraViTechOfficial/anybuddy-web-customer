@@ -26,8 +26,8 @@ const DateCalender = forwardRef((props, ref) => {
 
           if (props.dateOff.includes(formatted)) {
             return {
-              disabled: true, // 👈 date disable kar diya
-              style: { color: "#ccc", textDecoration: "line-through" }, // optional styling
+              disabled: true, // The Buddy's days off can't be picked.
+              style: { color: "#ccc", textDecoration: "line-through" },
             };
           }
         }}

@@ -29,7 +29,8 @@ export const useDataStore = create((set) => ({
 
   Homepage: {},
   fetchHomepage: async (data) => {
-    // With the customer's saved point the API adds fromPriceNearby/priceUnitNearby, which fromPrice() prefers (as iOS).
+    // With the customer's saved location, the API adds fromPriceNearby and priceUnitNearby. fromPrice() prefers them,
+    // as the iOS app does.
     const at = getSavedLocation();
     const res = await HomepageApi(at ? { lat: at.lat, long: at.long, ...data } : data);
     set({ Homepage: await res?.data });
@@ -106,7 +107,7 @@ export const useDataStore = create((set) => ({
   SlotService: {},
   fetchSlotService: async (data) => {
     const res = await SlotServiceApi(data);
-    // Keep the server's reason (e.g. task step missing) so the calendar never says "no times" by mistake.
+    // Keep the server's reason (for example, a missing task step) so the calendar never says "no times" by mistake.
     set({ SlotService: res?.status === 1 ? res.data : { error: res?.message || "We couldn't load this pro's times. Please try again." } });
   },
 

@@ -18,17 +18,17 @@ import { toast } from "react-toastify";
 import * as Yup from "yup";
 import "../FormStyle.css";
 import "../../booking.css";
-// The address box appears only once Google's script has loaded (the skeleton shows until then). The library attaches
-// to its input after the script loads; if the customer pressed Continue first (the address is pre-filled from the
-// profile), the box was already gone and it logged "Input ref must be HTMLInputElement".
+// The address box appears only once Google's script has loaded, and the skeleton shows until then. The library
+// attaches to its input after the script loads. If the customer pressed Continue first (the address is pre-filled
+// from the profile), the box was already gone and the library logged "Input ref must be HTMLInputElement".
 const Autocomplete = dynamic(async () => {
   const [lib, { loadGoogleMapScript }] = await Promise.all([
     import("react-google-autocomplete"),
     import("react-google-autocomplete/lib/utils"),
   ]);
   const base = "https://maps.googleapis.com/maps/api/js";
-  // Same script the library would load. Wait at most 4 s: if Google is blocked or slow, the box still shows (typing
-  // works, suggestions come if the script arrives).
+  // The same script the library would load. Wait at most 4 seconds, so the box still shows if Google is blocked or
+  // slow. Typing works, and suggestions appear if the script arrives later.
   await Promise.race([
     loadGoogleMapScript(base, `${base}?libraries=places&key=${mapApiKey}`),
     new Promise((r) => setTimeout(r, 4000)),
@@ -46,7 +46,7 @@ function ServiceBook(props) {
   const endAutocompleteRef = useRef();
 
 
-  // The id is the hours sent as timeInterval; 4 hours is the most one booking covers.
+  // The id is the number of hours sent as timeInterval. 4 hours is the most one booking covers.
   const timeIntervalArr = [
     { id: "1", title: "Small", hint: "Est. 1 hr" },
     { id: "3", title: "Medium", hint: "Est. 2–3 hrs" },
@@ -73,9 +73,9 @@ function ServiceBook(props) {
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: Yup.object({
-      // Only when the service asks for a task size (the field is not shown otherwise, so its error could never show
-      // and Continue silently did nothing).
-      // Every booking has a size now (1 / up to 3 / up to 4 hrs sets the upfront charge), whatever the
+      // Only required when the service asks for a task size. The field is not shown otherwise, so its error could never
+      // show and Continue silently did nothing.
+      // Every booking has a size now (1 hour, up to 3 or up to 4 hours, which sets the upfront charge), whatever the
       // service's old "time interval" admin switch says.
       timeInterval: props.Type === 2 && TimeIntervalRequired,
       vehicle:
@@ -121,8 +121,8 @@ function ServiceBook(props) {
     },
   });
 
-  // The task address starts as the customer's profile address (saved at sign-up step 2); they can change it
-  // or pick another from the suggestions. Only fills an empty field, once the profile has loaded.
+  // The task address starts as the customer's profile address (saved at sign-up step 2), and they can change it or
+  // pick another from the suggestions. It only fills an empty field, once the profile has loaded.
   const profile = useDataStore((store) => store.getProfile);
   useEffect(() => {
     const a = profile?.address;
@@ -237,7 +237,7 @@ function ServiceBook(props) {
                   }}
                   options={{
                     types: ["geocode", "establishment"],
-                    componentRestrictions: { country: "us" }, // Any-Buddy serves US addresses only
+                    componentRestrictions: { country: "us" }, // Any-Buddy serves US addresses only.
                   }}
                 />
               </Suspense>

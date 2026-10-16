@@ -2,11 +2,12 @@ import Icon from "@/Components/ui/Icon";
 import { ShowPrice } from "@/Until";
 import moment from "moment";
 
-// Booking status codes as the API returns them (models/user/booking.js). These are the customer tabs.
-// 5 is an unpaid checkout, never shown. A pro's decline is a cancelled booking with cancelledBy "provider".
+// Booking status codes as the API returns them (models/user/booking.js). These are the customer's tabs.
+// Status 5 is an unpaid checkout and is never shown. When a Buddy declines, the booking is cancelled with
+// cancelledBy "provider".
 export const BOOKING_STATUS = {
-  1: { label: "Requested", icon: "clock", tone: "info" }, // paid, waiting for the Buddy to accept
-  2: { label: "Confirmed", icon: "calendar", tone: "info" }, // the Buddy accepted
+  1: { label: "Requested", icon: "clock", tone: "info" }, // Paid and waiting for the Buddy to accept.
+  2: { label: "Confirmed", icon: "calendar", tone: "info" }, // The Buddy has accepted.
   3: { label: "Completed", icon: "checkCircle", tone: "success" },
   4: { label: "Cancelled", icon: "x", tone: "danger" },
 };
@@ -33,7 +34,7 @@ export function StatusPill({ status, by }) {
 
 const time = (t) => (t ? moment(t, "HH:mm").format("h:mm A") : "");
 
-// "Tue, Oct 6, 2026" and "9:00 AM – 11:00 AM" from the booking fields.
+// Builds "Tue, Oct 6, 2026" and "9:00 AM – 11:00 AM" from the booking fields.
 export function whenParts(b) {
   const date = b?.scheduledDate ? moment(b.scheduledDate).format("ddd, MMM D, YYYY") : "";
   const range = [time(b?.selectedSlot), time(b?.endTime)].filter(Boolean).join(" – ");
@@ -71,7 +72,7 @@ export function cancelNote(b) {
   return b?.cancelReason ? `${who}: ${b.cancelReason}` : who;
 }
 
-// Where the money is after a cancel (refundStatus is Stripe's refund status, kept current by the webhook).
+// Where the money is after a cancellation. refundStatus is Stripe's refund status, which the webhook keeps current.
 export function refundNote(b) {
   const amount = ShowPrice(b?.refundAmount || b?.price);
   if (b?.refundStatus === "succeeded") return `${amount} refunded to your card.`;
@@ -80,8 +81,9 @@ export function refundNote(b) {
   return "";
 }
 
-// Free cancellation (backend rule): any time while requested, and up to 24 hours before an accepted visit.
-// ponytail: start is read in the browser's time zone; the backend checks in New York time and has the last word.
+// Free cancellation follows the backend rule: any time while the booking is requested, and up to 24 hours before an
+// accepted visit.
+// ponytail: the start time is read in the browser's time zone. The backend checks in New York time and has the last word.
 export function canCancel(b) {
   if (Number(b?.status) === 1) return true;
   if (Number(b?.status) !== 2 || b?.checkInAt || !b?.scheduledDate || !b?.selectedSlot) return false;

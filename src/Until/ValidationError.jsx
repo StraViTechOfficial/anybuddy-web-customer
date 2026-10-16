@@ -7,7 +7,7 @@ export const EmailValidation = Yup.string()
   .max(254, "That email address is too long.")
   .required("Enter your email address.");
 export const PasswordRequired = Yup.string().required("Enter your password.");
-// New passwords (sign-up, reset, change): at least 8 characters (the backend accepts 6-128; 8 is the safer floor).
+// New passwords (sign-up, reset and change) need at least 8 characters. The backend accepts 6 to 128, but 8 is safer.
 export const NewPassword = Yup.string()
   .required("Create a password.")
   .min(8, "Use at least 8 characters.")
@@ -16,8 +16,8 @@ export const PasswordMatch = Yup.string()
   .required("Enter the password again.")
   .oneOf([Yup.ref("password"), null], "The passwords don't match.");
 export const OTPRequired = Yup.string().required("Enter the 6-digit code.").matches(/^\d{6}$/, "Enter all 6 digits.");
-// Any country. +1 (US, Canada): exactly 10 digits. Other countries: 6-14 digits, so the whole
-// number stays within the backend's 7-15 digits.
+// Any country is allowed. A +1 number (US or Canada) needs exactly 10 digits, and other countries need 6 to 14
+// digits, so the whole number stays within the backend's limit of 7 to 15 digits.
 export const MobileRequired = Yup.string()
   .required("Enter your phone number.")
   .test("phone-length", "Enter a valid phone number.", function (v) {
@@ -27,7 +27,7 @@ export const MobileRequired = Yup.string()
     return (digits.length >= 6 && digits.length <= 14) || this.createError({ message: "Enter a valid phone number for that country." });
   });
 export const BooleanValidation = Yup.boolean().oneOf([true], "Required");
-// Mirrors the backend: 2-50 characters.
+// Matches the backend rule of 2 to 50 characters.
 export const LastNameRequired = Yup.string()
   .trim()
   .required("Enter your last name.")
@@ -40,7 +40,7 @@ export const TimeIntervalRequired = Yup.string().required(
 );
 export const VehicleRequired = Yup.string().required("Vehicle is Required");
 export const TimeRequired = Yup.string().required("Slot is Required");
-// Mirrors the backend: 2-50 characters.
+// Matches the backend rule of 2 to 50 characters.
 export const FirstNameRequired = Yup.string()
   .trim()
   .required("Enter your first name.")
@@ -50,14 +50,14 @@ export const StreetRequired = Yup.string().trim().required("Enter your street ad
 export const CityRequired = Yup.string().required("Choose your city.");
 export const StateRequired = Yup.string().required("Choose your state.");
 export const CountryRequired = Yup.string().required("Choose your country.");
-// Mirrors the backend rule in validation/usZip.js.
+// Matches the backend rule in validation/usZip.js.
 export const PostalCodeRequired = Yup.string()
   .required("Enter your ZIP code.")
   .matches(/^\d{5}(-\d{4})?$/, "Enter a valid US ZIP code (12345 or 12345-6789).");
 export const ReasonRequired = Yup.string().required("Reason is Required");
 
-// When a field's message shows (every form on the site): after the customer tries to submit, or once they have typed
-// something that's wrong. Clicking into an empty field and out again shows nothing.
+// Decides when a field's message shows, on every form on the site. It appears after the customer tries to submit, or
+// once they have typed something wrong. Clicking into an empty field and out again shows nothing.
 const isBlank = (v) => v === undefined || v === null || v === false || (typeof v === "string" && v.trim() === "");
 export const showError = (formik, name) =>
   Boolean(formik.errors?.[name] && formik.touched?.[name] && (formik.submitCount > 0 || !isBlank(formik.values?.[name])));

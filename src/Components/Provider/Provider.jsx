@@ -2,7 +2,7 @@
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 
-// Pages shown inside the mobile apps get no header/footer: decided by app/(CommonPage)/layout.js, not here.
+// Pages shown inside the mobile apps get no header or footer. That is decided in app/(CommonPage)/layout.js, not here.
 function Provider(props) {
   return (
     <>

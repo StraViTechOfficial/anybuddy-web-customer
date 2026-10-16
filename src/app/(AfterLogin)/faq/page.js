@@ -1,12 +1,12 @@
 import "@/Components/content.css";
 
-// FAQ — the client's questions and answers word for word (lifted from the old page by script), in the content layout.
-// Native <details>: keyboard and screen-reader friendly, no script. The first answer starts open.
-// Answers that don't match the product yet:
-//  - cancel/reschedule "up to 24 hours" free (24 h everywhere); rescheduling is not built.
-//  - "we match you with a vetted local pro": customers pick the pro themselves.
-//  - Buddies "standard rate structure": the contract and Terms say pros set their own prices (ToU s29).
-//  - Buddy payouts "within 3-5 business days" and a Buddy cancellation fee: not built.
+// FAQ: the client's questions and answers word for word (copied from the old page by a script), in the content layout.
+// Native <details> elements work with the keyboard and screen readers and need no script. The first answer starts open.
+// Some answers don't match the product yet:
+//  - Free cancelling or rescheduling "up to 24 hours" before (24 hours is the rule everywhere), but rescheduling is not built.
+//  - "we match you with a vetted local pro", but customers pick the Buddy themselves.
+//  - A Buddy "standard rate structure", but the contract and the Terms of Use (section 29) say Buddies set their own prices.
+//  - Buddy payouts "within 3-5 business days" and a Buddy cancellation fee are not built.
 const FAQ = [
   {
     title: "For Customers",

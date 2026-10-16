@@ -5,9 +5,9 @@ import Icon from "@/Components/ui/Icon";
 import { OTP_FOR } from "@/Until";
 import { useCookie } from "@/Until/useCookie";
 
-// Log-in of an account that is not verified yet: the code went to the phone.
-// Forgot password: to the email if it is confirmed, otherwise the phone - the page can't say which (it must not
-// reveal whether an account exists), so it names both.
+// Logging in to an account that is not verified yet sends the code to the phone.
+// For forgot password it goes to the email if that is confirmed, otherwise to the phone. The page can't say which,
+// because it must not reveal whether an account exists, so it names both.
 function OTPVerify(props) {
   const purpose = useCookie(OTP_FOR);
   const sentTo = useCookie("otpSentTo");

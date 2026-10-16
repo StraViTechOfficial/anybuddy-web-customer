@@ -23,8 +23,8 @@ import "../bookings.css";
 
 const hm = (t) => moment(t).format("h:mm A");
 
-// Progress from the status code plus the job-day times: onTheWayAt (+ etaMinutes) when the Buddy sets off,
-// checkInAt when the start code is used.
+// Progress comes from the status code plus the job day times: onTheWayAt (and etaMinutes) when the Buddy sets off,
+// and checkInAt when the start code is used.
 function steps(b) {
   const status = b?.status;
   const booked = {
@@ -44,7 +44,8 @@ function steps(b) {
   return [
     booked,
     {
-      // Named for what happens here: the Buddy accepts (or declines) the request. "Scheduled" read as done already.
+      // Named for what happens at this stage: the Buddy accepts or declines the request. "Scheduled" sounded as if it were
+      // already done.
       label: status >= 2 ? "Confirmed" : "Waiting for your Buddy",
       note: status >= 2 ? "Your Buddy accepted the booking" : "Your Buddy will accept or decline shortly",
       state: status >= 2 ? "done" : "current",
@@ -138,7 +139,7 @@ function BookingDetail() {
   const tax = Number(b?.taxAmount) || 0;
   const total = Number(b?.price) || 0;
   const flow = steps(b);
-  // Minutes between check-in and check-out; hoursWorked (from the API) when only that is sent.
+  // Minutes between check-in and check-out, or hoursWorked from the API when only that is sent.
   const worked = b?.checkInAt && b?.checkOutAt
     ? moment(b.checkOutAt).diff(moment(b.checkInAt), "minutes")
     : Math.round((Number(b?.hoursWorked) || 0) * 60);
@@ -183,7 +184,7 @@ function BookingDetail() {
           ) : (
             <div className="ab-bkd">
               <div className="ab-bkd__main">
-                {/* summary + progress */}
+                {/* Summary and progress */}
                 <div className="ab-panel ab-bkd__summary">
                   <div className="ab-bkd__summaryTop">
                     <div style={{ minWidth: 0 }}>
@@ -229,8 +230,8 @@ function BookingDetail() {
                   </div>
                 )}
 
-                {/* Job code (contract: the Buddy needs the customer's code to start and to finish). Shown only while a
-                    code is live; a new one is sent for the finish. */}
+                {/* The job code. The contract says the Buddy needs the customer's code to start and to finish the job. It
+                    shows only while a code is live, and a new one is sent for the finish. */}
                 {b?.jobCode && (
                   <div className="ab-panel ab-jobcode" role="status">
                     {b?.jobCodeStage === "finish" ? (
@@ -254,7 +255,7 @@ function BookingDetail() {
                   </div>
                 )}
 
-                {/* visit */}
+                {/* Visit details */}
                 <div className="ab-panel">
                   <h3 className="ab-panel__title">
                     <Icon name="calendar" size={20} />
@@ -345,7 +346,7 @@ function BookingDetail() {
               </div>
 
               <aside className="ab-bkd__rail">
-                {/* receipt */}
+                {/* Receipt */}
                 <div className="ab-panel ab-receipt">
                   <h3 className="ab-panel__title">
                     <Icon name="receipt" size={20} />
@@ -405,7 +406,7 @@ function BookingDetail() {
                   )}
                 </div>
 
-                {/* provider */}
+                {/* The Buddy */}
                 <div className="ab-panel">
                   <h3 className="ab-panel__title">
                     <Icon name="user" size={20} />

@@ -1270,7 +1270,7 @@
   }
 }
 
-/* Provider profile: services the pro offers (same card language as Home: photo, name, arrow) */
+/* Buddy profile: the services the Buddy offers, in the same card style as Home (photo, name, arrow). */
 .ab-prof__services { list-style: none; margin: 16px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
 .ab-prof__svc {
   display: flex; align-items: center; gap: 14px; padding: 10px 14px 10px 10px;
@@ -1290,7 +1290,7 @@
 .ab-price__how { display: block; margin-top: 2px; font-size: var(--ab-fs-sm); color: var(--ab-ink-3); }
 .ab-price__note { margin: 0; font-size: var(--ab-fs-sm); color: var(--ab-ink-3); }
 
-/* "Book" on each of a pro's services (profile page): the action is named, not just an arrow. */
+/* "Book" on each of a Buddy's services (profile page), so the action is named rather than just an arrow. */
 .ab-prof__svcBook { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; color: var(--ab-navy); font-size: var(--ab-fs-sm); font-weight: 600; white-space: nowrap; }
 .ab-prof__svcBook svg { transition: transform var(--ab-t) var(--ab-ease); }
 .ab-prof__svc:hover .ab-prof__svcBook svg { transform: translateX(3px); }
@@ -1393,9 +1393,8 @@
   .ab-pay__grid { align-items: stretch; }
   .ab-pay__summary { align-content: start; }
 }
-/* Payment step, Stripe Checkout pattern (ui-ux-pro-max: whitespace-balance, elevation-consistent): the summary is
-   not a box, just text beside the form, split by one thin divider - so a short summary never leaves a grey box ending
-   early or half empty. Phones stack it above the form with a divider under it. */
+/* Payment step, following the Stripe Checkout pattern. The summary is not a box, just text beside the form,
+   split by one thin divider, so a short summary never leaves a grey box ending early or half empty. Phones stack it above the form with a divider under it. */
 .ab-pay .ab-pay__summary { background: transparent; border: 0; border-radius: 0; padding: 0; }
 @media (min-width: 768px) {
   .ab-pay__grid { gap: 0; }

@@ -5,9 +5,9 @@ import { APP_LINKS, SHOW_APP_BADGES } from "@/Until";
 import Image from "next/image";
 import { APP_COPY, APP_SHOTS } from "./content";
 
-// The app: copy + store badge, beside real screens from the app's App Store listing.
+// The app section: copy and a store badge, beside real screens from the app's App Store listing.
 export default function AppSection() {
-  if (!SHOW_APP_BADGES) return null; // the whole section is about getting the app
+  if (!SHOW_APP_BADGES) return null; // The whole section is about getting the app.
   return (
     <section className="ab-container hm-section hm-cta" aria-labelledby="hm-app-title">
       <div className="hm-app ab-reveal">
@@ -22,7 +22,7 @@ export default function AppSection() {
           </ul>
           <div className="hm-app__stores"><AppBtnLink {...APP_LINKS} /></div>
         </div>
-        {/* Real App Store screens: "Manage & Track" in front (matches the copy), "All-In-One" behind. The "All in one place" screen is not used: it shows 500+ / 10k+ figures we cannot back. */}
+        {/* Real App Store screens: "Manage & Track" in front because it matches the copy, and "All-In-One" behind. The "All in one place" screen is not used, because it shows 500+ and 10k+ figures we cannot back. */}
         <div className="hm-app__shots">
           <Image src={APP_SHOTS[2]} alt="" width={300} height={650} className="hm-app__shot hm-app__shot--back" />
           <Image src={APP_SHOTS[3]} alt="Any-Buddy app: manage and track all your bookings" width={300} height={650} className="hm-app__shot hm-app__shot--front" />

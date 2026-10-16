@@ -1,12 +1,12 @@
 "use client";
 import { mapApiKey } from "@/Until";
 
-// Where the customer needs the service. Set from the search (ZIP or "use my location"),
-// kept in this browser, and sent with provider searches so pros are listed by distance.
+// Where the customer needs the service. It is set from the search (a ZIP or "use my location"), kept in this
+// browser, and sent with Buddy searches so Buddies are listed by distance.
 const KEY = "ab-location";
 export const LOCATION_EVENT = "ab-location";
 
-// Rough US box (incl. Alaska and Hawaii): drops a location saved before the US-only rule.
+// A rough box around the US, including Alaska and Hawaii. It drops any location saved before the site became US only.
 const inUS = (l) => l && l.lat > 18 && l.lat < 72 && l.long > -180 && l.long < -65;
 
 export const getSavedLocation = () => {
@@ -44,14 +44,14 @@ const geocode = async (query) => {
   };
 };
 
-// A typed US street address → its coordinates (the booking form needs lat/long for distance), or null.
+// Turns a typed US street address into coordinates, or returns null. The booking form needs lat/long for distance.
 export const locateAddress = (text) => geocode(`address=${encodeURIComponent(text)}&components=country:US`);
 
-// "02493" → { zip, label: "Weston, MA 02493", lat, long }, or null when it is not a US ZIP.
+// Turns a ZIP such as "02493" into { zip, label: "Weston, MA 02493", lat, long }, or returns null if it is not a US ZIP.
 export const locateZip = (zip) => geocode(`components=postal_code:${encodeURIComponent(zip)}|country:US`);
 
-// The browser's position, named by its ZIP. Rejects when the customer declines ("denied")
-// or is outside the US ("outside"): Any-Buddy only serves US addresses.
+// Finds the browser's position and names it by its ZIP. It rejects with "denied" when the customer declines, or
+// "outside" when they are outside the US, because Any-Buddy only serves US addresses.
 export const locateMe = () =>
   new Promise((resolve, reject) => {
     if (!navigator.geolocation) return reject(new Error("denied"));
@@ -66,6 +66,6 @@ export const locateMe = () =>
     );
   });
 
-// Any part of a page can open the header search with the cursor in a field (e.g. Home "Search any task or pro").
+// Lets any part of a page open the header search with the cursor in a field (for example Home's "Search any task or pro").
 export const OPEN_SEARCH_EVENT = "ab-open-search";
 export const openSiteSearch = (field = "service") => window.dispatchEvent(new CustomEvent(OPEN_SEARCH_EVENT, { detail: field }));

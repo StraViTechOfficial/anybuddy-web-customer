@@ -4,15 +4,15 @@ import Icon from "@/Components/ui/Icon";
 import { PRO_URL, SHOW_APP_BADGES } from "@/Until";
 import Image from "next/image";
 import "@/Components/content.css";
-import "@/Components/home.css"; // the shared navy app card (hm-app)
+import "@/Components/home.css"; // For the shared navy app card (hm-app).
 
-// Become a Buddy — the client's copy word for word, in the content-page layout (Components/content.css).
+// Become a Buddy: the client's copy word for word, in the content page layout (Components/content.css).
 // Buddies sign up on the Any-Buddy Pro website, so every "Apply" goes to its sign-up page.
-// Claims the product does not fully back yet: "Payments are released directly to your account after every completed job"
-// (provider payouts are not built yet) and the two Buddy quotes (not confirmed as real people).
+// Some claims are not fully backed by the product yet: "Payments are released directly to your account after every
+// completed job" (Buddy payouts are not built yet), and the two Buddy quotes (not confirmed as real people).
 const PRO_APP = "https://apps.apple.com/us/app/any-buddy-pro/id6771679358";
 // Real screens from the Pro app's App Store listing ("Work Smarter, Earn Better" and "Manage Your Booking").
-// The listing's earnings screen is left out: it shows "500+ professionals / 10k+ happy customers" we can't back.
+// The listing's earnings screen is left out, because it shows "500+ professionals / 10k+ happy customers", which we can't back.
 const PRO_SHOTS = [
   "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/be/5d/15/be5d15ab-c8ff-20b2-533b-1878d35ad066/2.jpg/600x1300bb.webp",
   "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/eb/57/41/eb5741fb-236f-f606-1324-8c50f60cfb53/4.jpg/600x1300bb.webp",
@@ -156,7 +156,7 @@ function BecomeBuddy() {
         </div>
       </section>
 
-      {/* Closing card: same design as Home's app section. The Pro app's store screens show only while store badges are on. */}
+      {/* The closing card has the same design as Home's app section. The Pro app's store screens show only while store badges are switched on. */}
       <div className="ab-home">
       <section className="ab-container hm-section hm-cta" id="join" aria-labelledby="bb-app-title">
         <div className="hm-app">
@@ -172,7 +172,7 @@ function BecomeBuddy() {
               ))}
             </ul>
             <div className="hm-app__stores">
-              {/* White on the navy card: the page's main action. */}
+              {/* White on the navy card, because this is the page's main action. */}
               <a href={`${PRO_URL}/signup`} className="ab-btn ab-btn--light ab-btn--lg">
                 Join as a Buddy
                 <Icon name="arrowRight" size={18} className="ab-arrow" />

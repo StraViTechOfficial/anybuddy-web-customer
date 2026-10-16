@@ -21,7 +21,7 @@ import {
 } from "./BookingStatus";
 import "./bookings.css";
 
-// Empty state copy per tab: says what will appear here, then points to /service.
+// The empty state text for each tab. It says what will appear here, then points to /service.
 const EMPTY = {
   1: {
     icon: "calendar",
@@ -78,7 +78,7 @@ function BookingPage() {
     });
   }, [page, Tab]);
 
-  // Old return address of a payment that left the site (before /booking/return): send it there.
+  // An old return address from a payment that left the site, from before /booking/return existed. Send it there.
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
     if (q.get("bookingId") && q.get("payment_intent")) window.location.replace(`/booking/return${window.location.search}`);

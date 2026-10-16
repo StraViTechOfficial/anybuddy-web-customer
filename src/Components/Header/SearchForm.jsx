@@ -8,20 +8,21 @@ import { useRouter } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import "./search.css";
 
-// The one search on the site: the Home hero and the header both render this.
-// Location first (pros are listed by distance), then the service.
-// An exact service name opens that service; anything else is a text search. Picking a category or a pro opens its page.
-// focus: "location" | "service" puts the cursor in that field (used when the header opens the search).
+// The one search on the site. The Home hero and the header both render this.
+// Location comes first, because Buddies are listed by distance, and then the service.
+// An exact service name opens that service, and anything else is a text search. Picking a category or a Buddy opens
+// its page. A focus of "location" or "service" puts the cursor in that field, which the header uses when it opens
+// the search.
 export default function SearchForm({ className = "", onDone, id, focus }) {
   const Homepage = useDataStore((store) => store.Homepage);
   const { push } = useRouter();
   const listId = useId();
   const [service, setService] = useState("");
-  const [place, setPlace] = useState(""); // what is typed in Location
-  const [loc, setLoc] = useState(null); // the resolved location
+  const [place, setPlace] = useState(""); // The text typed in the Location field.
+  const [loc, setLoc] = useState(null); // The resolved location.
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
-  const [locOpen, setLocOpen] = useState(false); // phone hero: the location field is folded into a chip until opened
+  const [locOpen, setLocOpen] = useState(false); // In the phone hero, the location field is folded into a chip until it is opened.
   const openLocation = () => {
     setLocOpen(true);
     requestAnimationFrame(() => fields.location.current?.focus());
@@ -29,7 +30,7 @@ export default function SearchForm({ className = "", onDone, id, focus }) {
   const fields = { location: useRef(null), service: useRef(null) };
 
   useEffect(() => {
-    // Wait a frame: the header's search row is inert until it opens.
+    // Wait a frame, because the header's search row is inert until it opens.
     const t = focus && requestAnimationFrame(() => {
       fields[focus]?.current?.focus();
       fields[focus]?.current?.select();
@@ -63,12 +64,13 @@ export default function SearchForm({ className = "", onDone, id, focus }) {
     g.services.map((x) => ({ ...x, categorySlug: g.categorySlug, categoryName: g.categoryName })),
   );
 
-  // Service suggestions: our own list (the browser's datalist can't be styled). Combobox pattern:
-  // arrows move, Enter picks, Escape closes; typing filters by service or category name.
+  // Service suggestions use our own list, because the browser's datalist can't be styled. It follows the combobox
+  // pattern: the arrow keys move, Enter picks, Escape closes, and typing filters by service or category name.
   const [open, setOpen] = useState(false);
   const [hi, setHi] = useState(-1);
   const q = service.trim().toLowerCase();
-  // Empty field: the service list. Typing: the server search (typo tolerant) — categories, services, then pros.
+  // An empty field shows the service list. Typing runs the server search, which tolerates typos and returns
+  // categories, services, then Buddies.
   const [found, setFound] = useState(null);
   useEffect(() => {
     if (q.length < 2) return setFound(null);
@@ -85,9 +87,9 @@ export default function SearchForm({ className = "", onDone, id, focus }) {
     : local;
   const showList = open && matches.length > 0;
 
-  // Keep the whole list on screen (combobox rule: a popup never runs off the viewport).
-  // It shrinks to the room below the field (at least ~4 rows); if even that doesn't fit, the page
-  // scrolls up just enough. The header search sits in a fixed bar, so there it only shrinks.
+  // Keep the whole list on screen, because a combobox popup should never run off the viewport. The list shrinks to the
+  // room below the field (at least about 4 rows). If even that doesn't fit, the page scrolls up just enough.
+  // The header search sits in a fixed bar, so there it only shrinks.
   const listRef = useRef(null);
   useEffect(() => {
     const el = listRef.current;
@@ -144,7 +146,7 @@ export default function SearchForm({ className = "", onDone, id, focus }) {
   const submit = async (e) => {
     e.preventDefault();
     setError("");
-    // Location is optional here: services and categories show without it; the pro list asks for a ZIP itself.
+    // Location is optional here. Services and categories show without it, and the Buddy list asks for a ZIP itself.
     let where = loc && place === loc.label ? loc : null;
     if (!where && place.trim()) {
       const zip = place.trim();
@@ -169,7 +171,7 @@ export default function SearchForm({ className = "", onDone, id, focus }) {
 
   return (
     <div className={`ab-sb-wrap ${className}${locOpen ? " is-loc-open" : ""}`}>
-      {/* Phones, Home only (home.css): the location as a chip above a one-line search. Hidden elsewhere. */}
+      {/* On phones, and on Home only (home.css), the location shows as a chip above a one-line search. It is hidden elsewhere. */}
       <button type="button" className="ab-sb__chip" onClick={openLocation} aria-label={loc ? `Location ${loc.label}. Change` : "Add your ZIP code"}>
         <Icon name="pin" size={15} />
         {loc ? (
@@ -189,10 +191,10 @@ export default function SearchForm({ className = "", onDone, id, focus }) {
               value={place}
               onChange={(e) => {
                 setPlace(e.target.value);
-                setError(""); // the message goes as soon as they fix it
+                setError(""); // Clear the message as soon as they start fixing it.
               }}
               placeholder="ZIP code"
-              autoComplete="off" // our own ZIP/location handling; Chrome's saved-entries popup would cover the list
+              autoComplete="off" // We handle ZIPs and locations ourselves, and Chrome's saved entries popup would cover the list.
               aria-describedby={error ? `${listId}-err` : undefined}
             />
             {place && (
@@ -241,7 +243,7 @@ export default function SearchForm({ className = "", onDone, id, focus }) {
                   role="option"
                   aria-selected={i === hi}
                   className="ab-sb__opt"
-                  onMouseDown={(e) => e.preventDefault()} // keep focus in the input
+                  onMouseDown={(e) => e.preventDefault()} // Keep focus in the input.
                   onClick={() => pick(x)}
                   onMouseEnter={() => setHi(i)}
                 >

@@ -1,5 +1,5 @@
 export const logoImg = "/assets/images/Logo.png";
-// Neutral avatar (no stock photo of a person) when a customer or pro has no picture yet.
+// A neutral avatar, not a stock photo of a person, for a customer or Buddy who has no picture yet.
 export const employeImg = "/assets/images/avatar.svg";
 export const dummyImageImg = "/assets/images/dummyImage.png";
 export const SelectAddressImg = "/assets/images/SelectAddress.png";

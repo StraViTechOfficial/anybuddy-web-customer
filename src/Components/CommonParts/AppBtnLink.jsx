@@ -4,8 +4,8 @@ import Link from "next/link";
 import React from "react";
 import { Image } from "react-bootstrap";
 
-// Store badges. A store with a real link is a normal link; a store without one yet (Google Play, until the
-// Android app is published) still shows its badge, but as plain, non-clickable text — no broken or dead link.
+// Store badges. A store with a real link is a normal link. A store without one yet (Google Play, until the Android
+// app is published) still shows its badge, but as plain text that can't be clicked, so there is never a dead link.
 const isLink = (href) => STORE_LINKS_LIVE && typeof href === "string" && /^https?:\/\//.test(href);
 
 function Badge({ href, img, label }) {

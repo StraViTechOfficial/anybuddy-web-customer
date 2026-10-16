@@ -55,11 +55,12 @@ function SetProfile(props) {
   const { fetchgetProfile } = useDataStore();
 
   const [OTPshow, setOTPshow] = useState(1);
-  // "social": first Google / Apple sign-in (/complete-signup). Only phone + Terms; the name and email came from them.
+  // "social" is the first Google or Apple sign-in (/complete-signup). It asks only for the phone and the Terms,
+  // because the name and email came from Google or Apple.
   const isSocial = props.page === "social";
   const socialName = useCookie("socialName");
   const socialEmail = useCookie("socialEmail");
-  const [sent, setSent] = useState(null); // social-complete reply: { sentTo, codeValidFor }
+  const [sent, setSent] = useState(null); // The social-complete reply, { sentTo, codeValidFor }.
   // Step 2 right after the phone code: say that the confirm-email link went out (read once, after load).
   const [linkSentTo, setLinkSentTo] = useState("");
   useEffect(() => {
@@ -69,7 +70,7 @@ function SetProfile(props) {
   const email = Cookies.get("email");
 
   const [seconds, setSeconds] = useState(0);
-  // Whole minutes, never seconds; rounded up so it never reads "0 min" early.
+  // Whole minutes, never seconds. It rounds up so it never reads "0 min" too early.
   const minutesLeft = Math.ceil(seconds / 60);
 
   useEffect(() => {
@@ -118,7 +119,7 @@ function SetProfile(props) {
     street: token ? getProfile?.address?.street || "" : "",
     city: token ? getProfile?.address?.city || "" : "",
     state: token ? getProfile?.address?.state || "" : "",
-    country: (token && getProfile?.address?.country) || "United States", // US only
+    country: (token && getProfile?.address?.country) || "United States", // The site serves the US only.
     postalCode: token ? getProfile?.postalCode || "" : "",
     term: false,
     otp: "",
@@ -132,7 +133,8 @@ function SetProfile(props) {
       confirmPassword:
         OTPshow === 1 && props.page === "signup" && PasswordMatch,
       lastName: OTPshow === 1 && props.page === "signup" && LastNameRequired,
-      // L1 (18+) and L3/L20 (Terms, Privacy, e-communications): one explicit tick box at sign-up.
+      // One explicit tick box at sign-up covers the legal consents: being 18 or older, and agreeing to the Terms, the
+      // Privacy Policy and electronic communications.
       term:
         OTPshow === 1 &&
         (props.page === "signup" || isSocial) &&
@@ -186,8 +188,8 @@ function SetProfile(props) {
           if (res?.status === 1) {
             toast.success(res.message);
             setloading(false);
-            // Step 2 of sign-up done: on to where the customer was going, once the saved address is loaded (the
-            // header sends anyone without one back to step 2). In Account: stay on the page.
+            // Sign-up step 2 is done, so go on to where the customer was going once the saved address has loaded (the header
+            // sends anyone without one back to step 2). In Account, stay on the page.
             Promise.resolve(fetchgetProfile()).then(() => isOnboarding && push(pageAfterLogin(Cookies)));
           } else {
             setloading(false);
@@ -209,12 +211,12 @@ function SetProfile(props) {
         } else if (OTPshow === 1) {
           RegisterApi(payload).then((res) => {
             if (res?.status === 1) {
-              if (props.page !== "signup") toast.success(res.message); // sign-up: the code screen says it
+              if (props.page !== "signup") toast.success(res.message); // During sign-up the code screen gives this message instead.
               setloading(false);
               if (props.page === "signup") {
                 Cookies.set(TOKEN_NAME_REG, res?.data?.token);
                 setTimeout(() => {
-                  setOTPshow(3); // "Check your phone": sign-up is verified by a text code
+                  setOTPshow(3); // The "Check your phone" screen, because sign-up is verified by a text code.
                   setSeconds(600);
                 }, 100);
               }
@@ -229,11 +231,11 @@ function SetProfile(props) {
               toast.success(res.message);
               Cookies.set(TOKEN_NAME, res?.data?.token);
               Cookies.remove(TOKEN_NAME_REG);
-              // Google / Apple already confirmed the email: no "we sent a link" note on step 2.
+              // Google and Apple have already confirmed the email, so step 2 shows no "we sent a link" note.
               if (!isSocial && res?.data?.user && !res.data.user.emailVerified) Cookies.set("emailLinkSent", res.data.user.email || "1");
               Cookies.remove("socialName");
               Cookies.remove("socialEmail");
-              push("/set-profile"); // step 2 of sign-up: home address
+              push("/set-profile"); // Step 2 of sign-up is the home address.
               setloading(false);
             } else {
               setloading(false);
@@ -285,7 +287,8 @@ function SetProfile(props) {
     ResendOTPApi({
       email: formik.values.email || socialEmail,
     }).then((res) => {
-      // The timer follows the server: a new code (10 min), the code still live (its time left), or no code (stays 0).
+      // The timer follows the server: 10 minutes for a new code, the time left on a code that is still live, or 0 when
+      // there is no code.
       if (res?.status === 1) {
         toast.success(res?.message);
         setSeconds(res?.data?.codeValidFor || 600);
@@ -300,14 +303,15 @@ function SetProfile(props) {
 
   const isSignup = props.page === "signup";
   const isProfile = props.page === "profile";
-  // /set-profile = step 2 of sign-up (gender + address). In Account it is the "My profile" editor.
+  // /set-profile is step 2 of sign-up (gender and address). In Account it is the "My profile" editor.
   const isOnboarding = props.page === "profile" && !props.inAccount;
   const otpTarget =
     OTPshow === 2
       ? formik.values.email || email
       : sent?.sentTo || `${formik.values.countryCode} ${formik.values.mobile}`;
 
-  // All 6 digits in (typed or pasted): verify straight away - no extra click. The button stays for keyboards and retries.
+  // Once all 6 digits are in (typed or pasted), verify straight away with no extra click. The button stays for
+  // keyboard users and retries.
   useEffect(() => {
     if (OTPshow !== 1 && formik.values.otp?.length === 6 && !loading) formik.submitForm();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -346,7 +350,7 @@ function SetProfile(props) {
               Add your phone number to finish.
             </p>
           </>
-        ) : props.inAccount ? null /* the account page has its own title */ : (
+        ) : props.inAccount ? null /* The account page has its own title. */ : (
           <>
             <span className="ab-auth__step">Step 2 of 2</span>
             <h1>Your home address</h1>

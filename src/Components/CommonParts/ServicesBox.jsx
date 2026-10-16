@@ -28,7 +28,7 @@ function ServicesBox(props) {
           <span className="ab-catcard__name">
             {props.item?.categoryName} <Icon name="arrowRight" size={16} />
           </span>
-          {/* The category's real services when known (props.subs); otherwise its description. */}
+          {/* Show the category's real services when we know them (props.subs), and its description otherwise. */}
           {(props.subs || props.item?.description) && (
             <span className="ab-catcard__desc">{props.subs || props.item?.description}</span>
           )}

@@ -5,7 +5,7 @@ import "@/app/(AfterLogin)/profile/profile.css";
 import Icon from "@/Components/ui/Icon";
 import { useEffect, useState } from "react";
 
-// Shared body for the three CMS tabs (1 about, 2 terms, 3 privacy).
+// The shared body for the three CMS tabs: 1 is About, 2 is Terms and 3 is Privacy.
 export function CmsContent({ type, name }) {
   const [loading, setloading] = useState(true);
   const data = useDataStore((store) => store.GetCMS);
@@ -41,8 +41,8 @@ export function CmsContent({ type, name }) {
       </div>
     );
   }
-  // The page already has the one h1 ("Terms & Conditions"...): the text's own headings step down a level, and a
-  // leading heading that just repeats the page name ("TERMS OF USE", "PRIVACY POLICY") is dropped.
+  // The page already has its one h1 ("Terms & Conditions" and so on), so the text's own headings step down a level.
+  // A leading heading that just repeats the page name ("TERMS OF USE", "PRIVACY POLICY") is dropped.
   const html = data.content
     .replace(/^\s*<h1[^>]*>.*?(TERMS OF USE|PRIVACY POLICY).*?<\/h1>/i, "")
     .replace(/<(\/?)h2(\s|>)/gi, "<$1h3$2")

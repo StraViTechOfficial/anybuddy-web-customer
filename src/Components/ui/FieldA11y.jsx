@@ -1,10 +1,10 @@
 "use client";
 import { useEffect } from "react";
 
-// Site-wide form accessibility, so every form gets it without touching each field:
-// - a field with a message under it is marked aria-invalid and points to the message (aria-describedby), and the
-//   message is announced (role="alert");
-// - after pressing a form's button with mistakes, the cursor moves to the first wrong field (UX: focus management).
+// Form accessibility for the whole site, so every form gets it without changing each field:
+// - A field with a message under it is marked aria-invalid and points to the message (aria-describedby), and the
+//   message is announced (role="alert").
+// - After the customer presses a form's button with mistakes, the cursor moves to the first wrong field.
 export default function FieldA11y() {
   useEffect(() => {
     let n = 0;

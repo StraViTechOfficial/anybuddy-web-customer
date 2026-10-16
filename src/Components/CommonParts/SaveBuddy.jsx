@@ -9,8 +9,8 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "./cards.css";
 
-// Saved Buddies (favourites are pros, not services). One list-buddies call per page; a heart
-// flips at once and flips back if the server says no. Guests log in first and come back to this page.
+// Saved Buddies (favourites are Buddies, not services). There is one list-buddies call per page. A heart flips at
+// once and flips back if the server refuses. Guests log in first and then come back to this page.
 export function useSavedBuddies() {
   const { push } = useRouter();
   const token = useCookie(TOKEN_NAME);
@@ -30,7 +30,7 @@ export function useSavedBuddies() {
 
   const toggle = (vendorId) => {
     if (!Cookies.get(TOKEN_NAME)) {
-      Cookies.set("path", window.location.pathname); // login returns here
+      Cookies.set("path", window.location.pathname); // After login, come back to this page.
       return push("/login");
     }
     const id = String(vendorId);

@@ -6,11 +6,11 @@ const reduceMotion = () =>
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 /**
- * Mounted once in the root layout.
- * - Scroll reveal: any `.ab-reveal` element gets `data-in` when it enters the viewport
- *   (a data attribute, not a class, so React re-renders never strip it).
- * - Spotlight: sets --mx / --my on the `.ab-spotlight` element under the pointer.
- * Both work on content that arrives later from the API (MutationObserver).
+ * Mounted once in the root layout. It does two things.
+ * - Scroll reveal: any `.ab-reveal` element gets `data-in` when it enters the viewport. It is a data
+ *   attribute rather than a class, so React re-renders never strip it.
+ * - Spotlight: sets --mx and --my on the `.ab-spotlight` element under the pointer.
+ * Both also work on content that arrives later from the API, using a MutationObserver.
  */
 export function MotionRuntime() {
   useEffect(() => {
@@ -35,7 +35,7 @@ export function MotionRuntime() {
         .querySelectorAll?.(".ab-reveal:not([data-in])")
         .forEach((el) => io.observe(el));
     scan(document);
-    // Rescan once per frame when the DOM changes (API data renders after mount).
+    // Rescan at most once per frame when the DOM changes, because API data renders after mount.
     let queued = 0;
     const mo = new MutationObserver(() => {
       if (queued) return;

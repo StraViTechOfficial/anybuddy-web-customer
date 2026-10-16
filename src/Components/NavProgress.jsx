@@ -2,11 +2,11 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-// Instant feedback on every internal link click: a thin amber bar at the top that runs until the new page is in.
-// Only shows if the page takes longer than 120 ms, so fast pages don't flash.
+// Gives instant feedback on every internal link click: a thin amber bar at the top that runs until the new page has
+// loaded. It only shows if the page takes longer than 120 ms, so fast pages don't flash.
 export default function NavProgress() {
   const pathname = usePathname();
-  const [state, setState] = useState("idle"); // idle | wait | run | done
+  const [state, setState] = useState("idle"); // One of "idle", "wait", "run" or "done".
 
   useEffect(() => {
     let timer;

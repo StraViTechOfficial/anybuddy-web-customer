@@ -4,8 +4,9 @@ import Icon from "./Icon";
 import "./select.css";
 
 // Our own dropdown, so every picker looks the same in Chrome, Safari and Windows (the browser's <select> menu can't
-// be styled). ARIA "select-only combobox": arrows / Home / End move, Enter or Space picks, Esc closes, typing a letter
-// jumps. Long lists (states, cities) get a filter box at the top. Same list look as the header search (search.css).
+// be styled). It follows the ARIA "select-only combobox" pattern: the arrow keys, Home and End move, Enter or Space
+// picks, Esc closes, and typing a letter jumps. Long lists (states, cities) get a filter box at the top. The list
+// looks the same as the header search (search.css).
 const FILTER_FROM = 12;
 
 export default function Select({ id, name, value, onChange, onBlur, options = [], placeholder = "Select", disabled }) {
@@ -26,7 +27,7 @@ export default function Select({ id, name, value, onChange, onBlur, options = []
   const openList = () => {
     if (disabled) return;
     const r = btn.current.getBoundingClientRect();
-    setUp(window.innerHeight - r.bottom < 300 && r.top > window.innerHeight - r.bottom); // flip up near the bottom
+    setUp(window.innerHeight - r.bottom < 300 && r.top > window.innerHeight - r.bottom); // Open upwards when the button is near the bottom of the screen.
     setQ("");
     setHi(Math.max(0, options.findIndex((o) => String(o.value) === String(value))));
     setOpen(true);
@@ -40,7 +41,7 @@ export default function Select({ id, name, value, onChange, onBlur, options = []
     close();
   };
 
-  // close on a click outside; tell Formik the field was left
+  // Close on a click outside, and tell Formik the field was left.
   useEffect(() => {
     if (!open) return;
     const off = (e) => {
@@ -53,7 +54,7 @@ export default function Select({ id, name, value, onChange, onBlur, options = []
     return () => document.removeEventListener("mousedown", off);
   }, [open, name, onBlur]);
 
-  // keep the highlighted row in view
+  // Keep the highlighted row in view.
   useEffect(() => {
     if (open && hi >= 0) list.current?.children[hi]?.scrollIntoView({ block: "nearest" });
   }, [open, hi]);
@@ -81,7 +82,7 @@ export default function Select({ id, name, value, onChange, onBlur, options = []
     else if (e.key.length === 1 && !filterable) jump(e.key);
   };
 
-  // type-ahead: "m" jumps to the first option starting with m; "ma" narrows it
+  // Type-ahead: "m" jumps to the first option starting with m, and "ma" narrows it further.
   const jump = (k, choose) => {
     const t = typed.current;
     t.s = Date.now() - t.t < 600 ? t.s + k.toLowerCase() : k.toLowerCase();

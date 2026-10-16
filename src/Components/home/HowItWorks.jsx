@@ -38,11 +38,11 @@ function Scene({ step }) {
 
 // How it works: a three-step journey with one photo per step.
 export default function HowItWorks() {
-  // How it works journey: runs only while the section is on screen, so it starts at step 1 for the reader.
+  // The How it works steps run only while the section is on screen, so the reader starts at step 1.
   const [step, setStep] = useState(0);
-  const hasBooked = useDataStore((store) => store.getProfile?.hasBooked); // from the profile the header loads
+  const hasBooked = useDataStore((store) => store.getProfile?.hasBooked); // Comes from the profile that the header loads.
   const overlay = useOverlayOpen();
-  const howRunning = !useReducedMotion() && !overlay; // runs all the time, except behind a pop-up
+  const howRunning = !useReducedMotion() && !overlay; // Runs all the time, except behind a pop-up or when the visitor asked for less motion.
   const last = STEPS.length - 1;
   const showSlide = useSlideWindow(step, STEPS.length);
   useEffect(() => {
@@ -51,8 +51,8 @@ export default function HowItWorks() {
     return () => clearTimeout(t);
   }, [howRunning, step]);
 
-  // A journey: steps advance on their own while on screen (never locks scrolling, keeps going on hover);
-  // a line flows down the connector from one step to the next; click a step to jump. One photo per step.
+  // Steps advance on their own while the section is on screen. It never locks scrolling and keeps going on hover.
+  // A line flows down the connector from one step to the next, and clicking a step jumps to it. One photo per step.
   return (
     <section id="how-it-works" className="hm-how">
         <div className="ab-container hm-section hm-how__grid">
@@ -79,8 +79,8 @@ export default function HowItWorks() {
                       <span className="hm-how__text">{x.text}</span>
                     </span>
                   </button>
-                  {/* Line to the next step: fills over one step's time, so the next circle lights up
-                      (and the photo changes) exactly when the line reaches it. No line after the last step. */}
+                  {/* The line to the next step fills over one step's time, so the next circle lights up (and the
+                      photo changes) exactly when the line reaches it. There is no line after the last step. */}
                   {i < last && (
                     <span className="hm-how__seg" aria-hidden="true">
                       <span

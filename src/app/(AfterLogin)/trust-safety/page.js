@@ -2,11 +2,13 @@ import Icon from "@/Components/ui/Icon";
 import Image from "next/image";
 import "@/Components/content.css";
 
-// Trust & Safety — the client's copy word for word, in the content-page layout (Components/content.css).
-// Claims the product does not fully back yet: "Every completed job is reviewed" (no review process is built),
-// "our rating system works both ways" (customers are not rated today), "We verify the real identity" (ID documents are
-// uploaded and checked by the admin team; no identity-verification service).
-const HOME_PHOTO = "https://images.unsplash.com/photo-1666585958641-4f70887372a1"; // a calm, lived-in living room
+// Trust & Safety: the client's copy word for word, in the content page layout (Components/content.css).
+// Some claims are not fully backed by the product yet:
+// - "Every completed job is reviewed", but no review process is built.
+// - "our rating system works both ways", but customers are not rated today.
+// - "We verify the real identity". ID documents are uploaded and checked by the admin team, with no identity
+//   verification service.
+const HOME_PHOTO = "https://images.unsplash.com/photo-1666585958641-4f70887372a1"; // A calm, lived-in living room.
 
 const features = [
   { icon: "fileCheck", title: "Verified Documents", desc: "Every service provider submits their documents before joining the platform, and our team reviews and verifies them before the provider can take a job." },

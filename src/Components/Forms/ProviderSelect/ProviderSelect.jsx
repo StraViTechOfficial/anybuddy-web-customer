@@ -31,13 +31,14 @@ const initialsOf = (name = "") =>
 const fmtDate = (d) => (d ? moment(d, "YYYY-MM-DD").format("ddd, MMM D") : "");
 const fmtTime = (t) => (t ? moment(t, "HH:mm").format("h:mm A") : "");
 
-// Price breakdown straight from list-service-slots: servicePrice (hours × hourlyRate), taxAmount, totalPrice.
-// The saved task size in words (1 / 3 / 4 hour sizes; anything else as plain hours).
+// The price breakdown comes straight from list-service-slots: servicePrice (hours × hourlyRate), taxAmount and
+// totalPrice. The saved task size is shown in words (the 1, 3 and 4 hour sizes, and anything else as plain hours).
 const SIZE_LABEL = { 1: "Small (1 hr)", 3: "Medium (up to 3 hrs)", 4: "Large (up to 4 hrs)" };
 const sizeLabel = (h) => SIZE_LABEL[Number(h)] || (Number(h) > 0 ? `${Number(h)} hrs` : "Size not chosen");
 
-// Same as the iOS app (TimeVC.priceCard): with tax, Service price + Tax + Total; without, only the Total with how it
-// is made under it (one line item equal to the total is noise, and "Tax $0.00" reads like a mistake).
+// Same as the iOS app (TimeVC.priceCard). With tax, show Service price, Tax and Total. Without tax, show only the
+// Total with how it is made up under it, because one line item equal to the total is noise and "Tax $0.00" reads
+// like a mistake.
 export function PriceRows({ slot }) {
   const how = slot?.hours > 0 && slot?.hourlyRate > 0 && (
     <span className="ab-price__how ab-num">
@@ -80,8 +81,8 @@ function ProAvatar({ pro, size = 48 }) {
   );
 }
 
-// The payment step (summary, "Change", Stripe's form). Also rebuilt by /booking/return after a payment that left the
-// site didn't go through, so the customer is back on the same step with the time still held.
+// The payment step (summary, "Change" and Stripe's form). /booking/return also rebuilds it after a payment that left
+// the site didn't go through, so the customer is back on the same step with the time still held.
 export function PaymentStep({ pro, date, time, slot, bookingId, clientSecret, publishableKey, returnPath, notice, onChange, changing, changeError, handleShow, setModalType }) {
   // Same key, loaded once instead of on every render.
   const stripePromise = useMemo(
@@ -150,8 +151,9 @@ function ProviderSelect(props) {
     props.handleShow?.();
     push(`/service/${service_name}/${sub}/book`);
   };
-  // Closing the pop-up (✕, Esc, backdrop) on the payment step without paying releases the held time at once, instead
-  // of blocking it for the 15-minute hold. Safe after paying: the server refuses once the payment has started.
+  // Closing the pop-up (with ✕, Esc or the backdrop) on the payment step without paying releases the held time at once,
+  // instead of blocking it for the 15-minute hold. This is safe after paying, because the server refuses once the
+  // payment has started.
   const openCheckout = useRef("");
   useEffect(() => {
     openCheckout.current = clientSecret ? bookingId : "";
@@ -168,7 +170,7 @@ function ProviderSelect(props) {
     setChangeError("");
     ReleaseCheckoutApi({ bookingId }).then((res) => {
       setChanging(false);
-      // "no longer open": the 15-minute hold already ended - nothing to release, going back is still right.
+      // "no longer open" means the 15-minute hold has already ended. There is nothing to release, and going back is still right.
       if (res?.status === 1 || /no longer open/i.test(res?.message || "")) {
         setClientSecret("");
         setBookingId("");
@@ -213,7 +215,7 @@ function ProviderSelect(props) {
           props.setHideTitle(true);
           setloading(false);
         } else {
-          // Shown inline next to the button (incl. the 409 "The price has changed…").
+          // Shown inline next to the button, including the 409 "The price has changed…" error.
           setBookError(res?.message || "We couldn't reserve this time. Please try again.");
           setloading(false);
         }
@@ -236,13 +238,13 @@ function ProviderSelect(props) {
 
   useEffect(() => {
     if (props.ProviderObj?.venderSlug && formik.values.date) {
-      formik.setFieldValue("time", ""); // a time belongs to its day
+      formik.setFieldValue("time", ""); // A time belongs to its day, so a new day clears it.
       loadSlots();
     }
   }, [props.ProviderObj?.slug, formik.values.date]);
 
-  // Open on the pro's first day with a free time (up to two weeks ahead), not on a closed "today".
-  // Stops for good once a day with times is found, so the customer's own picks are never overridden.
+  // Open on the Buddy's first day with a free time (up to two weeks ahead), not on a closed "today".
+  // It stops for good once a day with times is found, so the customer's own picks are never overridden.
   const lookAhead = useRef(0);
   useEffect(() => {
     if (lookAhead.current < 0 || Loading || loadedDate !== formik.values.date || SlotService?.error) return;
@@ -369,8 +371,8 @@ function ProviderSelect(props) {
 
       <div className="ab-slot__summary">
         {SlotService?.task && (
-          // A task filled in earlier is shown, never reused silently: "Edit" goes back to the task steps and the
-          // same pro opens again afterwards.
+          // A task filled in earlier is shown, never reused silently. "Edit" goes back to the task steps, and the same Buddy
+          // opens again afterwards.
           <div className="ab-slot__req ab-slot__task">
             <span className="ab-slot__reqLabel">Your task</span>
             <span className="ab-slot__reqValue">

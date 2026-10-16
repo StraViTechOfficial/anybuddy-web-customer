@@ -122,7 +122,7 @@
 .ab-svccard:hover .ab-svccard__cta svg {
   transform: translateX(3px);
 }
-/* Save-a-Buddy heart (favourites are pros). Outline until saved, then filled. 44px tap target. */
+/* The heart for saving a Buddy (favourites are Buddies). It is an outline until saved, then filled, with a 44px tap target. */
 .ab-heart {
   display: grid;
   place-items: center;

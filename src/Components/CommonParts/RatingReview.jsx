@@ -12,7 +12,7 @@ const KEYS = [
 ];
 const initialsOf = (u) =>
   `${u?.firstName?.[0] || ""}${u?.lastName?.[0] || ""}`.toUpperCase() || "AB";
-// Reviews are plain text; drop any markup instead of injecting it.
+// Reviews are plain text, so any markup is dropped instead of being injected.
 const plain = (html) =>
   String(html || "").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
 

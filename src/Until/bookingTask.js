@@ -1,9 +1,9 @@
 import Cookies from "@/Until/cookies";
 import { TOKEN_NAME } from "@/Until";
 
-// The task step (address, task size, description) is saved on the server per customer, not per service,
-// so the browser remembers which service it was filled in for during this visit. Booking a pro needs it:
-// the price is the pro's rate × the task size.
+// The task step (address, task size, description) is saved on the server per customer, not per service.
+// So the browser remembers which service it was filled in for during this visit. Booking a Buddy needs it,
+// because the price is the Buddy's rate multiplied by the task size.
 const KEY = "ab-task";
 export const markTaskDone = (serviceSlug) => {
   try {
@@ -18,8 +18,8 @@ export const taskDoneFor = (serviceSlug) => {
   }
 };
 
-// The pro the customer chose ("Select & Continue" on the list, "Book" on the pro's profile). It is kept through log-in
-// and the task step, so the customer lands on that pro's open times instead of picking them again from the list.
+// The Buddy the customer chose ("Select & Continue" on the list, or "Book" on the Buddy's profile). It is kept through
+// login and the task step, so the customer lands on that Buddy's open times instead of picking them again.
 const PRO = "ab-task-pro";
 export const rememberPro = (serviceSlug, pro) => {
   try {
@@ -42,19 +42,21 @@ export const takePro = (serviceSlug) => {
   return pro;
 };
 
-// Book this pro for this service: log-in first, then the task step, then the list page opens the pro's times.
+// Books this Buddy for this service. The customer logs in first, then fills in the task step, and then the list
+// page opens the Buddy's open times.
 export const bookWith = (push, category, service, pro) => {
   const taskPage = `/service/${category}/${service}/book`;
   rememberPro(service, pro);
   if (!Cookies.get(TOKEN_NAME)) {
-    Cookies.set("path", taskPage); // login returns to the task step
+    Cookies.set("path", taskPage); // After login, the customer comes back to the task step.
     return push("/login");
   }
   push(taskDoneFor(service) ? `/service/${category}/${service}` : taskPage);
 };
 
-// The payment step, kept for a payment method that leaves the site (Cash App Pay): /booking/return rebuilds the same
-// step from it when the customer comes back. Never holds the client secret (Stripe adds it to the return address).
+// The payment step, kept for payment methods that leave the site (Cash App Pay). When the customer comes back,
+// /booking/return rebuilds the same step from it. It never holds the client secret, because Stripe adds that to the
+// return address.
 const CHECKOUT = "ab-checkout";
 export const saveCheckout = (ctx) => {
   try {

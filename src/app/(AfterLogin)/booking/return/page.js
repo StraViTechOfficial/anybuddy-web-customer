@@ -1,7 +1,8 @@
 "use client";
-// Back from a payment that left the site (Cash App Pay). Stripe adds payment_intent, payment_intent_client_secret and
-// redirect_status to the return_url set in CheckoutForm. The result is shown exactly as for a card payment: the same
-// success screen, or the same payment step (time still held) with the error at the top.
+// The customer comes back here after a payment that left the site (Cash App Pay). Stripe adds payment_intent,
+// payment_intent_client_secret and redirect_status to the return_url set in CheckoutForm. The result is shown exactly
+// as for a card payment: the same success screen, or the same payment step (with the time still held) and the error
+// at the top.
 import { ConfirmPaymentApi, ReleaseCheckoutApi } from "@/api/setting";
 import CommanModal from "@/Components/Modals/CommanModal";
 import { PaymentStep } from "@/Components/Forms/ProviderSelect/ProviderSelect";
@@ -11,7 +12,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-const POLLS = 5; // "processing": ask the server this many times, 3 s apart, before saying it is still being confirmed
+const POLLS = 5; // While Stripe says "processing", ask the server this many times, 3 seconds apart, before saying it is still being confirmed.
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
 const NOTES = {
@@ -30,8 +31,8 @@ export default function PaymentReturnPage() {
   const [changing, setChanging] = useState(false);
   const [changeError, setChangeError] = useState("");
 
-  // While the payment step is open the time is held; leaving it (✕, backdrop, another page) releases it at once,
-  // as closing the checkout pop-up does.
+  // While the payment step is open the time is held. Leaving it (with ✕, the backdrop or another page) releases the
+  // time at once, just as closing the checkout pop-up does.
   const held = useRef("");
   useEffect(() => () => {
     if (held.current) ReleaseCheckoutApi({ bookingId: held.current });
@@ -42,7 +43,7 @@ export default function PaymentReturnPage() {
     const bookingId = q.get("bookingId");
     const clientSecret = q.get("payment_intent_client_secret");
     if (!bookingId) return replace("/booking");
-    const saved = readCheckout(bookingId); // null in another browser or tab
+    const saved = readCheckout(bookingId); // This is null in another browser or tab.
     setCtx(saved);
 
     const confirm = () => ConfirmPaymentApi({ bookingId }).then((res) => res?.data || {});
@@ -61,7 +62,7 @@ export default function PaymentReturnPage() {
       }
 
       if (status === "succeeded") {
-        // Same as a card: the server records it now; a time taken meanwhile is refunded instead.
+        // Same as a card payment: the server records it now. If the time was taken in the meantime, the payment is refunded instead.
         const r = await confirm().catch(() => ({}));
         return r.status === "cancelled" ? setView("refunded") : paid();
       }
@@ -75,9 +76,11 @@ export default function PaymentReturnPage() {
         return setView("pending");
       }
 
-      // Failed or cancelled. Without the saved step (or the secret) it can't be rebuilt: offer to book again.
+      // The payment failed or was cancelled. Without the saved step (or the secret) the step can't be rebuilt, so offer to
+      // book again.
       if (!saved || !clientSecret) return setView("failed");
-      // The intent is reusable after a failed attempt unless it was cancelled; the booking must still hold the time.
+      // The payment intent can be reused after a failed attempt unless it was cancelled, and the booking must still hold
+      // the time.
       const r = await ConfirmPaymentApi({ bookingId }).catch(() => ({}));
       if (intent?.status === "canceled" || r?.data?.status === "cancelled" || /not found/i.test(r?.message || "")) {
         return setView("released");
@@ -97,7 +100,7 @@ export default function PaymentReturnPage() {
 
   const backHref = ctx?.returnPath || "/service";
 
-  // "Change": release the held time now and reopen this pro's day & time picker on the service page.
+  // "Change" releases the held time now and reopens this Buddy's day and time picker on the service page.
   const changeTime = () => {
     setChanging(true);
     setChangeError("");
@@ -115,7 +118,7 @@ export default function PaymentReturnPage() {
   };
 
   const close = () => {
-    if (view === "released" && ctx?.pro) rememberPro(backHref.split("/").pop(), ctx.pro); // reopen this pro's times
+    if (view === "released" && ctx?.pro) rememberPro(backHref.split("/").pop(), ctx.pro); // Reopen this Buddy's open times.
     push(view === "pay" || view === "released" || view === "failed" ? backHref : "/booking");
   };
   const note = NOTES[view];

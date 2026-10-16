@@ -18,7 +18,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import "./providers.css";
 
-// Presentation helpers (display only; no data is changed)
+// Display helpers only. They don't change any data.
 const fullName = (item) =>
   item?.vendorFirstName
     ? `${item?.vendorFirstName} ${item?.vendorLastName || ""}`.trim()
@@ -43,7 +43,7 @@ function ServiceProviderList() {
   const { ServiceList, fetchServiceList } = useDataStore();
   const buddies = useSavedBuddies();
 
-  // Pros are listed by distance from the customer's search location (set in the search bar).
+  // Buddies are listed by distance from the customer's search location (set in the search bar).
   const [where, setWhere] = useState(undefined);
   useEffect(() => {
     const read = () => setWhere(getSavedLocation());
@@ -65,8 +65,8 @@ function ServiceProviderList() {
     }
   }, [sub_service, where]);
 
-  // Booking needs a login and the task step first; browsing pros does not.
-  // Open the chosen pro's open times (the booking pop-up).
+  // Booking needs a login and the task step first, but browsing Buddies does not.
+  // Opens the chosen Buddy's open times (the booking pop-up).
   const openPro = (pro) => {
     setModalName("open modal");
     setModalType("select provider");
@@ -82,9 +82,9 @@ function ServiceProviderList() {
       img: item?.vendorLogoUrl?.includes("http") ? item?.vendorLogoUrl : employeImg,
     };
     if (Cookies.get(TOKEN_NAME) && taskDoneFor(sub_service)) return openPro(pro);
-    bookWith(push, service_name, sub_service, pro); // log-in / task step first; the pro is remembered
+    bookWith(push, service_name, sub_service, pro); // Login and the task step come first, and the Buddy is remembered.
   };
-  // Back from the task step (or from "Book" on a pro's profile): open the remembered pro's times straight away.
+  // Back from the task step (or from "Book" on a Buddy's profile), so open the remembered Buddy's times straight away.
   useEffect(() => {
     if (!Cookies.get(TOKEN_NAME) || !taskDoneFor(sub_service)) return;
     const pro = takePro(sub_service);
@@ -92,14 +92,14 @@ function ServiceProviderList() {
   }, [sub_service]);
 
   const count = ServiceList?.data?.length || 0;
-  // Real service name ("IKEA Assembly"); the web address is only a fallback while names load.
+  // The real service name ("IKEA Assembly"). The web address is only a fallback while names load.
   const Homepage = useDataStore((s) => s.Homepage);
   const serviceLabel =
     Homepage?.services?.flatMap((g) => g.services).find((x) => x.slug === sub_service)?.serviceName ||
     sub_service?.replaceAll("-", " ");
 
-  // The service's photo and description (same data as the category page's pop-up). Reuse the category
-  // list already in the store when the customer came from there; other routes load it once.
+  // The service's photo and description (the same data as the category page's pop-up). Reuse the category list already
+  // in the store when the customer came from there, and load it once on other routes.
   const SubCateList = useDataStore((s) => s.SubCateList);
   const [serviceItem, setServiceItem] = useState(null);
   useEffect(() => {
@@ -222,8 +222,8 @@ function ServiceProviderList() {
                     <Icon name="shield" size={20} />
                   </span>
                   <p>
-                    {/* Approved wording: what we actually check - ID and certificates reviewed by an admin
-                        before a pro is listed. No background-check claim (not done; ToU s.32). */}
+                    {/* Approved wording that says what we actually check: an admin reviews ID and certificates before a
+                        Buddy is listed. There is no background check claim, because none is done (Terms of Use, section 32). */}
                     <b>Reviewed before listing.</b> Each pro sent us their government ID and
                     certificates, and our team approved them before they could take bookings.
                   </p>
@@ -257,8 +257,8 @@ function ServiceProviderList() {
                 </div>
               ) : count > 0 ? (
                 <div className="ab-pros__grid">
-                  {/* Phones: the service details sit under the first pro, so that pro's
-                      "Select & Continue" is on the first screen. Laptops keep them in the side column. */}
+                  {/* On phones, the service details sit under the first Buddy, so that Buddy's "Select & Continue" is
+                      on the first screen. Laptops keep them in the side column. */}
                   {ServiceList?.data?.map((item, i) =>
                     i === 0 && serviceItem
                       ? [card(item, i), <ServicesDetail key="ab-sd-phone" inline Item={serviceItem} className="ab-sd--phone" />]

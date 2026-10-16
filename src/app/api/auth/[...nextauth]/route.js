@@ -3,8 +3,8 @@ import NextAuth from "next-auth";
 import AppleProvider from "next-auth/providers/apple";
 import GoogleProvider from "next-auth/providers/google";
 
-// Apple's client secret is a JWT signed with the .p8 key (ES256, at most 6 months). Made here at start-up, so nobody
-// renews it by hand; a serverless instance lives far less than the 180 days it is valid for.
+// Apple's client secret is a JWT signed with the .p8 key (ES256), valid for at most 6 months. It is made here at
+// start-up so nobody has to renew it by hand, since a serverless instance lives far less than the 180 days it is valid.
 const appleSecret = () => {
   const b64 = (o) => Buffer.from(JSON.stringify(o)).toString("base64url");
   const now = Math.floor(Date.now() / 1000);
@@ -22,12 +22,12 @@ const appleSecret = () => {
 
 const appleOn = ["APPLE_ID", "APPLE_TEAM_ID", "APPLE_KEY_ID", "APPLE_PRIVATE_KEY"].every((k) => process.env[k]);
 
-// Apple returns with a cross-site POST (response_mode form_post), which never carries SameSite=Lax cookies: the
-// PKCE verifier and the return page must be SameSite=None or the sign-in fails / lands on Home instead of /login.
+// Apple returns with a cross-site POST (response_mode form_post), which never carries SameSite=Lax cookies. So the
+// PKCE verifier and return page cookies must be SameSite=None, or the sign-in fails or lands on Home instead of /login.
 const crossSite = { httpOnly: true, sameSite: "none", path: "/", secure: true };
 
 const handler = NextAuth({
-  // Each sign-in is switched on only when its settings exist, so a site without them (e.g. staging) still builds.
+  // Each sign-in option is switched on only when its settings exist, so a site without them (such as staging) still builds.
   providers: [
     process.env.GOOGLE_CLIENT_ID &&
       process.env.GOOGLE_CLIENT_SECRET &&
@@ -51,7 +51,7 @@ const handler = NextAuth({
       if (account) {
         token.provider = account.provider;
         token.providerId = account.providerAccountId;
-        // The backend verifies this signed token; it no longer trusts bare IDs.
+        // The backend verifies this signed token, because it no longer trusts bare IDs.
         token.idToken = account.id_token;
 
         if (account.provider === "google") {

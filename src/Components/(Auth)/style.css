@@ -395,9 +395,9 @@
   outline-offset: 2px;
 }
 
-/* ===================== Auth frame v2 =====================
-   Photo half + form half, whole screen, no page scroll on a laptop. Compact field rhythm so the longest
-   step (sign-up / complete profile) still fits a 1366×768 screen. Phones: form only, logo bar on top. */
+/* ===================== Auth frame: split layout =====================
+   A photo half and a form half fill the screen, with no page scroll on a laptop. Fields are spaced compactly so the
+   longest step (sign-up or complete profile) still fits a 1366×768 screen. Phones show only the form, with a logo bar on top. */
 .ab-auth--split {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -500,7 +500,7 @@
 @media (max-width: 991.9px) { .ab-auth--split .ab-auth__app { display: none; } } /* phones: the form only */
 @media (max-width: 991.9px) { .ab-auth--split .ab-auth__card { margin-top: 4px; } .ab-auth--split .ab-auth__head { margin-bottom: 14px; } }
 
-/* ===================== Auth frame v3: centred card ===================== */
+/* ===================== Auth frame: centred card ===================== */
 .ab-auth--center { display: block; min-height: 100dvh; background: var(--ab-cream); }
 .ab-auth--center .ab-auth__main { display: grid; place-items: center; min-height: 100dvh; padding: 24px 16px; }
 .ab-auth--center .ab-auth__card {
@@ -526,9 +526,9 @@
 @media (max-width: 575.9px) { .ab-auth--center .ab-auth__main { padding-top: 48px; } .ab-auth--center .ab-field { margin-bottom: 10px; } .ab-auth--center .ab-auth__brand { margin-bottom: 12px; } }
 @media (max-width: 575.9px) { .ab-auth--center .ab-auth__main { padding-top: 44px; } }
 
-/* ===== Auth background v4 (reference: Stripe sign-in) =====
-   White page; an angled band in the brand colours across the top, slowly drifting; white logo on it;
-   the card overlaps the band; small legal links at the bottom. */
+/* ===== Auth background, modelled on Stripe's sign-in =====
+   A white page with an angled band in the brand colours across the top, slowly drifting, and a white logo on it.
+   The card overlaps the band, with small legal links at the bottom. */
 .ab-auth--center { position: relative; overflow: hidden; background: #fff; }
 .ab-auth__band {
   position: absolute; left: 0; right: 0; top: -38vh; height: 78vh;
@@ -582,8 +582,8 @@
   .ab-auth--split .ab-auth__switch { margin-top: 12px; }
   .ab-auth__legal { bottom: 12px; }
 }
-/* Very short laptop windows (e.g. 1366x768 / 1280x720 minus browser bars): logo bar and legal links step aside,
-   controls go to 44px (still the minimum touch size). */
+/* Very short laptop windows (such as 1366x768 or 1280x720 minus the browser bars): the logo bar and legal links are
+   hidden, and controls shrink to 44px, which is still the minimum touch size. */
 @media (max-height: 700px) and (min-width: 576px) {
   .ab-auth--center .ab-auth__main { padding: 56px 16px 16px; }
     .ab-auth__legal { display: none; }
@@ -604,8 +604,8 @@
 @media (prefers-reduced-motion: reduce) { .ab-auth__band::before { animation: none; } }
 @media (max-width: 575.9px) { .ab-auth__band::before { display: none; } }
 
-/* ===== Band v2 (a second stripe looked unfinished; the logo was small and lost on the blue) =====
-   One clean angled gradient + a fine dot texture + one crisp amber edge line. No loose stripes. */
+/* ===== Band, second version. A second stripe looked unfinished, and the logo was small and lost on the blue. =====
+   One clean angled gradient, a fine dot texture and one crisp amber edge line, with no loose stripes. */
 .ab-auth__band::before { content: none; animation: none; }
 .ab-auth__band::after {
   height: 5px; bottom: 0;
@@ -633,9 +633,9 @@
   .ab-auth__logo-chip img { width: 40px; height: 36px; }
 }
 
-/* ===== Band v3 (a logo on the band / on a badge is bad UX) =====
-   The band moves to the lower part of the page; the top stays white, so the full-colour logo reads cleanly.
-   The card overlaps the band's top edge; the legal links sit on the band in white. */
+/* ===== Band, third version. A logo on the band or on a badge was poor UX. =====
+   The band moves to the lower part of the page and the top stays white, so the full-colour logo reads cleanly.
+   The card overlaps the band's top edge, and the legal links sit on the band in white. */
 .ab-auth__band {
   top: auto; bottom: -32vh; height: 78vh;
   transform: skewY(-8deg); transform-origin: 100% 0;
@@ -744,9 +744,9 @@
 .ab-login-modal__x:hover { background: rgba(255, 255, 255, 0.28); }
 .ab-login-modal__x:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 
-/* Band v4: one fixed strip along the bottom of the page, like the site footer. The same height on
-   every step - it no longer follows the card. It shows at both ends: 48px on the left, rising to the right (skew
-   pivots on the bottom-left corner). The card and legal links sit above it; a long step (sign-up) scrolls, and
+/* Band, current version: one fixed strip along the bottom of the page, like the site footer. It is the same height on
+   every step and no longer follows the card. It shows at both ends, 48px on the left and rising to the right (the skew
+   pivots on the bottom-left corner). The card and legal links sit above it. A long step (sign-up) scrolls, and
    the band stays at the bottom of the page. Legal links sit on the band in white, like the footer. */
 @media (min-width: 576px) {
   .ab-auth--center .ab-auth__band {

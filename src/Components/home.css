@@ -1,7 +1,7 @@
-/* Home — ui-ux-pro-max: Marketplace pattern, Trust & Authority style.
-   Type: Schibsted Grotesk throughout; headings 700 with tight tracking.
-   Spacing: one 8px rhythm — sections 96px desktop / 64px phone, card padding 24px, gaps 16/24px.
-   Imagery: one hero photo card; categories use medium photos. Navy only for actions. */
+/* Home page styles, in a marketplace layout with a calm, trustworthy look.
+   Type: Schibsted Grotesk throughout, with headings at weight 700 and tight letter spacing.
+   Spacing: one 8px rhythm. Sections are 96px on laptops and 64px on phones, card padding is 24px, and gaps are 16 or 24px.
+   Imagery: one hero photo card, and categories use medium photos. Navy is used only for actions. */
 
 .ab-home {
   /* Same rhythm as every page (ds.css .ab-section / .ab-section-head) */
@@ -184,9 +184,10 @@
 .hm-sub--light { color: rgba(255, 255, 255, 0.78); }
 .hm-link--light, .hm-link--light:hover { color: #fff; }
 
-/* ── Explore services: category directory. Spacing on the 8-pt scale (ui-ux-pro-max spacing-scale):
-   card padding 20, grid gap 24 (16 on tablets), 12 between name/count/list; service rows 40px with a mouse and 44px on
-   touch screens (touch-target-size). Every card is the same height: 3 services + a "+N more" row are always reserved. ── */
+/* ── Explore services: category directory. Spacing follows the 8-point scale:
+   card padding 20, grid gap 24 (16 on tablets), and 12 between the name, count and list. Service rows are 40px with a mouse
+   and 44px on touch screens, the minimum touch target. Every card is the same height, because room for 3 services and a
+   "+N more" row is always reserved. ── */
 .hm-dir { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; } /* 4 laptop · 3 tablet · list on phones */
 .hm-dir__card {
   position: relative; display: flex; flex-direction: column; overflow: hidden;
@@ -336,7 +337,7 @@
 
 /* ── Reviews: cream band (alternates with the white Why above and white CTAs below) ── */
 .hm-reviews-band { background: var(--ab-cream); }
-/* Call-to-action cards (App, then For local pros): back to back they share one gap, not two. */
+/* Call-to-action cards (App, then For local pros). When they are back to back they share one gap, not two. */
 .hm-cta + .hm-cta { padding-top: 0; }
 .hm-reviews { list-style: none; margin: var(--hm-head-gap) 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
 .hm-review { padding: 28px; border: 1px solid var(--ab-line); border-radius: 20px; background: #fff; }

@@ -22,12 +22,12 @@ function BookService() {
   const [EditShow, setEditShow] = useState(false);
   const [Title, setTitle] = useState("Describe your service");
   const [LinksArr, setLinksArr] = useState([]);
-  // Starts loading: the form used to render first with the previous service's details, then swap to the skeleton,
-  // then render again - a visible jump, and the address box mounted and unmounted at once (Google's library then
-  // logged "Input ref must be HTMLInputElement").
+  // Start in the loading state. The form used to render first with the previous service's details, then swap to the
+  // skeleton, then render again. That was a visible jump, and the address box mounted and unmounted at once, so
+  // Google's library logged "Input ref must be HTMLInputElement".
   const [Loading, setLoading] = useState(true);
   const { ServiceDetail, fetchServiceDetail } = useDataStore();
-  // The pro chosen before the task step (list or profile): named here so the customer knows the choice is kept.
+  // The Buddy chosen before the task step (from the list or a profile), named here so the customer knows the choice is kept.
   const [chosenPro, setChosenPro] = useState(null);
   useEffect(() => setChosenPro(peekPro(sub_service)), [sub_service]);
 
@@ -60,7 +60,7 @@ function BookService() {
           },
         ]);
       }
-      setLoading(false); // also on a failed request, so the page never stays on the skeleton
+      setLoading(false); // This also runs on a failed request, so the page never gets stuck on the skeleton.
     });
   }, [sub_service]);
 
@@ -136,7 +136,7 @@ function BookService() {
               <div>
                 <h3>Cancellation policy</h3>
                 <p>
-                  {/* The rule is 24 hours (same as the service page and the FAQ). */}
+                  {/* The rule is 24 hours, the same as on the service page and in the FAQ. */}
                   Free cancellation up to 24 hours before the service, or any time
                   before a pro accepts your booking.
                 </p>

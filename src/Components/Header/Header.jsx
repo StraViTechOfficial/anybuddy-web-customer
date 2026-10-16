@@ -17,20 +17,22 @@ import { logOut } from "../CommonParts/logout";
 import { setOverlayOpen } from "../home/motion";
 import { getSavedLocation, LOCATION_EVENT, locateZip, OPEN_SEARCH_EVENT, saveLocation } from "@/Until/searchLocation";
 
-// Loaded on the first "Log in" click only, so the login form is not in every page's first download.
+// Loaded only on the first "Log in" click, so the login form is not part of every page's first download.
 const LoginModal = dynamic(() => import("../(Auth)/LoginModal"), { ssr: false });
 
-// Header: a floating white card; on Home it sits over the full-width hero, elsewhere a spacer keeps content below it. On Home it shows page links
-// in the middle until the hero's search scrolls out of view, then a small search pill (location · service)
-// rises into its place. Other pages always show the pill. The pill opens the full search under the bar.
-// Account menu for a logged-in customer. Profile sections open via the profile page's tab cookie.
+// The header is a floating white card. On Home it sits over the full-width hero, and elsewhere a spacer keeps content
+// below it. On Home it shows page links in the middle until the hero's search scrolls out of view. Then a small search
+// pill (location and service) rises into its place. Other pages always show the pill, which opens the full search
+// under the bar.
+// The account menu for a logged-in customer. Profile sections open through the profile page's tab cookie.
 const ACCOUNT = [
   { label: "My bookings", icon: "calendar", href: "/booking" },
   { label: "Notifications", icon: "bell", href: "/notification" },
   { label: "Profile", icon: "user", tab: 1 },
   { label: "Saved Buddies", icon: "heart", tab: 2 },
   { label: "Help & support", icon: "chat", tab: 6 },
-  // Signed in, the Buddy invite moves from the bar into this menu (Airbnb keeps "Become a host" one click away too).
+  // Once the customer is signed in, the Buddy invite moves from the bar into this menu. Airbnb also keeps
+  // "Become a host" one click away.
   { label: "Become a Buddy", icon: "briefcase", href: "/become-buddy" },
   { label: "Log out", icon: "logout", logout: true },
 ];
@@ -57,7 +59,7 @@ function Header() {
   const [token, setToken] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false); // false | "location" | "service": which field to put the cursor in
+  const [searchOpen, setSearchOpen] = useState(false); // false, "location" or "service". It says which field to put the cursor in.
   const [pastSearch, setPastSearch] = useState(false);
   const [place, setPlace] = useState("");
   const showPill = !home || pastSearch;
@@ -106,7 +108,7 @@ function Header() {
     return () => window.removeEventListener("keydown", onKey);
   }, [searchOpen]);
 
-  // Home loads this data itself; other pages load it the first time the search opens.
+  // Home loads this data itself. Other pages load it the first time the search opens.
   useEffect(() => {
     if (searchOpen && !Homepage?.listCategories) fetchHomepage({ limit: 50 });
   }, [searchOpen]);
@@ -119,17 +121,17 @@ function Header() {
     }
   }, [token]);
 
-  // Sign-up step 2 is required: a signed-in customer with no home address saved goes to
-  // /set-profile from any page, however they got in (left step 2, phone / email / pop-up / Google log-in, days later).
-  // One check here covers every route. Auth screens, step 2 itself and the legal/help pages stay reachable.
+  // Sign-up step 2 is required. A signed-in customer with no home address saved goes to /set-profile from any page,
+  // however they got in (they left step 2, or logged in by phone, email, the pop-up or Google, even days later).
+  // This one check covers every route. Auth screens, step 2 itself and the legal and help pages stay reachable.
   useEffect(() => {
     if (!token || !getProfile?._id) return;
     const hasAddress = getProfile.address?.street?.trim() && getProfile.postalCode?.trim();
     if (!hasAddress && !STEP2_EXEMPT.some((p) => pathname === p || pathname.startsWith(`${p}/`))) replace("/set-profile");
   }, [token, getProfile?._id, getProfile?.address?.street, getProfile?.postalCode, pathname]);
 
-  // Signed in with no location chosen in this browser yet: start from the ZIP on the profile, as Urban Company fills
-  // in your saved address. A location the customer picked themselves is never replaced.
+  // When a signed-in customer hasn't chosen a location in this browser yet, start from the ZIP on their profile, the way
+  // Urban Company fills in your saved address. A location the customer picked themselves is never replaced.
   useEffect(() => {
     const zip = getProfile?.postalCode?.trim();
     if (!token || !/^\d{5}$/.test(zip || "") || getSavedLocation()) return;
@@ -137,7 +139,7 @@ function Header() {
   }, [token, getProfile?.postalCode]);
 
   const openSearch = (field) => setSearchOpen(field);
-  // The search panel is a pop-up too: freeze the page's moving parts while it is open.
+  // The search panel is a pop-up too, so freeze the page's moving parts while it is open.
   useEffect(() => {
     if (!searchOpen) return;
     setOverlayOpen(true);
@@ -154,8 +156,8 @@ function Header() {
     if (item.tab) Cookies.set("tabShow", item.tab);
     push(item.href || "/profile");
   };
-  const rememberPage = () => Cookies.set("path", pathname); // login returns here
-  // Laptops and tablets: log in in a pop-up over this page. Phones (and ctrl/cmd-click) keep the /login page.
+  const rememberPage = () => Cookies.set("path", pathname); // After login, come back to this page.
+  // On laptops and tablets, log in through a pop-up over this page. Phones (and Ctrl or Cmd-click) keep the /login page.
   const [loginOpen, setLoginOpen] = useState(false);
   const openLogin = (e) => {
     rememberPage();
@@ -175,7 +177,7 @@ function Header() {
         className={`ab-hd${showPill ? " has-pill" : ""}${scrolled ? " is-scrolled" : ""}${searchOpen ? " is-open" : ""}`}
       >
         <div className="ab-hd__card">
-        {/* Compact bar: a click anywhere that is not a link or button opens the search. */}
+        {/* In the compact bar, a click anywhere that is not a link or button opens the search. */}
         <div
           className="ab-hd__row"
           onClick={(e) => showPill && !searchOpen && !e.target.closest("a, button") && openSearch("location")}
@@ -185,18 +187,18 @@ function Header() {
             <span>Any-Buddy</span>
           </Link>
 
-          {/* Page links: shown in the middle at the top of Home and whenever the search is open. */}
+          {/* Page links show in the middle at the top of Home, and whenever the search is open. */}
           <nav className="ab-hd__nav" aria-label="Main" inert={showPill && !searchOpen}>
             {NAV.map((n) => (
               <Link key={n.href} href={n.href} className="ab-hd__nav-link" onClick={() => setSearchOpen(false)}>{n.label}</Link>
             ))}
-            {/* Signed in, "Become a Buddy" lives in the account menu only (not twice in the bar). */}
+            {/* Once signed in, "Become a Buddy" lives only in the account menu, so it isn't in the bar twice. */}
             {!token && (
               <Link href="/become-buddy" className="ab-hd__nav-link ab-hd__nav-link--open" onClick={() => setSearchOpen(false)}>Become a Buddy</Link>
             )}
           </nav>
 
-          {/* Each part opens the search in this bar with the cursor already in that field: one click, not two. */}
+          {/* Each part opens the search in this bar with the cursor already in that field, so it takes one click, not two. */}
           <div className="ab-hd__pill" inert={!showPill || searchOpen}>
             <button type="button" className="ab-hd__pill-part" onClick={() => openSearch("location")}>
               <Icon name="search" size={16} className="ab-hd__pill-icon" />
@@ -225,7 +227,7 @@ function Header() {
             {!token && (
               <Link href="/login" className="ab-hd__auth ab-hd__login" onClick={openLogin}>Log in</Link>
             )}
-            {/* Logged in: account menu. Logged out: only on small screens, where it also holds the page links. */}
+            {/* When logged in, this is the account menu. When logged out, it shows only on small screens, where it also holds the page links. */}
             <div className={`ab-hd__menu-wrap${token ? "" : " ab-hd__menu-wrap--small"}`} ref={menuRef}>
               <button
                 type="button"
@@ -280,7 +282,7 @@ function Header() {
 
         </div>
 
-        {/* Opens below the bar (the bar never changes size): the search, with the cursor in the field that was clicked. */}
+        {/* The search opens below the bar (the bar never changes size), with the cursor in the field that was clicked. */}
         <div className="ab-hd__panel" inert={!searchOpen}>
           <div className="ab-hd__panel-in">
             <div className="ab-hd__drop">

@@ -11,11 +11,11 @@ import "@/Components/CommonParts/cards.css";
 function AllServiceContent() {
   const [Loading, setLoading] = useState(false);
   const { CategoryList, fetchCategoryList, Homepage, fetchHomepage } = useDataStore();
-  // Each category's real services (e.g. "Weekly housekeeping · Laundry & ironing") from the homepage data.
+  // Each category's real services (for example "Weekly housekeeping · Laundry & ironing"), from the homepage data.
   useEffect(() => {
     if (!Homepage?.services) fetchHomepage({ limit: 50 });
   }, []);
-  // A short preview, not the whole list: first three services, then "+N more" (long lists broke the card grid).
+  // A short preview rather than the whole list: the first three services, then "+N more". Long lists broke the card grid.
   const subsOf = (slug) => {
     const names = Homepage?.services?.find((g) => g.categorySlug === slug)?.services.map((x) => x.serviceName) || [];
     if (!names.length) return undefined;
@@ -39,7 +39,7 @@ function AllServiceContent() {
   return (
     <section className="ab-section ab-section--tight">
       <div className="ab-container">
-        {/* The client's live-site copy, word for word; inner-page title size (design standard). */}
+        {/* The client's live site copy, word for word, at the standard inner page title size. */}
         <div className="ab-pagehead">
           <span className="ab-eyebrow">{searchValue ? "Search results" : "See all Categories here"}</span>
           <h1 className="ab-page-title">

@@ -8,7 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { toast } from "react-toastify";
 
-// Saved Buddies: the pros this customer hearted, to book again.
+// Saved Buddies: the Buddies this customer has hearted, so they can book them again.
 function SavedBuddiesSec() {
   const [Loading, setLoading] = useState(true);
   const [list, setList] = useState([]);
@@ -20,7 +20,7 @@ function SavedBuddiesSec() {
     });
   }, []);
 
-  // Gone from the list at once; back in its place if the server says no.
+  // Remove it from the list at once, and put it back in its place if the server refuses.
   const remove = (buddy) => {
     const before = list;
     setList(list.filter((b) => b.vendorId !== buddy.vendorId));

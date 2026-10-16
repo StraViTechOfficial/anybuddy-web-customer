@@ -22,7 +22,8 @@ function OTPVerifyForm(props) {
   const [loading, setloading] = useState(false);
   const email = Cookies.get("email");
 
-  // Time left on the code already sent (set by the login form); a fresh code otherwise. Read once, then cleared.
+  // The time left on the code already sent (set by the login form), or a fresh code otherwise. It is read once and
+  // then cleared.
   const [seconds, setSeconds] = useState(600);
   const [notice, setNotice] = useState("");
   useEffect(() => {
@@ -32,7 +33,7 @@ function OTPVerifyForm(props) {
     Cookies.remove("otpUntil");
     Cookies.remove("otpNotice");
   }, []);
-  // Whole minutes, never seconds; rounded up so it never reads "0 min" early.
+  // Whole minutes, never seconds. It rounds up so it never reads "0 min" too early.
   const minutesLeft = Math.ceil(seconds / 60);
 
   useEffect(() => {
@@ -44,7 +45,7 @@ function OTPVerifyForm(props) {
       return () => clearTimeout(timer);
     }
   }, [seconds]);
-  // The "already sent" message is about the code that just ran out: it goes when the timer does.
+  // The "already sent" message is about the code that just ran out, so it disappears when the timer does.
   useEffect(() => {
     if (seconds === 0) setNotice("");
   }, [seconds]);
@@ -52,15 +53,16 @@ function OTPVerifyForm(props) {
   const resendCode = () => {
     ResendOTPApi({
       email: email,
-      // Forgot password: same channel as the first code (email if confirmed, else phone). Other flows: the phone.
+      // For forgot password, use the same channel as the first code (the email if it is confirmed, otherwise the phone).
+      // Other flows use the phone.
       ...(Cookies.get(OTP_FOR) !== "login" && { purpose: "forgot" }),
     }).then((res) => {
       if (res?.status === 1) {
         toast.success(res?.message);
         setNotice("");
-        setSeconds(res?.data?.codeValidFor || 600); // a new code: its full time
+        setSeconds(res?.data?.codeValidFor || 600); // A new code gets its full time.
       } else if (res?.data?.codeValidFor) {
-        // The last code is still valid: nothing new was sent; show how long it still works.
+        // The last code is still valid, so nothing new was sent. Show how long it still works.
         setSeconds(res.data.codeValidFor);
         setNotice(res.message);
       } else {
@@ -89,7 +91,7 @@ function OTPVerifyForm(props) {
         if (res?.status === 1) {
           toast.success(res.message);
           if (Cookies.get(OTP_FOR) === "login") {
-            // Code confirmed after an unverified login; this is the full login token.
+            // The code was confirmed after an unverified login, so this is the full login token.
             Cookies.set(TOKEN_NAME, res?.data?.token);
             Cookies.remove(TOKEN_NAME_REG);
             Cookies.remove(OTP_FOR);
@@ -107,7 +109,8 @@ function OTPVerifyForm(props) {
       });
     },
   });
-  // All 6 digits in (typed or pasted): verify straight away - no extra click. The button stays for keyboards and retries.
+  // Once all 6 digits are in (typed or pasted), verify straight away with no extra click. The button stays for
+  // keyboard users and retries.
   useEffect(() => {
     if (formik.values.otp.length === 6 && !loading) formik.submitForm();
     // eslint-disable-next-line react-hooks/exhaustive-deps

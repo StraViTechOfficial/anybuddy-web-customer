@@ -15,11 +15,11 @@ const PROMISES = [
   "Cancel or reschedule up to 24 hours before your booking at no charge",
 ];
 
-// Plain text of the description, so a description that only repeats the name is not shown twice.
+// The description as plain text, so a description that only repeats the name is not shown twice.
 const plain = (html) => html?.replace(/<[^>]*>/g, "").trim();
 
 function ServicesDetail(props) {
-  const token = useCookie(TOKEN_NAME); // after load: avoids a server/browser mismatch on the Book link
+  const token = useCookie(TOKEN_NAME); // Read after load, to avoid a server and browser mismatch on the Book link.
   const promises = (
     <ul className="ab-sd__list">
       {PROMISES.map((text) => (
@@ -79,7 +79,7 @@ function ServicesDetail(props) {
     </>
   );
 
-  // No Book button here: on the pros list each pro's "Select & Continue" is the action.
+  // There is no Book button here. On the Buddy list, each Buddy's "Select & Continue" is the action.
   if (props.inline) {
     const img = props.Item?.image || props.Item?.icon;
     const desc = props.Item?.description;
@@ -93,8 +93,8 @@ function ServicesDetail(props) {
         {desc && plain(desc) !== props.Item?.serviceName && (
           <div className="ab-sd__desc" dangerouslySetInnerHTML={{ __html: safeHtml(desc) }}></div>
         )}
-        {/* Compact beside the pros (the full panel needed a scroll): the four promises stay in view,
-            the pricing paragraph folds away. Same wording as the pop-up. */}
+        {/* A compact version beside the Buddy list, because the full panel needed a scroll. The four promises stay
+            in view and the pricing paragraph folds away. The wording matches the pop-up. */}
         <div className="ab-sd__panel">
           <p className="ab-sd__kicker">Pricing &amp; booking</p>
           {promises}

@@ -209,7 +209,6 @@ input:-webkit-autofill:active {
   grid-gap: 10px;
   overflow: hidden;
   overflow-x: scroll;
-  /* scrollbar-width: none; */
 }
 .ellip-1 {
   overflow: hidden;
@@ -315,12 +314,6 @@ input:-webkit-autofill:active {
   width: 100%;
   margin-bottom: 1rem;
 }
-/* .storetable.table thead th:first-child {
-  border-radius: 10px 0 0 0px;
-}
-.storetable.table thead th:last-child {
-  border-radius: 0 10px 0px 0;
-} */
 .storetable.table thead th {
   border-top: 0;
   padding: 1rem 0.5rem;

@@ -6,8 +6,8 @@ import { Suspense, useEffect } from "react";
 import Loader from "../Loader/Loader";
 import "./pagename.css";
 
-// Page title band: breadcrumb + page name. No search here: the header's search is the one search
-// on every page (standard: one message once).
+// The page title band, with the breadcrumb and page name. There is no search here, because the header's search is
+// the one search on every page (the standard is to say each thing once).
 function PageNameSec() {
   const pathname = usePathname();
   const { service_name, sub_service, slug } = useParams();
@@ -17,7 +17,7 @@ function PageNameSec() {
   }, [pathname]);
 
   const pretty = (v) => v?.replaceAll("-", " ");
-  // Real names ("IKEA Assembly"), not the web address ("ikea assembly"); the slug is only a fallback while loading.
+  // Real names ("IKEA Assembly"), not the web address ("ikea assembly"). The slug is only a fallback while loading.
   const { Homepage, fetchHomepage } = useDataStore();
   useEffect(() => {
     if (service_name && !Homepage?.services) fetchHomepage({ limit: 50 });
@@ -38,7 +38,7 @@ function PageNameSec() {
       });
   }
   const isBook = pathname?.includes(`/service/${service_name}/${sub_service}/book`);
-  // Account and content pages: Home › page (› item). Booking detail writes its own title (the service).
+  // Account and content pages show Home › page (› item). The booking detail page writes its own title (the service).
   const PAGES = {
     "/booking": "My Bookings",
     "/profile": "Account Information",
@@ -68,7 +68,7 @@ function PageNameSec() {
             : isDetail
               ? "Booking"
               : PAGES[base] || "";
-  // Pages with their own heading (e.g. a pro's profile) get no empty band.
+  // Pages with their own heading (such as a Buddy's profile) get no empty band.
   if (!title) return null;
   // Listing pages write their own title (h1) under the breadcrumb, so only the breadcrumb shows here.
   // Content pages carry their own title in the hero (one title per page).

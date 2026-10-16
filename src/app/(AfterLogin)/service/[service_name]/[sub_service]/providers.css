@@ -298,7 +298,7 @@
   }
 }
 
-/* Service details: side column on laptops (992px+), under the first pro on smaller screens. One shows at a time. */
+/* Service details sit in the side column on laptops (992px and wider) and under the first Buddy on smaller screens. Only one shows at a time. */
 .ab-pros__layout > .ab-sd--side { display: none; }
 @media (min-width: 992px) {
   .ab-pros__layout > .ab-sd--side { display: block; }
@@ -306,7 +306,7 @@
 }
 .ab-pros__grid > .ab-sd--phone { grid-column: 1 / -1; margin: 0; } /* full row when the grid has 2 columns (tablets) */
 
-/* Compact service panel beside the pros: promises in view, pricing text behind "How pricing works". */
+/* A compact service panel beside the Buddy list. The promises stay in view, and the pricing text sits behind "How pricing works". */
 .ab-sd--inline .ab-sd__panel { display: grid; gap: 12px; }
 .ab-sd--inline .ab-sd__panel > .ab-sd__kicker { margin: 0; }
 .ab-sd--inline .ab-sd__list { margin: 0; gap: 8px; font-size: var(--ab-fs-sm); }

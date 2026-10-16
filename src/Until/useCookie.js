@@ -2,8 +2,8 @@
 import Cookies from "@/Until/cookies";
 import { useEffect, useState } from "react";
 
-// A cookie value for what the page shows. Read after the page loads: the server can't see the browser's cookies, so
-// reading it during render made the server and browser HTML differ (React hydration error).
+// Returns a cookie value for the page to show. It is read after the page loads, because the server can't see the
+// browser's cookies. Reading it during render made the server and browser HTML differ (a React hydration error).
 export function useCookie(name) {
   const [value, setValue] = useState();
   useEffect(() => setValue(Cookies.get(name)), [name]);
