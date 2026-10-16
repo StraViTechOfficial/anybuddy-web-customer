@@ -93,8 +93,8 @@ function ServicesDetail(props) {
         {desc && plain(desc) !== props.Item?.serviceName && (
           <div className="ab-sd__desc" dangerouslySetInnerHTML={{ __html: safeHtml(desc) }}></div>
         )}
-        {/* Compact beside the pros (owner 28 Sep: the full panel needed a scroll): the four promises stay in view,
-            the pricing paragraph folds away. Same owner wording as the pop-up. */}
+        {/* Compact beside the pros (the full panel needed a scroll): the four promises stay in view,
+            the pricing paragraph folds away. Same wording as the pop-up. */}
         <div className="ab-sd__panel">
           <p className="ab-sd__kicker">Pricing &amp; booking</p>
           {promises}

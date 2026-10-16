@@ -1,5 +1,5 @@
 /* =====================================================================
-   AnyBuddy design system (round 3, v2 after owner review)
+   AnyBuddy design system
    Airbnb-led: white / light warm canvas, photography does the work,
    neutral shadows, navy #24345F only as the accent (buttons, links, small highlights).
    Class prefix `ab-` so nothing collides with legacy Bootstrap-era classes.
@@ -52,7 +52,7 @@
   /* Type: modest weights, photography carries the weight */
   --ab-font: var(--font-text), system-ui, -apple-system, "Segoe UI", sans-serif;
   --ab-font-display: var(--ab-font);
-  /* Type scale (27 Sep, measured against Airbnb / Urban Company / TaskRabbit): 12 · 14 · 16 · 18 · 20 · 30 · 36 · 56.
+  /* Type scale (measured against Airbnb / Urban Company / TaskRabbit): 12 · 14 · 16 · 18 · 20 · 30 · 36 · 56.
      Every font-size on the site uses one of these; phone sizes come from the clamp minimums. See design/WEBSITE-STANDARD.md. */
   --ab-fs-display: clamp(2.25rem, 1.5rem + 2.6vw, 3.5rem); /* 36 -> 56  Home headline only */
   --ab-fs-h1: clamp(1.75rem, 1.45rem + 1vw, 2.25rem); /* 28 -> 36  page titles */

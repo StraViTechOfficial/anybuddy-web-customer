@@ -1,4 +1,4 @@
-/* Footer on the brand navy: logo + the owner's line, two link columns, the app. One base line underneath.
+/* Footer on the brand navy: logo + the tagline, two link columns, the app. One base line underneath.
    Contrast: link text rgba(255,255,255,.72) on #24345f = 7.6:1 (AA for small text). */
 .ab-footer {
   --ft-slant: 5.3vw; /* tan(3deg) x width: the top edge rises 3 degrees to the right */

@@ -10,7 +10,7 @@ import "./search.css";
 
 // The one search on the site: the Home hero and the header both render this.
 // Location first (pros are listed by distance), then the service.
-// An exact service name opens that service; anything else is a text search. Picking a category or a pro opens its page (C16).
+// An exact service name opens that service; anything else is a text search. Picking a category or a pro opens its page.
 // focus: "location" | "service" puts the cursor in that field (used when the header opens the search).
 export default function SearchForm({ className = "", onDone, id, focus }) {
   const Homepage = useDataStore((store) => store.Homepage);

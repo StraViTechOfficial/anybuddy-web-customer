@@ -70,16 +70,13 @@ export default function CheckoutForm(props) {
       // (or can't reach a local test server). Never blocks the success screen.
       await ConfirmPaymentApi({ bookingId: props.bookingId }).catch(() => {});
       props.setModalType("Success");
-      // toast.success("Payment successful!");
-      // push(`${window.location.origin}/booking`);
-      // props.handleShow();
     }
     setLoading(false);
   };
 
   return (
     <form onSubmit={handleSubmit} className="ab-card-form" noValidate>
-      {/* One plain label and one trust line under the button (owner 28 Sep: the four stacked reassurances and an
+      {/* One plain label and one trust line under the button (the four stacked reassurances and an
           icon on every label read as generated). */}
       <p className="ab-card-form__title">Payment</p>
 
@@ -135,7 +132,7 @@ export default function CheckoutForm(props) {
               options={{
                 layout: "tabs",
                 // Apple Pay / Google Pay stay automatic; Link's sign-up block (email, phone, name) is hidden - it made
-                // the step scroll and pre-filled India (owner rejected it twice).
+                // the step scroll and pre-filled India.
                 wallets: { applePay: "auto", googlePay: "auto", link: "never" },
                 fields: { billingDetails: { address: { country: "never" } } },
               }}

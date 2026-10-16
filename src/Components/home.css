@@ -128,7 +128,7 @@
 .hm-hero__search { display: contents; } /* only listens for focus; adds no box to the layout */
 .ab-sb--hero { position: relative; z-index: 5; width: min(var(--hm-hero-w), 100%); margin-top: 32px; }
 /* Same size as the site's search everywhere else (search.css: 64px, 12px labels, round 48px icon button) - measured
-   against Airbnb 850x66 / TaskRabbit 629x64 (27 Sep). Only the shadow is stronger, to lift it off the photo. */
+   against Airbnb 850x66 / TaskRabbit 629x64. Only the shadow is stronger, to lift it off the photo. */
 .ab-sb--hero .ab-sb { border: 0; box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28); }
 
 /* Trending under the search: label + up to 4 service links. Height reserved so nothing jumps when they load. */
@@ -184,7 +184,7 @@
 .hm-sub--light { color: rgba(255, 255, 255, 0.78); }
 .hm-link--light, .hm-link--light:hover { color: #fff; }
 
-/* ── Explore services: category directory (owner 27 Sep). Spacing on the 8-pt scale (ui-ux-pro-max spacing-scale):
+/* ── Explore services: category directory. Spacing on the 8-pt scale (ui-ux-pro-max spacing-scale):
    card padding 20, grid gap 24 (16 on tablets), 12 between name/count/list; service rows 40px with a mouse and 44px on
    touch screens (touch-target-size). Every card is the same height: 3 services + a "+N more" row are always reserved. ── */
 .hm-dir { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; } /* 4 laptop · 3 tablet · list on phones */

@@ -9,7 +9,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { useMediaQuery } from "react-responsive";
 import "./header.css";
 import PageNameSec from "./PageName";
 import SearchForm from "./SearchForm";
@@ -21,7 +20,7 @@ import { getSavedLocation, LOCATION_EVENT, locateZip, OPEN_SEARCH_EVENT, saveLoc
 // Loaded on the first "Log in" click only, so the login form is not in every page's first download.
 const LoginModal = dynamic(() => import("../(Auth)/LoginModal"), { ssr: false });
 
-// Header (owner's brief). A floating white card; on Home it sits over the full-width hero, elsewhere a spacer keeps content below it. On Home it shows page links
+// Header: a floating white card; on Home it sits over the full-width hero, elsewhere a spacer keeps content below it. On Home it shows page links
 // in the middle until the hero's search scrolls out of view, then a small search pill (location · service)
 // rises into its place. Other pages always show the pill. The pill opens the full search under the bar.
 // Account menu for a logged-in customer. Profile sections open via the profile page's tab cookie.
@@ -47,8 +46,6 @@ const NAV = [
 const STEP2_EXEMPT = ["/set-profile", "/login", "/signup", "/otp-verify", "/forgot-password", "/reset-password", "/complete-signup", "/verify-email", "/privacy-policy", "/terms-conditions", "/support", "/about_us"];
 
 function Header() {
-  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 991.9px)" });
-  const isMobile = useMediaQuery({ query: "(max-width: 575.9px)" });
   const getProfile = useDataStore((store) => store.getProfile);
   const notiCount = useDataStore((store) => store.NotificationCont);
   const { fetchgetProfile, fetchNotificationCont, Homepage, fetchHomepage } = useDataStore();
@@ -122,7 +119,7 @@ function Header() {
     }
   }, [token]);
 
-  // Sign-up step 2 is required (owner 28 Sep, contract C5): a signed-in customer with no home address saved goes to
+  // Sign-up step 2 is required: a signed-in customer with no home address saved goes to
   // /set-profile from any page, however they got in (left step 2, phone / email / pop-up / Google log-in, days later).
   // One check here covers every route. Auth screens, step 2 itself and the legal/help pages stay reachable.
   useEffect(() => {
@@ -295,7 +292,7 @@ function Header() {
       {loginOpen && <LoginModal onClose={() => setLoginOpen(false)} />}
       {searchOpen && <div className="ab-hd-scrim" onClick={() => setSearchOpen(false)} aria-hidden="true" />}
 
-      {pathname !== "/" && <PageNameSec isMobile={isMobile} isTabletOrMobile={isTabletOrMobile} />}
+      {pathname !== "/" && <PageNameSec />}
     </>
   );
 }

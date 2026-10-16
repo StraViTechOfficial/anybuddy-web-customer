@@ -80,7 +80,7 @@ export function refundNote(b) {
   return "";
 }
 
-// Free cancellation (backend D-21): any time while requested, and up to 24 hours before an accepted visit.
+// Free cancellation (backend rule): any time while requested, and up to 24 hours before an accepted visit.
 // ponytail: start is read in the browser's time zone; the backend checks in New York time and has the last word.
 export function canCancel(b) {
   if (Number(b?.status) === 1) return true;

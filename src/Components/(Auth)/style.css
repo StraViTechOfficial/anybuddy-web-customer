@@ -395,7 +395,7 @@
   outline-offset: 2px;
 }
 
-/* ===================== Auth frame v2 (27 Sep, owner: "revamp") =====================
+/* ===================== Auth frame v2 =====================
    Photo half + form half, whole screen, no page scroll on a laptop. Compact field rhythm so the longest
    step (sign-up / complete profile) still fits a 1366×768 screen. Phones: form only, logo bar on top. */
 .ab-auth--split {
@@ -500,7 +500,7 @@
 @media (max-width: 991.9px) { .ab-auth--split .ab-auth__app { display: none; } } /* phones: the form only */
 @media (max-width: 991.9px) { .ab-auth--split .ab-auth__card { margin-top: 4px; } .ab-auth--split .ab-auth__head { margin-bottom: 14px; } }
 
-/* ===================== Auth frame v3 (27 Sep): centred card (owner's pick) ===================== */
+/* ===================== Auth frame v3: centred card ===================== */
 .ab-auth--center { display: block; min-height: 100dvh; background: var(--ab-cream); }
 .ab-auth--center .ab-auth__main { display: grid; place-items: center; min-height: 100dvh; padding: 24px 16px; }
 .ab-auth--center .ab-auth__card {
@@ -526,7 +526,7 @@
 @media (max-width: 575.9px) { .ab-auth--center .ab-auth__main { padding-top: 48px; } .ab-auth--center .ab-field { margin-bottom: 10px; } .ab-auth--center .ab-auth__brand { margin-bottom: 12px; } }
 @media (max-width: 575.9px) { .ab-auth--center .ab-auth__main { padding-top: 44px; } }
 
-/* ===== Auth background v4 (owner: "grey looks like dead space"; reference: Stripe sign-in) =====
+/* ===== Auth background v4 (reference: Stripe sign-in) =====
    White page; an angled band in the brand colours across the top, slowly drifting; white logo on it;
    the card overlaps the band; small legal links at the bottom. */
 .ab-auth--center { position: relative; overflow: hidden; background: #fff; }
@@ -604,7 +604,7 @@
 @media (prefers-reduced-motion: reduce) { .ab-auth__band::before { animation: none; } }
 @media (max-width: 575.9px) { .ab-auth__band::before { display: none; } }
 
-/* ===== Band v2 (owner: second stripe looked unfinished; logo small and lost on the blue) =====
+/* ===== Band v2 (a second stripe looked unfinished; the logo was small and lost on the blue) =====
    One clean angled gradient + a fine dot texture + one crisp amber edge line. No loose stripes. */
 .ab-auth__band::before { content: none; animation: none; }
 .ab-auth__band::after {
@@ -633,7 +633,7 @@
   .ab-auth__logo-chip img { width: 40px; height: 36px; }
 }
 
-/* ===== Band v3 (owner: logo on the band / on a badge is bad UX) =====
+/* ===== Band v3 (a logo on the band / on a badge is bad UX) =====
    The band moves to the lower part of the page; the top stays white, so the full-colour logo reads cleanly.
    The card overlaps the band's top edge; the legal links sit on the band in white. */
 .ab-auth__band {
@@ -662,11 +662,11 @@
 /* Text buttons that look like links (Change number, Resend code). */
 .ab-linkbtn { padding: 0; border: 0; background: none; cursor: pointer; font: inherit; }
 .ab-otp-step__timer { margin: 8px 0 0; color: var(--ab-ink-3); font-size: var(--ab-fs-sm); }
-/* Logo: larger (owner). */
+/* Logo: larger. */
 .ab-auth__logo img { width: 64px; }
 .ab-auth__logo { font-size: 1.5rem; gap: 12px; }
 @media (max-width: 575.9px) { .ab-auth__logo img { width: 48px; } .ab-auth__logo { font-size: 1.25rem; } }
-/* Phones (owner): the form sits in the vertical centre of the screen, between the logo bar and the band. Longer steps
+/* Phones: the form sits in the vertical centre of the screen, between the logo bar and the band. Longer steps
    (sign-up) still start under the logo bar and fill the screen. */
 @media (max-width: 575.9px) {
   .ab-auth--center .ab-auth__main { min-height: 100dvh; place-items: center; padding: 76px 16px 48px; }
@@ -725,7 +725,7 @@
 .ab-login-modal__frame .ab-auth__card { overflow: hidden; padding-top: 88px; } /* band 72 + 16 */
 /* Brand band across the top of the card: navy gradient + dots, angled bottom edge with the amber line (footer motif). */
 .ab-login-modal__band {
-  position: absolute; top: 0; left: 0; right: 0; height: 72px; /* owner 28 Sep: slimmer (was 96) */
+  position: absolute; top: 0; left: 0; right: 0; height: 72px; /* slimmer (was 96) */
   background:
     radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1.2px) 0 0 / 18px 18px,
     linear-gradient(115deg, #17234a 0%, var(--ab-navy) 40%, #34509e 75%, #4d6fca 100%);
@@ -744,7 +744,7 @@
 .ab-login-modal__x:hover { background: rgba(255, 255, 255, 0.28); }
 .ab-login-modal__x:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 
-/* Band v4 (owner 28 Sep): one fixed strip along the bottom of the page, like the site footer. The same height on
+/* Band v4: one fixed strip along the bottom of the page, like the site footer. The same height on
    every step - it no longer follows the card. It shows at both ends: 48px on the left, rising to the right (skew
    pivots on the bottom-left corner). The card and legal links sit above it; a long step (sign-up) scrolls, and
    the band stays at the bottom of the page. Legal links sit on the band in white, like the footer. */
@@ -753,7 +753,7 @@
     top: auto; bottom: -200px; height: 248px; /* 48px visible at the left edge */
     transform: skewY(-3deg); transform-origin: 0 100%;
   }
-  .ab-auth--center .ab-auth__main { padding-bottom: 48px; } /* just clears the legal links; the card may sit over the band's edge (owner) */
+  .ab-auth--center .ab-auth__main { padding-bottom: 48px; } /* just clears the legal links; the card may sit over the band's edge */
   .ab-auth--center .ab-auth__legal { bottom: 16px; }
   /* Sign-up is the longest step: the card starts 16px under the header so it fits a laptop screen. */
   .ab-auth--center .ab-auth__main:has(.ab-auth__card--wide) { padding-top: 104px; }
@@ -773,7 +773,7 @@
   .ab-auth--split .ab-auth__card--wide .ab-social { min-height: 44px; }
 }
 
-/* Log-in card (owner 28 Sep): 520px, so the phone code step's messages sit on fewer lines and the card stays one
+/* Log-in card: 520px, so the phone code step's messages sit on fewer lines and the card stays one
    screen tall. Sign-up keeps its own wide card. Same width in the pop-up. */
 .ab-auth--center .ab-auth__card:not(.ab-auth__card--wide) { max-width: 520px; }
 .ab-login-modal { width: min(520px, calc(100vw - 32px)); }

@@ -2,8 +2,8 @@ import Icon from "@/Components/ui/Icon";
 import Image from "next/image";
 import "@/Components/content.css";
 
-// Trust & Safety — the owner's copy word for word, in the content-page layout (Components/content.css).
-// Claims to confirm with the owner before launch: "Every completed job is reviewed" (no review process is built),
+// Trust & Safety — the client's copy word for word, in the content-page layout (Components/content.css).
+// Claims the product does not fully back yet: "Every completed job is reviewed" (no review process is built),
 // "our rating system works both ways" (customers are not rated today), "We verify the real identity" (ID documents are
 // uploaded and checked by the admin team; no identity-verification service).
 const HOME_PHOTO = "https://images.unsplash.com/photo-1666585958641-4f70887372a1"; // a calm, lived-in living room

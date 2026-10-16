@@ -136,7 +136,7 @@ function BookService() {
               <div>
                 <h3>Cancellation policy</h3>
                 <p>
-                  {/* Owner 28 Sep: the rule is 24 hours (same as the service page and the FAQ). */}
+                  {/* The rule is 24 hours (same as the service page and the FAQ). */}
                   Free cancellation up to 24 hours before the service, or any time
                   before a pro accepts your booking.
                 </p>

@@ -86,7 +86,7 @@ function MobileLogin(props) {
   };
 
   const [seconds, setSeconds] = useState(0);
-  // Whole minutes, never seconds (owner, 29 Sep); rounded up so it never reads "0 min" early.
+  // Whole minutes, never seconds; rounded up so it never reads "0 min" early.
   const minutesLeft = Math.ceil(seconds / 60);
 
   useEffect(() => {
@@ -114,7 +114,7 @@ function MobileLogin(props) {
 
   return (
     <>
-      {/* Phone log in (C3): 1) number + Send code  2) 6-digit code + Log in  3) Resend when the timer ends.
+      {/* Phone log in: 1) number + Send code  2) 6-digit code + Log in  3) Resend when the timer ends.
           One primary button at a time, no second button inside the field. */}
       <form onSubmit={formik.handleSubmit} noValidate>
         <div className="ab-field">

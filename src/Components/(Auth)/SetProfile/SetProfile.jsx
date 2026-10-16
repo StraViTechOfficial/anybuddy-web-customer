@@ -69,7 +69,7 @@ function SetProfile(props) {
   const email = Cookies.get("email");
 
   const [seconds, setSeconds] = useState(0);
-  // Whole minutes, never seconds (owner, 29 Sep); rounded up so it never reads "0 min" early.
+  // Whole minutes, never seconds; rounded up so it never reads "0 min" early.
   const minutesLeft = Math.ceil(seconds / 60);
 
   useEffect(() => {
@@ -214,7 +214,7 @@ function SetProfile(props) {
               if (props.page === "signup") {
                 Cookies.set(TOKEN_NAME_REG, res?.data?.token);
                 setTimeout(() => {
-                  setOTPshow(3); // "Check your phone": sign-up is verified by a text code (contract C5)
+                  setOTPshow(3); // "Check your phone": sign-up is verified by a text code
                   setSeconds(600);
                 }, 100);
               }
@@ -231,17 +231,9 @@ function SetProfile(props) {
               Cookies.remove(TOKEN_NAME_REG);
               // Google / Apple already confirmed the email: no "we sent a link" note on step 2.
               if (!isSocial && res?.data?.user && !res.data.user.emailVerified) Cookies.set("emailLinkSent", res.data.user.email || "1");
-              // if (OTPshow === 2) {
-              //   formik.setFieldValue("otp", "");
-              //   setTimeout(() => {
-              //     setOTPshow(3);
-              //   }, 100);
-              // } else {
-              //   push("/");
-              // }
               Cookies.remove("socialName");
               Cookies.remove("socialEmail");
-              push("/set-profile"); // step 2 of sign-up: home address (C5)
+              push("/set-profile"); // step 2 of sign-up: home address
               setloading(false);
             } else {
               setloading(false);
@@ -257,7 +249,6 @@ function SetProfile(props) {
     if (CountryList?.length === 0)
       LocationApi().then((res) => {
         if (res?.status === 1) {
-          // console.log(res, "res");
           setCountryList(res?.data);
         }
       });
@@ -309,7 +300,7 @@ function SetProfile(props) {
 
   const isSignup = props.page === "signup";
   const isProfile = props.page === "profile";
-  // /set-profile = step 2 of sign-up (contract C5: gender + address). In Account it is the "My profile" editor.
+  // /set-profile = step 2 of sign-up (gender + address). In Account it is the "My profile" editor.
   const isOnboarding = props.page === "profile" && !props.inAccount;
   const otpTarget =
     OTPshow === 2

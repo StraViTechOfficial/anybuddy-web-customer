@@ -32,7 +32,7 @@ const fmtDate = (d) => (d ? moment(d, "YYYY-MM-DD").format("ddd, MMM D") : "");
 const fmtTime = (t) => (t ? moment(t, "HH:mm").format("h:mm A") : "");
 
 // Price breakdown straight from list-service-slots: servicePrice (hours × hourlyRate), taxAmount, totalPrice.
-// The saved task size in words (D-22 sizes; anything else as plain hours).
+// The saved task size in words (1 / 3 / 4 hour sizes; anything else as plain hours).
 const SIZE_LABEL = { 1: "Small (1 hr)", 3: "Medium (up to 3 hrs)", 4: "Large (up to 4 hrs)" };
 const sizeLabel = (h) => SIZE_LABEL[Number(h)] || (Number(h) > 0 ? `${Number(h)} hrs` : "Size not chosen");
 
@@ -191,7 +191,6 @@ function ProviderSelect(props) {
     initialValues: initialValues,
     validationSchema: Yup.object({
       time: TimeRequired,
-      // slotId: TimeRequired,
     }),
     enableReinitialize: true,
     onSubmit: (values, { isSubmitting, resetForm }) => {
@@ -201,14 +200,12 @@ function ProviderSelect(props) {
       const payload = {
         scheduledDate: values.date,
         selectedSlot: values.time,
-        // slotId: values.slotId,
         finalPrice: SlotService?.totalPrice,
         serviceSlug: props.ProviderObj?.venderSlug,
       };
 
       SlotProviderBookApi(payload).then((res) => {
         if (res?.status === 1) {
-          // toast.success(res?.message);
           setClientSecret(res?.data?.paymentIntent?.client_secret);
           setPublishableKey(res?.data?.paymentIntent?.publishableKey);
           setBookingId(res?.data?.bookingId);
@@ -337,7 +334,6 @@ function ProviderSelect(props) {
                     aria-pressed={picked}
                     onClick={() => {
                       if (open) {
-                        // formik.setFieldValue("slotId", item?._id);
                         formik.setFieldValue("time", item?.time);
                       }
                     }}

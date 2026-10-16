@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "./cards.css";
 
-// Saved Buddies (contract C-16: favourites are pros, not services). One list-buddies call per page; a heart
+// Saved Buddies (favourites are pros, not services). One list-buddies call per page; a heart
 // flips at once and flips back if the server says no. Guests log in first and come back to this page.
 export function useSavedBuddies() {
   const { push } = useRouter();

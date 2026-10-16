@@ -65,7 +65,7 @@ function ServiceProviderList() {
     }
   }, [sub_service, where]);
 
-  // Booking needs a login and the task step first; browsing pros does not (C13).
+  // Booking needs a login and the task step first; browsing pros does not.
   // Open the chosen pro's open times (the booking pop-up).
   const openPro = (pro) => {
     setModalName("open modal");
@@ -222,7 +222,7 @@ function ServiceProviderList() {
                     <Icon name="shield" size={20} />
                   </span>
                   <p>
-                    {/* Owner-approved wording (28 Sep): what we actually check - ID and certificates reviewed by an admin
+                    {/* Approved wording: what we actually check - ID and certificates reviewed by an admin
                         before a pro is listed. No background-check claim (not done; ToU s.32). */}
                     <b>Reviewed before listing.</b> Each pro sent us their government ID and
                     certificates, and our team approved them before they could take bookings.
@@ -257,7 +257,7 @@ function ServiceProviderList() {
                 </div>
               ) : count > 0 ? (
                 <div className="ab-pros__grid">
-                  {/* Phones (owner 28 Sep): the service details sit under the first pro, so that pro's
+                  {/* Phones: the service details sit under the first pro, so that pro's
                       "Select & Continue" is on the first screen. Laptops keep them in the side column. */}
                   {ServiceList?.data?.map((item, i) =>
                     i === 0 && serviceItem

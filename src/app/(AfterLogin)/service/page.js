@@ -39,7 +39,7 @@ function AllServiceContent() {
   return (
     <section className="ab-section ab-section--tight">
       <div className="ab-container">
-        {/* Owner's live-site copy, word for word; inner-page title size (design standard). */}
+        {/* The client's live-site copy, word for word; inner-page title size (design standard). */}
         <div className="ab-pagehead">
           <span className="ab-eyebrow">{searchValue ? "Search results" : "See all Categories here"}</span>
           <h1 className="ab-page-title">

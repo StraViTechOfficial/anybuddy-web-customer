@@ -8,7 +8,7 @@ function MobileInput(props) {
     <>
       <PhoneInput
         country={"us"}
-        preferredCountries={["us"]} // US on top; every other country (incl. Canada) in the A-Z list below (contract C3/C5)
+        preferredCountries={["us"]} // US on top; every other country (incl. Canada) in the A-Z list below
         searchPlaceholder="Search country"
         disableSearchIcon // the library draws an emoji icon; the placeholder says what the box does
         countryCodeEditable={false}
@@ -27,8 +27,6 @@ function MobileInput(props) {
             : props.formik.values.countryCode
         }
         onChange={(phone, country, e, formattedValue) => {
-          // console.log(formattedValue, "formattedValue");
-          // console.log(phone, "phone");
           if (phone.length > 0) {
             const raw = phone.slice(country?.dialCode?.length);
             props.formik.setFieldValue(props.mobile, raw);
@@ -49,7 +47,6 @@ function MobileInput(props) {
         specialLabel=""
         containerClass={props.containerClass}
       />
-      {/* <span className="countryCodeFlag">{props.formik.values.countryCode}</span> */}
     </>
   );
 }

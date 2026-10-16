@@ -1,8 +1,8 @@
-// Home page content: copy, photos and timings in one place (photos are listed in the tracker's Images tab).
-export const HERO_STEP_MS = 7000; // hero photo + headline change every 7 s (owner); the ring on the pause button shows it
+// Home page content: copy, photos and timings in one place.
+export const HERO_STEP_MS = 7000; // hero photo + headline change every 7 s; the ring on the pause button shows it
 export const HOW_STEP_MS = 5000; // keep in step with the step progress bar in home.css (hm-how-progress)
 
-// Hero photo per trade: the thing the trade works on (sink, stairs, paint, washer...), no people (owner). [Unsplash id, focus point]. The focus point keeps the subject in frame
+// Hero photo per trade: the thing the trade works on (sink, stairs, paint, washer...), no people. [Unsplash id, focus point]. The focus point keeps the subject in frame
 // whatever the screen shape (wide laptop, tall phone), since the photo is cropped to fill.
 export const HERO_PHOTO = {
   "assembly": ["photo-1620388640952-35a1d22d158d", "50% 50%"],
@@ -19,7 +19,7 @@ export const heroPhoto = (c) => {
 };
 
 // Hero headline per trade: each its own sentence (no shared template), shown with its photo.
-// Written for the live categories (no original copy exists for these) — pending owner approval.
+// Written for the live categories (no original copy exists for these) — pending client approval.
 export const HERO_LINE = {
   "cleaning": "Come home to a spotless house.",
   "mounting": "TVs, shelves and art, mounted to stay.",
@@ -40,14 +40,14 @@ export const CATEGORY_ICON = {
   "trending": "trending",
 };
 
-// Section photos: American homes, no people (owner). Listed in the tracker's Images tab.
+// Section photos: American homes, no people.
 export const PRO_PHOTO = "https://images.unsplash.com/photo-1725597199755-de76c90ad531"; // a pro's work truck: fits "grow your business"
 
-// The app section: the owner's original copy, word for word.
+// The app section: the client's original copy, word for word.
 export const APP_COPY =
   "Download the Any-Buddy app and manage your bookings, track your Buddy in real time, and chat with your pro — all from your phone.";
 
-// Why Any-Buddy: the owner's original copy, word for word (owner: do not rewrite).
+// Why Any-Buddy: the client's original copy, word for word (do not rewrite).
 export const WHY_LEAD =
   "Every Buddy on our platform goes through a thorough vetting process — so you never have to wonder who's coming to your home.";
 export const TRUST = [
@@ -58,7 +58,7 @@ export const TRUST = [
   { icon: "chat", title: "5-Star Support", text: "Something not right? Our support team is a message away. We stand behind every job booked on Any-Buddy." },
 ];
 
-// How it works: the owner's original copy, word for word (owner: do not rewrite).
+// How it works: the client's original copy, word for word (do not rewrite).
 // Product flow for reference: find a service → pick a verified pro and time → pay, then share
 // the emailed code at the visit (the pro checks in and completes the job with it).
 // Photos tell the story, no people: the problem (dripping faucet) → the pro's tools → a relaxed, finished home.
@@ -76,7 +76,7 @@ export const APP_SHOTS = [
   "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/b9/1c/92/b91c9214-933c-5d7b-a1db-217b4fb537da/4.jpg/600x1300bb.webp",
 ];
 
-// Customer reviews the owner confirmed are real (from the original site), word for word.
+// Customer reviews confirmed as real (from the original site), word for word.
 // Shown first; real reviews from the database (homepage API) follow when they exist.
 export const OWNER_REVIEWS = [
   {

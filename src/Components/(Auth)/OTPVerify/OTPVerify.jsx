@@ -5,7 +5,7 @@ import Icon from "@/Components/ui/Icon";
 import { OTP_FOR } from "@/Until";
 import { useCookie } from "@/Until/useCookie";
 
-// Log-in of an account that is not verified yet: the code went to the phone (contract C5).
+// Log-in of an account that is not verified yet: the code went to the phone.
 // Forgot password: to the email if it is confirmed, otherwise the phone - the page can't say which (it must not
 // reveal whether an account exists), so it names both.
 function OTPVerify(props) {

@@ -14,7 +14,7 @@ import { Suspense } from "react";
 import "@/Components/Header/header.css";
 import "./style.css";
 
-// Auth frame (owner 27 Sep): one centred card (Airbnb / Thumbtack / Stripe standard). Background as on Stripe's sign-in:
+// Auth frame: one centred card (Airbnb / Thumbtack / Stripe standard). Background as on Stripe's sign-in:
 // white top with the full-colour logo, a slim angled brand-colour band fixed along the bottom of the page (same height
 // on every step, like the footer), small legal links on the band. No pictures.
 function AuthLayout(props) {

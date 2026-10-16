@@ -4,10 +4,10 @@ import Link from "next/link";
 import AppBtnLink from "../CommonParts/AppBtnLink";
 import "./footer.css";
 
-// Footer: the owner's live-site text and links, on the brand navy. Every link opens its one page in the same tab.
-// Social icons are left out until the owner gives the real Any-Buddy accounts (the live site links to the bare
+// Footer: the client's live-site text and links, on the brand navy. Every link opens its one page in the same tab.
+// Social icons are left out until the real Any-Buddy accounts are supplied (the live site links to the bare
 // instagram.com / facebook.com / x.com home pages). The blurb says "documents are verified" instead of the live
-// "vetted, background-checked": no background checks exist yet (flagged to the owner).
+// "vetted, background-checked": no background checks exist yet.
 const COLUMNS = [
   {
     title: "Company",
@@ -36,7 +36,7 @@ export default function Footer() {
       <div className="ab-container ab-footer__grid">
         <div className="ab-footer__brand">
           {/* White logo made from the full-colour one (single colour, same edges); the old whiteLogo.png was 76px and
-              tinted. The line under it is the owner's footer text from the live site. */}
+              tinted. The line under it is the client's footer text from the live site. */}
           <Link href="/" className="ab-footer__logo" aria-label="Any-Buddy home">
             <Image src="/assets/images/logo-white.png" alt="Any-Buddy" width={96} height={86} />
           </Link>

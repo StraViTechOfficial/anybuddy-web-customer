@@ -1,9 +1,9 @@
 import Icon from "@/Components/ui/Icon";
 import "@/Components/content.css";
 
-// Careers — the owner's copy word for word (lifted from the old page by script), in the content layout.
+// Careers — the client's copy word for word (lifted from the old page by script), in the content layout.
 // Only changes: all-caps headings shown in normal case, and the "US TimezonePreferred" typo spaced.
-// Apply links are the owner's own mailto (asif@any-buddy.com).
+// Apply links are a mailto to the company's careers contact.
 const WHY = [
   [
     "Early team. Real ownership.",

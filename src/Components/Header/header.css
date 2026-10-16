@@ -69,7 +69,7 @@
   flex-shrink: 0;
 }
 .ab-hd__brand:hover { color: var(--ab-navy); }
-.ab-hd__brand img { width: 56px; height: auto; transition: transform var(--ab-t) var(--ab-ease); } /* owner: bigger logo; the file is 125px wide, sharp up to ~56px on 2x screens */
+.ab-hd__brand img { width: 56px; height: auto; transition: transform var(--ab-t) var(--ab-ease); } /* bigger logo; the file is 125px wide, sharp up to ~56px on 2x screens */
 .ab-hd__brand:hover img { transform: rotate(-6deg) scale(1.05); }
 
 /* Centre: page links, replaced by the search pill (it rises in as the hero search leaves) */

@@ -4,7 +4,7 @@
 //   6 App (customer call to action)  7 For local pros (supply side, last so it never interrupts the customer story).
 // Backgrounds alternate so each section reads as its own block: photo · white · cream · white · cream · white cards.
 // One gap rule: every section has the same padding; two card sections in a row share a single gap (.hm-cta + .hm-cta).
-// Copy is the owner's original wording where it exists; data comes from /api/user/homepage.
+// Copy is the client's original wording where it exists; data comes from /api/user/homepage.
 import { useDataStore } from "@/api/store/store";
 import Icon from "@/Components/ui/Icon";
 import { TOKEN_NAME } from "@/Until";
@@ -63,7 +63,7 @@ export default function HomePage() {
       ? trendGroup.services.map((x) => ({ ...x, cat: trendGroup.categorySlug }))
       : groups.flatMap((g) => g.services.map((x) => ({ ...x, cat: g.categorySlug }))).sort((a, b) => (b.pros || 0) - (a.pros || 0))
   ).slice(0, 4)
-  // Owner-confirmed reviews first, then real reviews from the database.
+  // Confirmed reviews from the original site first, then real reviews from the database.
   const reviews = [...OWNER_REVIEWS, ...(Homepage?.reviews || [])];
 
   const [place, setPlace] = useState("");
@@ -144,7 +144,7 @@ export default function HomePage() {
           >
             <SearchForm id="hero-search" className="ab-sb--hero" />
           </div>
-          {/* Trending services under the search: the admin's "Trending" category (the owner picks them in the admin
+          {/* Trending services under the search: the admin's "Trending" category (picked in the admin
               panel); if it is empty, the services with the most bookable pros. Real links, one click to the service. */}
           <div className="hm-hero__trend" aria-label="Trending services">
             {trending.length > 0 && (
@@ -169,7 +169,7 @@ export default function HomePage() {
 
       <WhyAnyBuddy />
 
-      {/* ── Reviews: owner-confirmed real reviews + real ones from the database ── */}
+      {/* ── Reviews: confirmed real reviews + real ones from the database ── */}
       {reviews.length > 0 && (
         <section className="hm-reviews-band" aria-labelledby="hm-reviews-title">
           <div className="ab-container hm-section">

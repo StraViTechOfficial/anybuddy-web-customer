@@ -8,7 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { toast } from "react-toastify";
 
-// Saved Buddies (contract C-16): the pros this customer hearted, to book again.
+// Saved Buddies: the pros this customer hearted, to book again.
 function SavedBuddiesSec() {
   const [Loading, setLoading] = useState(true);
   const [list, setList] = useState([]);

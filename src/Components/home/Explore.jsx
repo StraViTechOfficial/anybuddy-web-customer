@@ -6,7 +6,7 @@ import { CATEGORY_ICON, heroPhoto } from "./content";
 import { openSiteSearch } from "@/Until/searchLocation";
 import { fromPrice } from "@/Until";
 
-// Explore services: a directory of category cards (owner 27 Sep). Each card: the category photo, its name, its top 3
+// Explore services: a directory of category cards. Each card: the category photo, its name, its top 3
 // services (most bookable pros first, from the API; pro counts are not shown) and one "View all N" link.
 // Every card is the same height whatever the admin adds; a new category is a new card. A closing card links to the
 // full list. Nothing moves on its own. Phones: one compact row per category (photo, name, count), tap to open.
@@ -74,7 +74,7 @@ export default function Explore({ categories, groups, loaded, place }) {
             })}
         {loaded && total > 0 && (
           // Not a link to /service: that page shows these same categories again. Searching is the next step for a
-          // customer who did not see their task above (search covers every service, category and pro, C16).
+          // customer who did not see their task above (search covers every service, category and pro).
           <button type="button" className="hm-dir__end" onClick={() => openSiteSearch("service")}>
             <span className="hm-dir__end-icon" aria-hidden="true">
               <Icon name="search" size={20} />

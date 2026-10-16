@@ -5,7 +5,7 @@ import LoginPage from "./Login/LoginPage";
 import { setOverlayOpen } from "@/Components/home/motion";
 import "./style.css";
 
-// "Log in" from the header on laptops opens this pop-up over the current page (owner 27 Sep; Airbnb / Etsy pattern).
+// "Log in" from the header on laptops opens this pop-up over the current page (Airbnb / Etsy pattern).
 // Same form as /login. Sign-up and forgot-password are longer, so their links open their own pages; phones and every
 // redirect (protected pages, email links) still use /login. Native <dialog>: Esc closes, focus stays inside, the page
 // behind is inert. After a successful login the page reloads in place, so the header and data show the signed-in state.

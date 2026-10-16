@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 
 const reduceMotion = () =>
   typeof window !== "undefined" &&
@@ -62,40 +62,4 @@ export function MotionRuntime() {
     };
   }, []);
   return null;
-}
-
-/** Counts up to a real number once it is on screen. Renders nothing until the value exists. */
-export function CountUp({ value, duration = 1100 }) {
-  const ref = useRef(null);
-  const [shown, setShown] = useState(0);
-  useEffect(() => {
-    if (!value) return;
-    if (reduceMotion()) return setShown(value);
-    let raf;
-    const run = () => {
-      const t0 = performance.now();
-      const tick = (t) => {
-        const p = Math.min(1, (t - t0) / duration);
-        setShown(Math.round(value * (1 - Math.pow(1 - p, 3))));
-        if (p < 1) raf = requestAnimationFrame(tick);
-      };
-      raf = requestAnimationFrame(tick);
-    };
-    const io = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) {
-        run();
-        io.disconnect();
-      }
-    });
-    io.observe(ref.current);
-    return () => {
-      io.disconnect();
-      cancelAnimationFrame(raf);
-    };
-  }, [value, duration]);
-  return (
-    <span ref={ref} className="ab-num" aria-label={String(value || 0)}>
-      {shown}
-    </span>
-  );
 }

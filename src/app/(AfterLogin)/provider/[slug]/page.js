@@ -224,7 +224,7 @@ function ProviderDetail() {
                     </ul>
                   </>
                 )}
-                {/* No contact details here: requirements C18/C33 — a pro's phone is shown only in the customer's
+                {/* No contact details here: a pro's phone is shown only in the customer's
                     booking history after they book, so chats and payments stay on Any-Buddy. */}
                 <p className="ab-prof__note">
                   Choose a service to book {p.firstName || "this pro"}: describe the task, pick one of their

@@ -34,7 +34,6 @@ function LoginForm(props) {
     validationSchema: Yup.object({
       email: EmailValidation,
       password: props.page !== "forgot" && PasswordRequired,
-      // terms: props.page !== "forgot" && BooleanValidation,
     }),
     enableReinitialize: true,
     onSubmit: (values, { isSubmitting, resetForm }) => {
@@ -77,19 +76,12 @@ function LoginForm(props) {
         } else {
           LoginApi(payload).then((res) => {
             if (res?.status === 1) {
-              // if (!res?.data?.user_data?.firstName) {
-              //   Cookies.set(TOKEN_NAME, res?.data?.token);
-              //   formik.setFieldValue("OTPshow", true);
-              // } else {
-              //   Cookies.set(TOKEN_NAME, res?.data?.token);
-              //   push("/");
-              // }
               Cookies.set(TOKEN_NAME, res?.data?.token);
               Cookies.remove(TOKEN_NAME_REG);
               props.onLoggedIn ? props.onLoggedIn() : push(pageAfterLogin(Cookies)); // pop-up: stay on this page
               setloading(false);
             } else if (res?.data?.needsVerification) {
-              // BUG-13: account not verified yet. The backend emailed a code; confirm it on the code screen.
+              // Account not verified yet. The backend emailed a code; confirm it on the code screen.
               Cookies.set(TOKEN_NAME_REG, res.data.token);
               Cookies.set("email", values.email);
               Cookies.set(OTP_FOR, "login");
@@ -201,49 +193,6 @@ function LoginForm(props) {
             </div>
           </div>
         )}
-        {/* {props.page === "login" && (
-          <div className="col-sm-12 col-md-12 col-lg-12 mb-4 text-start">
-            <label>
-              <input
-                type="checkbox"
-                checked={formik.values.terms}
-                className="d-none"
-                onChange={(e) => {
-                  formik.setFieldValue("terms", e.target.checked);
-                }}
-              />
-              <Image
-                src={`/assets/images/${
-                  formik.values.terms ? "check_box" : "Uncheck"
-                }.png`}
-                alt=""
-                width={15}
-                height={15}
-                className="object-fit-contain"
-              />{" "}
-              By Signing up you agree to our{" "}
-              <Link
-                href={"/terms-conditions"}
-                target="_blank"
-                className="textColor fw-bold text-decoration-underline"
-              >
-                Terms & conditions
-              </Link>{" "}
-              &{" "}
-              <Link
-                href={"/privacy-policy"}
-                target="_blank"
-                className="textColor fw-bold text-decoration-underline"
-              >
-                Privacy policy
-              </Link>
-              .
-            </label>
-            {showError(formik, "terms") && (
-              <div className="text-danger"> {formik.errors.terms}</div>
-            )}
-          </div>
-        )} */}
         {formError && (
           <div className="ab-form-alert" role="alert">
             <Icon name="alert" size={18} />

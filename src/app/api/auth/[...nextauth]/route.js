@@ -51,7 +51,7 @@ const handler = NextAuth({
       if (account) {
         token.provider = account.provider;
         token.providerId = account.providerAccountId;
-        // SEC-06: the backend verifies this signed token; it no longer trusts bare IDs.
+        // The backend verifies this signed token; it no longer trusts bare IDs.
         token.idToken = account.id_token;
 
         if (account.provider === "google") {

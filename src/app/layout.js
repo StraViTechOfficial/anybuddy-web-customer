@@ -9,7 +9,7 @@ import "../../public/assets/css/plugins.css";
 import "./globals.css";
 import "./ds.css";
 
-// Schibsted Grotesk for everything (owner picked option B of three on 27 Sep 2026):
+// Schibsted Grotesk for everything:
 // firm, slightly editorial grotesk — reads as a trustworthy local brand, not a template.
 const text = Schibsted_Grotesk({
   subsets: ["latin"],

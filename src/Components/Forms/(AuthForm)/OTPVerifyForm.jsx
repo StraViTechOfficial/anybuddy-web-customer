@@ -32,7 +32,7 @@ function OTPVerifyForm(props) {
     Cookies.remove("otpUntil");
     Cookies.remove("otpNotice");
   }, []);
-  // Whole minutes, never seconds (owner, 29 Sep); rounded up so it never reads "0 min" early.
+  // Whole minutes, never seconds; rounded up so it never reads "0 min" early.
   const minutesLeft = Math.ceil(seconds / 60);
 
   useEffect(() => {
@@ -89,7 +89,7 @@ function OTPVerifyForm(props) {
         if (res?.status === 1) {
           toast.success(res.message);
           if (Cookies.get(OTP_FOR) === "login") {
-            // BUG-13: code confirmed after an unverified login; this is the full login token.
+            // Code confirmed after an unverified login; this is the full login token.
             Cookies.set(TOKEN_NAME, res?.data?.token);
             Cookies.remove(TOKEN_NAME_REG);
             Cookies.remove(OTP_FOR);

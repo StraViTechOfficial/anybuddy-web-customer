@@ -5,7 +5,7 @@ import { saveLocation } from "@/Until/searchLocation";
 import Cookies from "@/Until/cookies";
 import { signOut } from "next-auth/react";
 
-// One-click log out (C46), from the account menu or the profile sidebar. No confirmation page: logging out is undone by
+// One-click log out, from the account menu or the profile sidebar. No confirmation page: logging out is undone by
 // logging back in, and confirmations are for destructive actions (Airbnb, Urban Company do the same).
 // The browser session is always cleared, even when the server call fails (an expired token used to keep you signed in).
 // A full load of Home, not a client push: it also drops the profile and bookings held in memory (zustand store).

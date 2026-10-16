@@ -45,9 +45,8 @@ function ServiceBook(props) {
   const startLocationRef = useRef();
   const endAutocompleteRef = useRef();
 
-  // console.log(props.serviceTaskArr, "props.serviceTaskArr");
 
-  // D-22 (28 Sep): the id is the hours sent as timeInterval; 4 hours is the most one booking covers.
+  // The id is the hours sent as timeInterval; 4 hours is the most one booking covers.
   const timeIntervalArr = [
     { id: "1", title: "Small", hint: "Est. 1 hr" },
     { id: "3", title: "Medium", hint: "Est. 2–3 hrs" },
@@ -76,7 +75,7 @@ function ServiceBook(props) {
     validationSchema: Yup.object({
       // Only when the service asks for a task size (the field is not shown otherwise, so its error could never show
       // and Continue silently did nothing).
-      // Every booking has a size now (owner D-22: 1 / up to 3 / up to 4 hrs sets the upfront charge), whatever the
+      // Every booking has a size now (1 / up to 3 / up to 4 hrs sets the upfront charge), whatever the
       // service's old "time interval" admin switch says.
       timeInterval: props.Type === 2 && TimeIntervalRequired,
       vehicle:
@@ -102,7 +101,6 @@ function ServiceBook(props) {
         endLong: values.endLng,
         vehicle: values.vehicle,
       };
-      // console.log(payload, "payload");
 
       if (props.Type < 3) {
         props.findName(props.Type + 1);
@@ -123,7 +121,7 @@ function ServiceBook(props) {
     },
   });
 
-  // C25 + C36: the task address starts as the customer's profile address (saved at sign-up step 2); they can change it
+  // The task address starts as the customer's profile address (saved at sign-up step 2); they can change it
   // or pick another from the suggestions. Only fills an empty field, once the profile has loaded.
   const profile = useDataStore((store) => store.getProfile);
   useEffect(() => {
@@ -208,7 +206,6 @@ function ServiceBook(props) {
                   apiKey={mapApiKey}
                   id="ab-task-start"
                   name="address"
-                  // defaultValue={formik.values.address || ""}
                   value={formik.values.address || ""}
                   ref={startLocationRef}
                   className="form-control ab-input"
@@ -233,7 +230,6 @@ function ServiceBook(props) {
                       let lat = place.geometry.location.lat();
                       let lng = place.geometry.location.lng();
                       let address = place.formatted_address;
-                      // console.log(place.name, "place.geometry");
                       formik.setFieldValue("address", address);
                       formik.setFieldValue("lat", lat);
                       formik.setFieldValue("lng", lng);
@@ -283,7 +279,6 @@ function ServiceBook(props) {
                       let lat = place.geometry.location.lat();
                       let lng = place.geometry.location.lng();
                       let address = place.formatted_address;
-                      // console.log(place.name, "place.geometry");
                       formik.setFieldValue("endAddress", address);
                       formik.setFieldValue("endLat", lat);
                       formik.setFieldValue("endLng", lng);

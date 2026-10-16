@@ -16,7 +16,7 @@ export const PasswordMatch = Yup.string()
   .required("Enter the password again.")
   .oneOf([Yup.ref("password"), null], "The passwords don't match.");
 export const OTPRequired = Yup.string().required("Enter the 6-digit code.").matches(/^\d{6}$/, "Enter all 6 digits.");
-// Any country (contract C3/C5). +1 (US, Canada): exactly 10 digits. Other countries: 6-14 digits, so the whole
+// Any country. +1 (US, Canada): exactly 10 digits. Other countries: 6-14 digits, so the whole
 // number stays within the backend's 7-15 digits.
 export const MobileRequired = Yup.string()
   .required("Enter your phone number.")
@@ -35,15 +35,10 @@ export const LastNameRequired = Yup.string()
   .max(50, "Use 50 characters or fewer.");
 export const GenderRequired = Yup.string().required("Choose an option.");
 export const AddressRequired = Yup.string().trim().required("Enter the address.");
-export const CategoryRequired = Yup.string().required("Category is Required");
-export const SubCategoryRequired = Yup.string().required(
-  "Sub-Category is Required"
-);
 export const TimeIntervalRequired = Yup.string().required(
   "Choose a task size."
 );
 export const VehicleRequired = Yup.string().required("Vehicle is Required");
-export const DateRequired = Yup.string().required("Date is Required");
 export const TimeRequired = Yup.string().required("Slot is Required");
 // Mirrors the backend: 2-50 characters.
 export const FirstNameRequired = Yup.string()
@@ -55,14 +50,14 @@ export const StreetRequired = Yup.string().trim().required("Enter your street ad
 export const CityRequired = Yup.string().required("Choose your city.");
 export const StateRequired = Yup.string().required("Choose your state.");
 export const CountryRequired = Yup.string().required("Choose your country.");
-// Mirrors the backend rule in validation/usZip.js (BUG-15).
+// Mirrors the backend rule in validation/usZip.js.
 export const PostalCodeRequired = Yup.string()
   .required("Enter your ZIP code.")
   .matches(/^\d{5}(-\d{4})?$/, "Enter a valid US ZIP code (12345 or 12345-6789).");
 export const ReasonRequired = Yup.string().required("Reason is Required");
 
 // When a field's message shows (every form on the site): after the customer tries to submit, or once they have typed
-// something that's wrong. Clicking into an empty field and out again shows nothing (owner, 27 Sep).
+// something that's wrong. Clicking into an empty field and out again shows nothing.
 const isBlank = (v) => v === undefined || v === null || v === false || (typeof v === "string" && v.trim() === "");
 export const showError = (formik, name) =>
   Boolean(formik.errors?.[name] && formik.touched?.[name] && (formik.submitCount > 0 || !isBlank(formik.values?.[name])));

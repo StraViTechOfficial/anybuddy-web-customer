@@ -6,10 +6,10 @@ import Image from "next/image";
 import "@/Components/content.css";
 import "@/Components/home.css"; // the shared navy app card (hm-app)
 
-// Become a Buddy — the owner's copy word for word, in the content-page layout (Components/content.css).
+// Become a Buddy — the client's copy word for word, in the content-page layout (Components/content.css).
 // Buddies sign up on the Any-Buddy Pro website, so every "Apply" goes to its sign-up page.
-// Claims to confirm with the owner: "Payments are released directly to your account after every completed job"
-// (provider payouts are not built yet, AB-014) and the two Buddy quotes (real people?).
+// Claims the product does not fully back yet: "Payments are released directly to your account after every completed job"
+// (provider payouts are not built yet) and the two Buddy quotes (not confirmed as real people).
 const PRO_APP = "https://apps.apple.com/us/app/any-buddy-pro/id6771679358";
 // Real screens from the Pro app's App Store listing ("Work Smarter, Earn Better" and "Manage Your Booking").
 // The listing's earnings screen is left out: it shows "500+ professionals / 10k+ happy customers" we can't back.

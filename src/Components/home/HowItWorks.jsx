@@ -42,7 +42,7 @@ export default function HowItWorks() {
   const [step, setStep] = useState(0);
   const hasBooked = useDataStore((store) => store.getProfile?.hasBooked); // from the profile the header loads
   const overlay = useOverlayOpen();
-  const howRunning = !useReducedMotion() && !overlay; // runs all the time (owner), except behind a pop-up
+  const howRunning = !useReducedMotion() && !overlay; // runs all the time, except behind a pop-up
   const last = STEPS.length - 1;
   const showSlide = useSlideWindow(step, STEPS.length);
   useEffect(() => {

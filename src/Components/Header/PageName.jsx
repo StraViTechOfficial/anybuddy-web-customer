@@ -8,7 +8,7 @@ import "./pagename.css";
 
 // Page title band: breadcrumb + page name. No search here: the header's search is the one search
 // on every page (standard: one message once).
-function PageNameSec(props) {
+function PageNameSec() {
   const pathname = usePathname();
   const { service_name, sub_service, slug } = useParams();
 
@@ -107,13 +107,10 @@ function PageNameSec(props) {
   );
 }
 
-export default function AllPageNameSec(props) {
+export default function AllPageNameSec() {
   return (
     <Suspense fallback={<Loader />}>
-      <PageNameSec
-        isTabletOrMobile={props.isTabletOrMobile}
-        isMobile={props.isMobile}
-      />
+      <PageNameSec />
     </Suspense>
   );
 }
