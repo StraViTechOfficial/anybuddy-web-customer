@@ -10,7 +10,7 @@ import { getSavedLocation, LOCATION_EVENT } from "@/Until/searchLocation";
 import { bookWith, taskDoneFor, takePro } from "@/Until/bookingTask";
 import { TOKEN_NAME } from "@/Until";
 import Cookies from "@/Until/cookies";
-import { ShowPrice } from "@/Until";
+import { ShowPrice, buddyArea } from "@/Until";
 import { employeImg } from "@/Until/ImageExport";
 import Image from "next/image";
 import Link from "next/link";
@@ -149,6 +149,7 @@ function ServiceProviderList() {
                   <span className="ab-num">{miles(item?.distanceInKm)}</span> mi away
                 </span>
               )}
+              <span className="ab-pro__dist">{buddyArea(item?.vendorCity, item?.travelMiles)}</span>
             </div>
           </div>
           <SaveBuddy

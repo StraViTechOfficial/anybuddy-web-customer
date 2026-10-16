@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { RemoveBuddyApi, SavedBuddiesApi } from "@/api/setting";
+import { buddyArea } from "@/Until";
 import "@/app/(AfterLogin)/profile/profile.css";
 import Icon from "@/Components/ui/Icon";
 import Image from "next/image";
@@ -83,7 +84,7 @@ function SavedBuddiesSec() {
                 ) : (
                   <span>New on Any-Buddy</span>
                 )}
-                {b.city && <span> · {b.city}</span>}
+                <span> · {buddyArea(b.city, b.travelMiles)}</span>
               </p>
             </div>
             <div className="ab-buddy__actions">

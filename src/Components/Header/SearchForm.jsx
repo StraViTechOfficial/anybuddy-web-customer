@@ -2,7 +2,7 @@
 import { SiteSearchApi } from "@/api/setting";
 import { useDataStore } from "@/api/store/store";
 import Icon from "@/Components/ui/Icon";
-import { fromPrice } from "@/Until";
+import { buddyArea, fromPrice } from "@/Until";
 import { getSavedLocation, LOCATION_EVENT, locateMe, locateZip, saveLocation } from "@/Until/searchLocation";
 import { useRouter } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
@@ -80,7 +80,7 @@ export default function SearchForm({ className = "", onDone, id, focus }) {
     ? [
         ...found.categories.map((c) => ({ href: `/service/${c.slug}`, slug: c.slug, serviceName: c.categoryName, categoryName: "Category" })),
         ...found.services,
-        ...found.providers.map((p) => ({ href: `/provider/${p.vendorSlug}`, slug: p.vendorSlug, serviceName: `${p.firstName} ${p.lastName || ""}`.trim(), categoryName: "Pro" })),
+        ...found.providers.map((p) => ({ href: `/provider/${p.vendorSlug}`, slug: p.vendorSlug, serviceName: `${p.firstName} ${p.lastName || ""}`.trim(), area: buddyArea(p.city, p.travelMiles), categoryName: "Pro" })),
       ]
     : local;
   const showList = open && matches.length > 0;
@@ -248,6 +248,7 @@ export default function SearchForm({ className = "", onDone, id, focus }) {
                   <span>
                     {x.serviceName}
                     {fromPrice(x, Homepage?.services) && <span className="ab-sb__opt-price ab-num">{fromPrice(x, Homepage?.services)}</span>}
+                    {x.area && <span className="ab-sb__opt-price">{x.area}</span>}
                   </span>
                   <span className="ab-sb__opt-cat">{x.categoryName}</span>
                 </li>

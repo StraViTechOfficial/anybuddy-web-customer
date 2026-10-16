@@ -10,6 +10,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { bookWith } from "@/Until/bookingTask";
 import { employeImg } from "@/Until/ImageExport";
+import { buddyArea } from "@/Until";
 import "@/Components/booking.css";
 
 // Display helpers only.
@@ -60,7 +61,7 @@ function ProviderDetail() {
   const p = ProviderDetail || {};
   const name = p.firstName ? `${p.firstName} ${p.lastName || ""}`.trim() : "";
   const initials = `${p.firstName?.[0] || ""}${p.lastName?.[0] || ""}`.toUpperCase() || "AB";
-  const place = [p.address?.city, p.address?.state].filter(Boolean).join(", ");
+  const place = p._id ? buddyArea(p.address?.city, p.travelMiles) : "";
   const rated = Number(p.totalRating) > 0;
   const about = stripTags(p.description);
   const hours = Array.isArray(p.availability) ? p.availability : [];

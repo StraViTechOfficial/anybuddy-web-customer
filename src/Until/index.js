@@ -126,6 +126,10 @@ export function ShowPrice(price) {
 
   return `$${formattedPrice}`;
 }
+// A Buddy's area for customers: "Boston · travels up to 10 mi". City and miles only, never the street.
+// Buddies without travelMiles travel 62 mi (the backend default, DEFAULT_TRAVEL_MILES).
+export const buddyArea = (city, travelMiles) =>
+  city ? `${city} · travels up to ${travelMiles ?? 62} mi` : `Travels up to ${travelMiles ?? 62} mi`;
 // "From $45/hr" / "From $120/day" (cents only when not whole): the iOS app's ServiceRow.fromPrice rule. The nearby price
 // when the API sent one (homepage called with lat/long), else fromPrice. A row without a price (sub-categories list)
 // (older API) borrows the homepage entry with the same slug when `homepageGroups` is given. "" when unpriced: never "$0".
