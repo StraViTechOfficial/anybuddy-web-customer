@@ -1,4 +1,4 @@
-import Cookies from "js-cookie";
+import Cookies from "@/Until/cookies";
 import { TOKEN_NAME } from "@/Until";
 
 // The task step (address, task size, description) is saved on the server per customer, not per service,

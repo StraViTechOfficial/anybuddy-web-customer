@@ -5,7 +5,7 @@ import { OTP_FOR, pageAfterLogin, TOKEN_NAME, TOKEN_NAME_REG } from "@/Until";
 import { EmailValidation, PasswordRequired, showError } from "@/Until/ValidationError";
 import { forgotPasswordApi, LoginApi, OTPVerificationApi } from "@/api/setting";
 import { useFormik } from "formik";
-import Cookies from "js-cookie";
+import Cookies from "@/Until/cookies";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

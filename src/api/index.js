@@ -1,6 +1,6 @@
 import { BASE_API_URL, TOKEN_NAME, TOKEN_NAME_REG } from "@/Until";
 import axios from "axios";
-import Cookies from "js-cookie";
+import Cookies from "@/Until/cookies";
 import { toast } from "react-toastify";
 var querystring = require("querystring");
 

@@ -3,7 +3,7 @@ import { RemoveBuddyApi, SaveBuddyApi, SavedBuddiesApi } from "@/api/setting";
 import { TOKEN_NAME } from "@/Until";
 import { useCookie } from "@/Until/useCookie";
 import Icon from "@/Components/ui/Icon";
-import Cookies from "js-cookie";
+import Cookies from "@/Until/cookies";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";

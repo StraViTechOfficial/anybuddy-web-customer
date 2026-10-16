@@ -1,7 +1,7 @@
 "use client";
 import Icon from "@/Components/ui/Icon";
 import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
+import Cookies from "@/Until/cookies";
 import { logOut } from "@/Components/CommonParts/logout";
 import "./profile.css";
 

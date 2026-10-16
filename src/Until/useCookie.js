@@ -1,5 +1,5 @@
 "use client";
-import Cookies from "js-cookie";
+import Cookies from "@/Until/cookies";
 import { useEffect, useState } from "react";
 
 // A cookie value for what the page shows. Read after the page loads: the server can't see the browser's cookies, so

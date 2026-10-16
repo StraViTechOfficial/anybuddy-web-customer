@@ -3,7 +3,7 @@ import { LoginApi } from "@/api/setting";
 import LoginForm from "@/Components/Forms/(AuthForm)/LoginForm";
 import MobileLogin from "@/Components/Forms/(AuthForm)/MobileLogin";
 import { pageAfterLogin, TOKEN_NAME, TOKEN_NAME_REG } from "@/Until";
-import Cookies from "js-cookie";
+import Cookies from "@/Until/cookies";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

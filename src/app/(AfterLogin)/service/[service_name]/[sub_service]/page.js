@@ -9,7 +9,7 @@ import Icon from "@/Components/ui/Icon";
 import { getSavedLocation, LOCATION_EVENT } from "@/Until/searchLocation";
 import { bookWith, taskDoneFor, takePro } from "@/Until/bookingTask";
 import { TOKEN_NAME } from "@/Until";
-import Cookies from "js-cookie";
+import Cookies from "@/Until/cookies";
 import { ShowPrice } from "@/Until";
 import { employeImg } from "@/Until/ImageExport";
 import Image from "next/image";

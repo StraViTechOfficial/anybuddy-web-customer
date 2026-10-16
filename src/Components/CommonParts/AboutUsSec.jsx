@@ -1,4 +1,5 @@
 "use client";
+import { safeHtml } from "@/Until/safeHtml";
 import { useDataStore } from "@/api/store/store";
 import "@/app/(AfterLogin)/profile/profile.css";
 import Icon from "@/Components/ui/Icon";
@@ -46,7 +47,7 @@ export function CmsContent({ type, name }) {
     .replace(/^\s*<h1[^>]*>.*?(TERMS OF USE|PRIVACY POLICY).*?<\/h1>/i, "")
     .replace(/<(\/?)h2(\s|>)/gi, "<$1h3$2")
     .replace(/<(\/?)h1(\s|>)/gi, "<$1h2$2");
-  return <div className={`ab-prose ab-prose--cms-${type}`} dangerouslySetInnerHTML={{ __html: html }} />;
+  return <div className={`ab-prose ab-prose--cms-${type}`} dangerouslySetInnerHTML={{ __html: safeHtml(html) }} />;
 }
 
 function AboutUsSec() {

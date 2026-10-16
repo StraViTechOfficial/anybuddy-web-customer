@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import OtpInput from "react-otp-input";
-import Cookies from "js-cookie";
+import Cookies from "@/Until/cookies";
 import { useRouter } from "next/navigation";
 import Loader from "@/Components/Loader/Loader";
 import {

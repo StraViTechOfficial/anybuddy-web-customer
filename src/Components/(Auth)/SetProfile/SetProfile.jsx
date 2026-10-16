@@ -33,7 +33,7 @@ import {
   StateRequired,
   StreetRequired, showError } from "@/Until/ValidationError";
 import { useFormik } from "formik";
-import Cookies from "js-cookie";
+import Cookies from "@/Until/cookies";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import OTPInput from "react-otp-input";

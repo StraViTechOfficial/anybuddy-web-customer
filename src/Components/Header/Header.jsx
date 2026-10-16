@@ -4,7 +4,7 @@ import { TOKEN_NAME } from "@/Until";
 import EmailReminder from "./EmailReminder";
 import Icon from "@/Components/ui/Icon";
 import { logoImg } from "@/Until/ImageExport";
-import Cookies from "js-cookie";
+import Cookies from "@/Until/cookies";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";

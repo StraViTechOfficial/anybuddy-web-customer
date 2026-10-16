@@ -6,7 +6,7 @@ import { pageAfterLogin, TOKEN_NAME, TOKEN_NAME_REG } from "@/Until";
 import { MobileRequired, OTPRequired, showError } from "@/Until/ValidationError";
 import { LoginPhoneApi, OTPVerificationApi } from "@/api/setting";
 import { useFormik } from "formik";
-import Cookies from "js-cookie";
+import Cookies from "@/Until/cookies";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import OTPInput from "react-otp-input";

@@ -1,8 +1,9 @@
 "use client";
+import { safeHtml } from "@/Until/safeHtml";
 import Link from "next/link";
 import Image from "next/image";
 import React from "react";
-import Cookies from "js-cookie";
+import Cookies from "@/Until/cookies";
 import { useCookie } from "@/Until/useCookie";
 import { ChangeName, TOKEN_NAME } from "@/Until";
 import Icon from "@/Components/ui/Icon";
@@ -90,7 +91,7 @@ function ServicesDetail(props) {
           </span>
         )}
         {desc && plain(desc) !== props.Item?.serviceName && (
-          <div className="ab-sd__desc" dangerouslySetInnerHTML={{ __html: desc }}></div>
+          <div className="ab-sd__desc" dangerouslySetInnerHTML={{ __html: safeHtml(desc) }}></div>
         )}
         {/* Compact beside the pros (owner 28 Sep: the full panel needed a scroll): the four promises stay in view,
             the pricing paragraph folds away. Same owner wording as the pop-up. */}
@@ -113,7 +114,7 @@ function ServicesDetail(props) {
       {props.Item?.description && (
         <div
           className="ab-sd__desc"
-          dangerouslySetInnerHTML={{ __html: props.Item?.description }}
+          dangerouslySetInnerHTML={{ __html: safeHtml(props.Item?.description) }}
         ></div>
       )}
 

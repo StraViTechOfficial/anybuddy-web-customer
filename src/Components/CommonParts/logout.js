@@ -2,7 +2,7 @@
 import { logoutApi } from "@/api/setting";
 import { FMC_TOKEN, TOKEN_NAME, TOKEN_NAME_REG } from "@/Until";
 import { saveLocation } from "@/Until/searchLocation";
-import Cookies from "js-cookie";
+import Cookies from "@/Until/cookies";
 import { signOut } from "next-auth/react";
 
 // One-click log out (C46), from the account menu or the profile sidebar. No confirmation page: logging out is undone by

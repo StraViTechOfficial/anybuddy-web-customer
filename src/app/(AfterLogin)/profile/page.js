@@ -7,7 +7,7 @@ import HelpSupport from "@/Components/CommonParts/HelpSupport";
 import PrivacyPolicySec from "@/Components/CommonParts/PrivacyPolicySec";
 import TermsConditionSec from "@/Components/CommonParts/TermsConditionSec";
 import ResetChangePasswordForm from "@/Components/Forms/(AuthForm)/ResetChangePasswordForm";
-import Cookies from "js-cookie";
+import Cookies from "@/Until/cookies";
 import { useEffect, useState } from "react";
 import NotificationList from "../../../Components/CommonParts/NotificationList";
 import LeftMenuProfile from "./LeftMenuProfile";

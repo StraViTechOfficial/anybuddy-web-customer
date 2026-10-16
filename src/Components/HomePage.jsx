@@ -8,7 +8,7 @@
 import { useDataStore } from "@/api/store/store";
 import Icon from "@/Components/ui/Icon";
 import { TOKEN_NAME } from "@/Until";
-import Cookies from "js-cookie";
+import Cookies from "@/Until/cookies";
 import Image from "next/image";
 import Link from "next/link";
 import { getSavedLocation, LOCATION_EVENT } from "@/Until/searchLocation";

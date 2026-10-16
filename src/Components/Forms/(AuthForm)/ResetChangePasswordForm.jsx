@@ -3,7 +3,7 @@ import Loader from "@/Components/Loader/Loader";
 import { TOKEN_NAME, TOKEN_NAME_REG } from "@/Until";
 import { NewPassword, PasswordMatch, PasswordRequired, showError } from "@/Until/ValidationError";
 import { useFormik } from "formik";
-import Cookies from "js-cookie";
+import Cookies from "@/Until/cookies";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import * as Yup from "yup";
