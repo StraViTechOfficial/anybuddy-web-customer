@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { TOKEN_NAME } from "./Until";
 
-// This function can be marked `async` if using `await` inside
-export default function middleware(request) {
+// Runs before the pages that need a login: sends guests to /login, and keeps those pages out of any cache.
+export default function proxy(request) {
   const response = NextResponse.next();
 
   // Set Cache-Control headers to disable caching
@@ -19,9 +19,9 @@ export default function middleware(request) {
     toLogin.cookies.set("path", request.nextUrl.pathname);
     return toLogin;
   }
+  return response;
 }
 
-// See "Matching Paths" below to learn more
 export const config = {
   matcher: ["/profile/:path*", "/booking/:path*", "/notification/:path*"], // pages that need a login
 };
